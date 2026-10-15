@@ -157,7 +157,7 @@ export default async function ReporterDashboardPage() {
               </h2>
             </div>
             <p className="text-xs text-slate-600 mb-5 leading-relaxed">
-              Kirimkan berkas laporan distribusi obat tradisional semesteran resmi menggunakan format Excel (.xlsx) standar BBPOM di Padang.
+              Kirimkan berkas laporan distribusi obat tradisional semesteran resmi menggunakan format Excel (.xlsx) standar E-Report PBOBA.
             </p>
             <Link
               href="/reporter/reports"
@@ -178,7 +178,7 @@ export default async function ReporterDashboardPage() {
               </h2>
             </div>
             <p className="text-xs text-slate-600 mb-5 leading-relaxed">
-              Memiliki kendala regulasi atau pertanyaan seputar pengisian format template? Ajukan tiket pertanyaan langsung ke verifikator BBPOM.
+              Memiliki kendala regulasi atau pertanyaan seputar pengisian format template? Ajukan tiket pertanyaan langsung ke tim verifikator E-Report PBOBA.
             </p>
             <Link
               href="/reporter/questions"

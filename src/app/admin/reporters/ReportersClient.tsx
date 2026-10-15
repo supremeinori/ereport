@@ -196,7 +196,7 @@ Terima kasih.`;
             setAddFormError(null);
             setIsAddModalOpen(true);
           }}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-none-none font-semibold text-sm text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-none font-semibold text-sm text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -207,7 +207,7 @@ Terima kasih.`;
 
       {/* Pesan Sukses / Error Notifikasi */}
       {successMessage && (
-        <div className="mb-6 p-4 rounded-none-none bg-emerald-50 border border-emerald-200 text-sm text-emerald-800 flex items-center justify-between">
+        <div className="mb-6 p-4 rounded-none bg-emerald-50 border border-emerald-200 text-sm text-emerald-800 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span>✓</span>
             <span>{successMessage}</span>
@@ -222,7 +222,7 @@ Terima kasih.`;
       )}
 
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-none-none bg-red-50 border border-red-200 text-sm text-red-700 flex items-center justify-between">
+        <div className="mb-6 p-4 rounded-none bg-red-50 border border-red-200 text-sm text-red-700 flex items-center justify-between">
           <span>{errorMessage}</span>
           <button
             onClick={() => setErrorMessage(null)}
@@ -234,7 +234,7 @@ Terima kasih.`;
       )}
 
       {/* Kontrol Pencarian */}
-      <div className="bg-white rounded-none-none border border-slate-200 p-4 mb-6 shadow-xs">
+      <div className="bg-white rounded-none border border-slate-200 p-4 mb-6 shadow-xs">
         <form onSubmit={handleSearch} className="flex gap-2">
           <div className="relative flex-1">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -247,12 +247,12 @@ Terima kasih.`;
               placeholder="Cari berdasarkan nama PT atau username/identifier..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-none-none border border-slate-300 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              className="w-full pl-9 pr-4 py-2 rounded-none border border-slate-300 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
             />
           </div>
           <button
             type="submit"
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold rounded-none-none transition-colors"
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold rounded-none transition-colors"
           >
             Cari
           </button>
@@ -263,7 +263,7 @@ Terima kasih.`;
                 setSearchQuery("");
                 fetchReporters("");
               }}
-              className="px-3 py-2 border border-slate-300 text-slate-600 hover:bg-slate-50 text-sm rounded-none-none"
+              className="px-3 py-2 border border-slate-300 text-slate-600 hover:bg-slate-50 text-sm rounded-none"
             >
               Reset
             </button>
@@ -272,7 +272,7 @@ Terima kasih.`;
       </div>
 
       {/* Tabel Reporter */}
-      <div className="bg-white rounded-none-none border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-white rounded-none border border-slate-200 shadow-xs overflow-hidden">
         {isLoading ? (
           <div className="p-8 text-center text-slate-400 text-sm">
             Memuat data reporter...
@@ -316,13 +316,13 @@ Terima kasih.`;
                     </td>
                     <td className="px-6 py-4">
                       {rep.is_active ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-none-none text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                          <span className="w-1.5 h-1.5 rounded-none-none bg-emerald-500"></span>
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-none text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          <span className="w-1.5 h-1.5 rounded-none bg-emerald-500"></span>
                           Aktif
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-none-none text-xs font-medium bg-red-50 text-red-700 border border-red-200">
-                          <span className="w-1.5 h-1.5 rounded-none-none bg-red-500"></span>
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-none text-xs font-medium bg-red-50 text-red-700 border border-red-200">
+                          <span className="w-1.5 h-1.5 rounded-none bg-red-500"></span>
                           Nonaktif
                         </span>
                       )}
@@ -354,7 +354,7 @@ Terima kasih.`;
                             setSuccessMessage(`Format pesan untuk ${rep.name} berhasil disalin ke clipboard!`);
                           }}
                           title="Salin template pesan untuk PBOT"
-                          className="px-2.5 py-1.5 text-xs font-semibold rounded-none-none bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+                          className="px-2.5 py-1.5 text-xs font-semibold rounded-none bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
                         >
                           📋 Salin Pesan
                         </button>
@@ -367,7 +367,7 @@ Terima kasih.`;
                                 targetStatus: false,
                               })
                             }
-                            className="px-3 py-1.5 text-xs font-medium rounded-none-none border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
+                            className="px-3 py-1.5 text-xs font-medium rounded-none border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
                           >
                             Nonaktifkan
                           </button>
@@ -379,7 +379,7 @@ Terima kasih.`;
                                 targetStatus: true,
                               })
                             }
-                            className="px-3 py-1.5 text-xs font-medium rounded-none-none border border-emerald-200 text-emerald-700 hover:bg-emerald-50 transition-colors"
+                            className="px-3 py-1.5 text-xs font-medium rounded-none border border-emerald-200 text-emerald-700 hover:bg-emerald-50 transition-colors"
                           >
                             Aktifkan
                           </button>
@@ -397,10 +397,10 @@ Terima kasih.`;
       {/* Modal Sukses Pembuatan Akun & Tombol Copy Kredensial */}
       {createdAccountData && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white rounded-none-none shadow-xl border border-slate-200 w-full max-w-lg p-6 space-y-5">
+          <div className="bg-white rounded-none shadow-xl border border-slate-200 w-full max-w-lg p-6 space-y-5">
             <div className="flex items-start justify-between">
               <div>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-none-none text-xs font-bold bg-emerald-100 text-emerald-800 mb-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-none text-xs font-bold bg-emerald-100 text-emerald-800 mb-2">
                   ✓ Akun Berhasil Dibuat
                 </span>
                 <h3 className="text-lg font-bold text-slate-900">
@@ -419,7 +419,7 @@ Terima kasih.`;
             </div>
 
             {/* Kotak Ringkasan Akun */}
-            <div className="bg-slate-50 rounded-none-none p-4 border border-slate-200 space-y-2 text-sm">
+            <div className="bg-slate-50 rounded-none p-4 border border-slate-200 space-y-2 text-sm">
               <div className="flex justify-between py-1 border-b border-slate-100">
                 <span className="text-slate-500 text-xs font-medium">Nama PBOT:</span>
                 <span className="font-semibold text-slate-900">{createdAccountData.name}</span>
@@ -447,7 +447,7 @@ Terima kasih.`;
               <label className="block text-xs font-semibold text-slate-600 mb-1">
                 Pratinjau Pesan yang Akan Disalin:
               </label>
-              <pre className="p-3 bg-slate-900 text-slate-100 rounded-none-none text-xs whitespace-pre-wrap font-sans max-h-40 overflow-y-auto leading-relaxed border border-slate-800">
+              <pre className="p-3 bg-slate-900 text-slate-100 rounded-none text-xs whitespace-pre-wrap font-sans max-h-40 overflow-y-auto leading-relaxed border border-slate-800">
                 {getCredentialMessage(
                   createdAccountData.name,
                   createdAccountData.identifier,
@@ -461,7 +461,7 @@ Terima kasih.`;
               <button
                 type="button"
                 onClick={() => setCreatedAccountData(null)}
-                className="w-full sm:w-auto px-4 py-2.5 rounded-none-none text-sm font-semibold text-slate-600 hover:bg-slate-100"
+                className="w-full sm:w-auto px-4 py-2.5 rounded-none text-sm font-semibold text-slate-600 hover:bg-slate-100"
               >
                 Selesai / Tutup
               </button>
@@ -476,7 +476,7 @@ Terima kasih.`;
                     )
                   )
                 }
-                className={`w-full sm:w-auto px-5 py-2.5 rounded-none-none text-sm font-bold shadow-sm transition-all flex items-center justify-center gap-2 ${
+                className={`w-full sm:w-auto px-5 py-2.5 rounded-none text-sm font-bold shadow-sm transition-all flex items-center justify-center gap-2 ${
                   copied
                     ? "bg-emerald-700 text-white"
                     : "bg-emerald-600 hover:bg-emerald-700 text-white"
@@ -502,7 +502,7 @@ Terima kasih.`;
       {/* Modal Tambah Reporter Baru */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
-          <div className="bg-white rounded-none-none shadow-xl border border-slate-200 w-full max-w-lg p-6">
+          <div className="bg-white rounded-none shadow-xl border border-slate-200 w-full max-w-lg p-6">
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
               <h3 className="text-lg font-bold text-slate-900">
                 Pendaftaran Akun Reporter Baru
@@ -516,7 +516,7 @@ Terima kasih.`;
             </div>
 
             {addFormError && (
-              <div className="mb-4 p-3.5 rounded-none-none bg-red-50 border border-red-200 text-xs text-red-700">
+              <div className="mb-4 p-3.5 rounded-none bg-red-50 border border-red-200 text-xs text-red-700">
                 {addFormError}
               </div>
             )}
@@ -532,7 +532,7 @@ Terima kasih.`;
                   placeholder="Mis. PBOT-PADANG-01"
                   value={newIdentifier}
                   onChange={(e) => setNewIdentifier(e.target.value)}
-                  className="w-full px-3 py-2 rounded-none-none border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 uppercase"
+                  className="w-full px-3 py-2 rounded-none border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 uppercase"
                 />
                 <span className="text-2xs text-slate-400 mt-1 block">
                   Username ini yang akan digunakan entitas PBOT untuk login.
@@ -549,7 +549,7 @@ Terima kasih.`;
                   placeholder="Mis. PT Herbal Mandiri Sejahtera"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-none-none border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3 py-2 rounded-none border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
@@ -563,7 +563,7 @@ Terima kasih.`;
                   placeholder="pelapor@herbalmandiri.co.id"
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value)}
-                  className="w-full px-3 py-2 rounded-none-none border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3 py-2 rounded-none border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
                 <span className="text-2xs text-slate-400 mt-1 block">
                   Digunakan untuk feedback evaluasi dan konfirmasi pelaporan (dapat diubah pelapor).
@@ -577,10 +577,10 @@ Terima kasih.`;
                 <input
                   type="text"
                   required
-                  placeholder="Minimal 8 karakter (mis. PbobaPadang2026!)"
+                  placeholder="Minimal 8 karakter (mis. PbotPadang2026!)"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full px-3 py-2 rounded-none-none border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+                  className="w-full px-3 py-2 rounded-none border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
                 />
               </div>
 
@@ -589,14 +589,14 @@ Terima kasih.`;
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
                   disabled={isSubmittingAdd}
-                  className="px-4 py-2 rounded-none-none text-sm font-semibold text-slate-600 hover:bg-slate-100"
+                  className="px-4 py-2 rounded-none text-sm font-semibold text-slate-600 hover:bg-slate-100"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmittingAdd}
-                  className="px-4 py-2 rounded-none-none text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50"
+                  className="px-4 py-2 rounded-none text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50"
                 >
                   {isSubmittingAdd ? "Menyimpan..." : "Buat Akun & Dapatkan Format Pesan"}
                 </button>
@@ -609,7 +609,7 @@ Terima kasih.`;
       {/* Modal Konfirmasi Aktifkan / Nonaktifkan */}
       {confirmModalData && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
-          <div className="bg-white rounded-none-none shadow-xl border border-slate-200 w-full max-w-md p-6">
+          <div className="bg-white rounded-none shadow-xl border border-slate-200 w-full max-w-md p-6">
             <h3 className="text-lg font-bold text-slate-900 mb-2">
               Konfirmasi {confirmModalData.targetStatus ? "Aktivasi" : "Penonaktifan"} Akun
             </h3>
@@ -628,7 +628,7 @@ Terima kasih.`;
                 type="button"
                 onClick={() => setConfirmModalData(null)}
                 disabled={isTogglingStatus}
-                className="px-4 py-2 rounded-none-none text-sm font-semibold text-slate-600 hover:bg-slate-100"
+                className="px-4 py-2 rounded-none text-sm font-semibold text-slate-600 hover:bg-slate-100"
               >
                 Batal
               </button>
@@ -636,7 +636,7 @@ Terima kasih.`;
                 type="button"
                 onClick={handleConfirmToggleActive}
                 disabled={isTogglingStatus}
-                className={`px-4 py-2 rounded-none-none text-sm font-semibold text-white ${
+                className={`px-4 py-2 rounded-none text-sm font-semibold text-white ${
                   confirmModalData.targetStatus
                     ? "bg-emerald-600 hover:bg-emerald-700"
                     : "bg-red-600 hover:bg-red-700"

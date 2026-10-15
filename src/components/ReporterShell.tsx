@@ -19,8 +19,6 @@ interface ReporterShellProps {
 export default function ReporterShell({ user, children }: ReporterShellProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const navigation = [
@@ -78,28 +76,14 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
     <div className="min-h-screen bg-[#ecf0f5] flex flex-col font-sans">
       {/* Top Navbar Classic AdminLTE Style */}
       <header className="h-12 bg-[#2d7d9a] text-white flex items-center justify-between sticky top-0 z-40 shadow-sm">
-        {/* Left Brand Area (Dark Toska Box) */}
+        {/* Left Brand Area (Dark Toska Box) - Judul Bersih E-Report PBOBA */}
         <div className="flex items-center">
           <Link
             href="/reporter/dashboard"
-            className="w-56 h-12 bg-[#0c4a55] hover:bg-[#093d46] text-white font-extrabold text-sm tracking-wider uppercase px-4 flex items-center justify-between transition-colors border-r border-[#093d46]"
+            className="w-56 h-12 bg-[#0c4a55] hover:bg-[#093d46] text-white font-extrabold text-sm tracking-wider uppercase px-4 flex items-center justify-center transition-colors border-r border-[#093d46]"
           >
-            <span className="truncate">E-REPORT PBOBA</span>
-            <span className="text-2xs bg-emerald-400 text-slate-900 font-black px-1 py-0.2 rounded-none">
-              PBOT
-            </span>
+            <span>E-Report PBOBA</span>
           </Link>
-
-          {/* Hamburger Menu Button */}
-          <button
-            onClick={() => setIsSidebarOpen((prev) => !prev)}
-            className="h-12 w-12 flex items-center justify-center hover:bg-[#256c85] transition-colors text-white"
-            title="Buka/Tutup Sidebar"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
         </div>
 
         {/* Right Nav Area: User Info & Sign Out */}
@@ -122,23 +106,9 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
       </header>
 
       {/* Main Layout Container */}
-      <div className="flex-1 flex relative">
-        {/* Mobile Backdrop */}
-        {isSidebarOpen && (
-          <div
-            className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-            onClick={() => setIsSidebarOpen(false)}
-          />
-        )}
-
-        {/* Sidebar (AdminLTE Light Grey Sharp Style) */}
-        <aside
-          className={`bg-[#f9fafb] border-r border-slate-300 flex flex-col shrink-0 transition-all duration-200 z-50 ${
-            isSidebarOpen
-              ? "fixed lg:static inset-y-12 lg:inset-auto left-0 w-56 shadow-xl lg:shadow-none block"
-              : "w-0 overflow-hidden border-r-0 hidden"
-          }`}
-        >
+      <div className="flex-1 flex">
+        {/* Sidebar Statis Permanen (Tanpa Geser/Tutup) */}
+        <aside className="w-56 bg-[#f9fafb] border-r border-slate-300 flex flex-col shrink-0">
           {/* User Profile Box */}
           <div className="p-4 flex items-center gap-3 border-b border-slate-200 bg-white">
             <div className="w-10 h-10 bg-[#0c4a55] text-white flex items-center justify-center font-bold text-sm rounded-none shrink-0 shadow-xs">
@@ -168,7 +138,6 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={() => setIsMobileOpen(false)}
                   className={`flex items-center gap-3 px-4 py-2.5 text-xs font-medium rounded-none transition-colors ${
                     isActive
                       ? "bg-white text-slate-900 font-bold border-l-4 border-[#2d7d9a] shadow-xs"
@@ -197,10 +166,10 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
           {/* Footer Bar */}
           <footer className="h-11 bg-white border-t border-slate-300 px-6 flex items-center justify-between text-xs text-slate-600">
             <div>
-              <strong>Copyright &copy; 2026 <span className="text-[#2d7d9a]">E-REPORT PBOBA</span>.</strong> All rights reserved.
+              <strong>Copyright &copy; 2026 <span className="text-[#2d7d9a]">E-Report PBOBA</span>.</strong> All rights reserved.
             </div>
             <div className="hidden sm:block text-2xs text-slate-400">
-              Balai Besar POM di Padang
+              Sistem Pelaporan PBOT
             </div>
           </footer>
         </main>

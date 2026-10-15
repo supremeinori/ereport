@@ -114,7 +114,7 @@ export default function QuestionsReporterClient() {
 
       {feedback && (
         <div
-          className={`p-4 rounded-none-none text-sm font-medium flex items-center justify-between ${
+          className={`p-4 rounded-none text-sm font-medium flex items-center justify-between ${
             feedback.type === "success"
               ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
               : "bg-rose-50 text-rose-800 border border-rose-200"
@@ -134,7 +134,7 @@ export default function QuestionsReporterClient() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Kolom Kiri: Form Ajukan Pertanyaan */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-none-none border border-slate-200 p-6 shadow-sm sticky top-24">
+          <div className="bg-white rounded-none border border-slate-200 p-6 shadow-sm sticky top-24">
             <h2 className="text-base font-semibold text-slate-900 mb-4">
               Ajukan Pertanyaan Baru
             </h2>
@@ -155,7 +155,7 @@ export default function QuestionsReporterClient() {
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="Mis. Format pelaporan sediaan kapsul"
                   maxLength={150}
-                  className="w-full px-3 py-2 text-sm rounded-none-none border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900"
+                  className="w-full px-3 py-2 text-sm rounded-none border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900"
                 />
                 <p className="text-[11px] text-slate-400 mt-1 text-right">
                   {subject.length}/150
@@ -177,7 +177,7 @@ export default function QuestionsReporterClient() {
                   onChange={(e) => setQuestionText(e.target.value)}
                   placeholder="Jelaskan pertanyaan atau kendala yang dihadapi secara rinci (minimal 10 karakter)..."
                   maxLength={2000}
-                  className="w-full px-3 py-2 text-sm rounded-none-none border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 resize-none"
+                  className="w-full px-3 py-2 text-sm rounded-none border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 resize-none"
                 />
                 <p className="text-[11px] text-slate-400 mt-1 text-right">
                   {questionText.length}/2.000
@@ -187,7 +187,7 @@ export default function QuestionsReporterClient() {
               <button
                 type="submit"
                 disabled={submitting || subject.trim().length < 3 || questionText.trim().length < 10}
-                className="w-full py-2.5 px-4 rounded-none-none text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 transition-colors shadow-sm"
+                className="w-full py-2.5 px-4 rounded-none text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 transition-colors shadow-sm"
               >
                 {submitting ? "Mengirim..." : "Kirimkan Pertanyaan"}
               </button>
@@ -207,15 +207,15 @@ export default function QuestionsReporterClient() {
           </div>
 
           {loading ? (
-            <div className="bg-white rounded-none-none border border-slate-200 p-8 text-center text-slate-400 text-sm">
+            <div className="bg-white rounded-none border border-slate-200 p-8 text-center text-slate-400 text-sm">
               Memuat riwayat pertanyaan...
             </div>
           ) : error ? (
-            <div className="bg-white rounded-none-none border border-rose-200 p-8 text-center text-rose-500 text-sm">
+            <div className="bg-white rounded-none border border-rose-200 p-8 text-center text-rose-500 text-sm">
               {error}
             </div>
           ) : questions.length === 0 ? (
-            <div className="bg-white rounded-none-none border border-slate-200 p-8 text-center">
+            <div className="bg-white rounded-none border border-slate-200 p-8 text-center">
               <p className="text-sm font-medium text-slate-700">
                 Belum ada pertanyaan yang diajukan.
               </p>
@@ -228,7 +228,7 @@ export default function QuestionsReporterClient() {
               {questions.map((q) => (
                 <div
                   key={q.id}
-                  className="bg-white rounded-none-none border border-slate-200 p-5 shadow-sm space-y-4"
+                  className="bg-white rounded-none border border-slate-200 p-5 shadow-sm space-y-4"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
@@ -241,7 +241,7 @@ export default function QuestionsReporterClient() {
                     </div>
 
                     <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-none-none text-xs font-semibold ${
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-semibold ${
                         q.status === "answered"
                           ? "bg-emerald-100 text-emerald-800"
                           : "bg-amber-100 text-amber-800"
@@ -252,13 +252,13 @@ export default function QuestionsReporterClient() {
                   </div>
 
                   {/* Isi Pertanyaan */}
-                  <div className="bg-slate-50 rounded-none-none p-3.5 text-sm text-slate-700 whitespace-pre-wrap border border-slate-100">
+                  <div className="bg-slate-50 rounded-none p-3.5 text-sm text-slate-700 whitespace-pre-wrap border border-slate-100">
                     {q.question}
                   </div>
 
                   {/* Jawaban Admin (Jika Ada) */}
                   {q.status === "answered" && q.answer ? (
-                    <div className="bg-emerald-50/70 border border-emerald-200 rounded-none-none p-4 space-y-2">
+                    <div className="bg-emerald-50/70 border border-emerald-200 rounded-none p-4 space-y-2">
                       <div className="flex items-center justify-between text-xs text-emerald-800 font-semibold">
                         <span>Tanggapan Administrator:</span>
                         {q.answered_at && (

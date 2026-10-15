@@ -120,7 +120,7 @@ export default function QuestionsAdminClient() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-none-none border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="bg-white rounded-none border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-slate-900 tracking-tight">
             Layanan Tanya Jawab PBOT
@@ -131,10 +131,10 @@ export default function QuestionsAdminClient() {
         </div>
 
         {/* Filter Tab */}
-        <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-none-none text-xs font-semibold">
+        <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-none text-xs font-semibold">
           <button
             onClick={() => setFilterStatus("all")}
-            className={`px-3 py-1.5 rounded-none-none transition-colors ${
+            className={`px-3 py-1.5 rounded-none transition-colors ${
               filterStatus === "all"
                 ? "bg-white text-slate-900 shadow-xs"
                 : "text-slate-600 hover:text-slate-900"
@@ -144,7 +144,7 @@ export default function QuestionsAdminClient() {
           </button>
           <button
             onClick={() => setFilterStatus("open")}
-            className={`px-3 py-1.5 rounded-none-none transition-colors flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-none transition-colors flex items-center gap-1.5 ${
               filterStatus === "open"
                 ? "bg-white text-amber-700 shadow-xs"
                 : "text-slate-600 hover:text-slate-900"
@@ -152,14 +152,14 @@ export default function QuestionsAdminClient() {
           >
             <span>Menunggu Jawaban</span>
             {openCount > 0 && (
-              <span className="px-1.5 py-0.2 rounded-none-none text-[10px] bg-amber-100 text-amber-800">
+              <span className="px-1.5 py-0.2 rounded-none text-[10px] bg-amber-100 text-amber-800">
                 {openCount}
               </span>
             )}
           </button>
           <button
             onClick={() => setFilterStatus("answered")}
-            className={`px-3 py-1.5 rounded-none-none transition-colors ${
+            className={`px-3 py-1.5 rounded-none transition-colors ${
               filterStatus === "answered"
                 ? "bg-white text-emerald-700 shadow-xs"
                 : "text-slate-600 hover:text-slate-900"
@@ -172,7 +172,7 @@ export default function QuestionsAdminClient() {
 
       {feedback && (
         <div
-          className={`p-4 rounded-none-none text-sm font-medium flex items-center justify-between ${
+          className={`p-4 rounded-none text-sm font-medium flex items-center justify-between ${
             feedback.type === "success"
               ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
               : "bg-rose-50 text-rose-800 border border-rose-200"
@@ -190,15 +190,15 @@ export default function QuestionsAdminClient() {
 
       {/* Daftar Pertanyaan */}
       {loading ? (
-        <div className="bg-white rounded-none-none border border-slate-200 p-12 text-center text-slate-400 text-sm">
+        <div className="bg-white rounded-none border border-slate-200 p-12 text-center text-slate-400 text-sm">
           Memuat pertanyaan masuk...
         </div>
       ) : error ? (
-        <div className="bg-white rounded-none-none border border-rose-200 p-12 text-center text-rose-500 text-sm">
+        <div className="bg-white rounded-none border border-rose-200 p-12 text-center text-rose-500 text-sm">
           {error}
         </div>
       ) : questions.length === 0 ? (
-        <div className="bg-white rounded-none-none border border-slate-200 p-12 text-center">
+        <div className="bg-white rounded-none border border-slate-200 p-12 text-center">
           <p className="text-sm font-semibold text-slate-700">
             Tidak ada pertanyaan dalam kategori ini.
           </p>
@@ -211,7 +211,7 @@ export default function QuestionsAdminClient() {
           {questions.map((q) => (
             <div
               key={q.id}
-              className="bg-white rounded-none-none border border-slate-200 p-6 shadow-sm space-y-4"
+              className="bg-white rounded-none border border-slate-200 p-6 shadow-sm space-y-4"
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3">
                 <div>
@@ -230,7 +230,7 @@ export default function QuestionsAdminClient() {
 
                 <div className="flex items-center gap-3">
                   <span
-                    className={`inline-flex items-center px-2.5 py-0.5 rounded-none-none text-xs font-semibold ${
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-semibold ${
                       q.status === "answered"
                         ? "bg-emerald-100 text-emerald-800"
                         : "bg-amber-100 text-amber-800"
@@ -240,7 +240,7 @@ export default function QuestionsAdminClient() {
                   </span>
                   <button
                     onClick={() => openAnswerModal(q)}
-                    className="px-3 py-1 text-xs font-semibold rounded-none-none bg-emerald-600 hover:bg-emerald-700 text-white transition-colors"
+                    className="px-3 py-1 text-xs font-semibold rounded-none bg-emerald-600 hover:bg-emerald-700 text-white transition-colors"
                   >
                     {q.status === "answered" ? "Edit Tanggapan" : "Beri Tanggapan"}
                   </button>
@@ -252,14 +252,14 @@ export default function QuestionsAdminClient() {
                 <h2 className="text-sm font-bold text-slate-900 mb-1">
                   {q.subject}
                 </h2>
-                <div className="bg-slate-50 rounded-none-none p-3.5 text-sm text-slate-700 whitespace-pre-wrap border border-slate-100">
+                <div className="bg-slate-50 rounded-none p-3.5 text-sm text-slate-700 whitespace-pre-wrap border border-slate-100">
                   {q.question}
                 </div>
               </div>
 
               {/* Jawaban Jika Sudah Ada */}
               {q.status === "answered" && q.answer && (
-                <div className="bg-emerald-50/70 border border-emerald-200 rounded-none-none p-4 space-y-1.5">
+                <div className="bg-emerald-50/70 border border-emerald-200 rounded-none p-4 space-y-1.5">
                   <div className="flex items-center justify-between text-xs text-emerald-800 font-semibold">
                     <span>
                       Tanggapan oleh {q.answerer?.name || "Administrator"}
@@ -283,7 +283,7 @@ export default function QuestionsAdminClient() {
       {/* Modal Jawab Pertanyaan */}
       {selectedQuestion && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="bg-white rounded-none-none max-w-xl w-full p-6 shadow-xl border border-slate-200">
+          <div className="bg-white rounded-none max-w-xl w-full p-6 shadow-xl border border-slate-200">
             <h3 className="text-base font-bold text-slate-900 mb-1">
               Tanggapi Pertanyaan
             </h3>
@@ -291,7 +291,7 @@ export default function QuestionsAdminClient() {
               Dari: <strong className="text-slate-800">{selectedQuestion.author.name}</strong> ({selectedQuestion.author.identifier})
             </p>
 
-            <div className="bg-slate-50 rounded-none-none p-3 text-xs text-slate-700 border border-slate-200 mb-4 max-h-40 overflow-y-auto">
+            <div className="bg-slate-50 rounded-none p-3 text-xs text-slate-700 border border-slate-200 mb-4 max-h-40 overflow-y-auto">
               <p className="font-semibold text-slate-900 mb-1">
                 {selectedQuestion.subject}
               </p>
@@ -314,7 +314,7 @@ export default function QuestionsAdminClient() {
                   onChange={(e) => setAnswerText(e.target.value)}
                   placeholder="Tuliskan jawaban yang jelas dan solutif..."
                   maxLength={4000}
-                  className="w-full px-3 py-2 text-sm rounded-none-none border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 resize-none"
+                  className="w-full px-3 py-2 text-sm rounded-none border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 resize-none"
                 />
                 <p className="text-[11px] text-slate-400 mt-1 text-right">
                   {answerText.length}/4.000
@@ -326,14 +326,14 @@ export default function QuestionsAdminClient() {
                   type="button"
                   onClick={() => setSelectedQuestion(null)}
                   disabled={savingAnswer}
-                  className="px-4 py-2 text-sm font-semibold rounded-none-none border border-slate-300 text-slate-700 hover:bg-slate-50"
+                  className="px-4 py-2 text-sm font-semibold rounded-none border border-slate-300 text-slate-700 hover:bg-slate-50"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={savingAnswer || answerText.trim().length < 2}
-                  className="px-4 py-2 text-sm font-semibold rounded-none-none bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50"
+                  className="px-4 py-2 text-sm font-semibold rounded-none bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50"
                 >
                   {savingAnswer ? "Mengirim..." : "Kirimkan Tanggapan"}
                 </button>

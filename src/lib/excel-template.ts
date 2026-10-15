@@ -40,7 +40,7 @@ export const TEMPLATE_COLUMNS_SPEC = [
  */
 export async function generateOfficialTemplateBuffer(titlePeriod: string = "PELAPORAN OBAT TRADISIONAL PERIODE SEMESTER I TAHUN 2024"): Promise<Buffer> {
   const workbook = new ExcelJS.Workbook();
-  workbook.creator = "BBPOM di Padang - E-Report PBOBA";
+  workbook.creator = "E-Report PBOBA";
   workbook.lastModifiedBy = "E-Report PBOBA System";
   workbook.created = new Date();
   workbook.modified = new Date();

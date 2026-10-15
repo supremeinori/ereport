@@ -68,7 +68,7 @@ export default function ReporterProfileClient({ initialUser }: ReporterProfileCl
 
       {feedback && (
         <div
-          className={`p-4 rounded-none-none text-sm font-medium flex items-center justify-between ${
+          className={`p-4 rounded-none text-sm font-medium flex items-center justify-between ${
             feedback.type === "success"
               ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
               : "bg-rose-50 text-rose-800 border border-rose-200"
@@ -84,13 +84,13 @@ export default function ReporterProfileClient({ initialUser }: ReporterProfileCl
         </div>
       )}
 
-      <div className="bg-white rounded-none-none border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-none border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
           <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
             Data Resmi Entitas Pelapor
           </span>
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-none-none text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-            <span className="w-1.5 h-1.5 rounded-none-none bg-emerald-500"></span>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-none text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span className="w-1.5 h-1.5 rounded-none bg-emerald-500"></span>
             Status Akun: {user.is_active ? "Aktif" : "Nonaktif"}
           </span>
         </div>
@@ -103,7 +103,7 @@ export default function ReporterProfileClient({ initialUser }: ReporterProfileCl
             </dt>
             <dd className="mt-1 sm:mt-0 sm:col-span-2">
               <div className="flex items-center gap-3">
-                <span className="font-mono text-base font-bold text-slate-900 bg-slate-100 px-3 py-1 rounded-none-none border border-slate-200">
+                <span className="font-mono text-base font-bold text-slate-900 bg-slate-100 px-3 py-1 rounded-none border border-slate-200">
                   {user.identifier}
                 </span>
                 <span className="text-xs text-slate-500 font-medium">
@@ -143,13 +143,13 @@ export default function ReporterProfileClient({ initialUser }: ReporterProfileCl
                       value={newEmail}
                       onChange={(e) => setNewEmail(e.target.value)}
                       placeholder="alamat@perusahaan.com"
-                      className="px-3 py-1.5 rounded-none-none border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full sm:w-80"
+                      className="px-3 py-1.5 rounded-none border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full sm:w-80"
                     />
                     <div className="flex items-center gap-2">
                       <button
                         type="submit"
                         disabled={saving || !newEmail.trim()}
-                        className="px-3 py-1.5 rounded-none-none text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 transition-colors"
+                        className="px-3 py-1.5 rounded-none text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 transition-colors"
                       >
                         {saving ? "Menyimpan..." : "Simpan Email"}
                       </button>
@@ -160,7 +160,7 @@ export default function ReporterProfileClient({ initialUser }: ReporterProfileCl
                           setNewEmail(user.email);
                         }}
                         disabled={saving}
-                        className="px-3 py-1.5 rounded-none-none text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors"
+                        className="px-3 py-1.5 rounded-none text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors"
                       >
                         Batal
                       </button>

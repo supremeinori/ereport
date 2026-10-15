@@ -55,8 +55,7 @@ export default function LoginPage() {
         {/* Logo Resmi Bersih Tanpa Gembok/Headset */}
         <div className="text-center mb-6">
           <div className="w-20 h-20 mx-auto mb-3 bg-[#08333c] text-white flex flex-col items-center justify-center rounded-none shadow-sm border border-[#0c4a55]">
-            <span className="text-xl font-black tracking-widest text-emerald-400">BPOM</span>
-            <span className="text-3xs font-bold tracking-widest text-slate-300 uppercase">PADANG</span>
+            <span className="text-xl font-black tracking-widest text-emerald-400">PBOBA</span>
           </div>
           <h1 className="text-base font-extrabold tracking-wider text-slate-800 uppercase">
             E-REPORT PBOBA
@@ -144,7 +143,7 @@ export default function LoginPage() {
 
         <div className="mt-6 pt-4 border-t border-slate-200 text-center">
           <p className="text-2xs text-slate-400 font-mono">
-            &copy; 2026 BBPOM di Padang. All rights reserved.
+            &copy; 2026 E-Report PBOBA. All rights reserved.
           </p>
         </div>
       </div>
