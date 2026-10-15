@@ -46,6 +46,16 @@ export default function AdminNavbar({ user, currentPath }: AdminNavbarProps) {
               >
                 Kelola Akun Reporter
               </Link>
+              <Link
+                href="/admin/template"
+                className={`px-3 py-2 rounded-lg font-medium transition-colors ${
+                  currentPath === "/admin/template"
+                    ? "bg-slate-100 text-slate-900"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                }`}
+              >
+                Template Excel
+              </Link>
             </nav>
           </div>
 

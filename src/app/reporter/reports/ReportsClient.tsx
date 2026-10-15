@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import DownloadButton from "@/components/DownloadButton";
+import TemplateDownloadButton from "@/components/TemplateDownloadButton";
 
 interface ReportItem {
   id: string;
@@ -178,6 +180,17 @@ export default function ReportsClient() {
             </ul>
           </div>
         </div>
+      </div>
+
+      {/* Unduh Template Resmi (FR-REP-04) */}
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h3 className="text-sm font-bold text-slate-900">Template Laporan Resmi</h3>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Unduh template Excel resmi yang disediakan oleh Administrator PBOBA. Pastikan laporan diisi sesuai format pada template.
+          </p>
+        </div>
+        <TemplateDownloadButton label="Unduh Template Resmi (.xlsx)" variant="secondary" />
       </div>
 
       {/* Alert Notifikasi Global */}
@@ -371,6 +384,7 @@ export default function ReportsClient() {
                   <th className="px-6 py-3.5">Waktu Unggah (WIB)</th>
                   <th className="px-6 py-3.5">Status Pemeriksaan</th>
                   <th className="px-6 py-3.5">Waktu Diperiksa</th>
+                  <th className="px-6 py-3.5 text-right">Unduh</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -404,6 +418,13 @@ export default function ReportsClient() {
                             year: "numeric",
                           })}`
                         : "—"}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <DownloadButton
+                        reportId={item.id}
+                        filename={item.original_filename}
+                        label="Unduh"
+                      />
                     </td>
                   </tr>
                 ))}
