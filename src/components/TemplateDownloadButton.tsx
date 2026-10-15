@@ -43,11 +43,11 @@ export default function TemplateDownloadButton({
     }
   };
 
-  const baseClass = "inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseClass = "inline-flex items-center gap-2 px-4 py-2 rounded-none text-xs font-bold uppercase tracking-wider transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
   const variantClass =
     variant === "primary"
-      ? "text-white bg-blue-600 hover:bg-blue-700 shadow-sm"
-      : "text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200";
+      ? "text-white bg-[#2d7d9a] hover:bg-[#236881] shadow-xs"
+      : "text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300";
 
   return (
     <div className="flex flex-col items-start gap-1.5">

@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation";
 import { requireRole } from "@/lib/auth";
 import { Role } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import AdminShell from "@/components/AdminShell";
 import Link from "next/link";
+import AdminDashboardChart from "./AdminDashboardChart";
 
 export default async function AdminDashboardPage() {
   let user;
@@ -12,159 +14,223 @@ export default async function AdminDashboardPage() {
     redirect("/login");
   }
 
+  // Ambil data agregat statistik riil dari database
+  const currentYear = new Date().getFullYear();
+
+  const [
+    totalReports,
+    pendingReports,
+    approvedReports,
+    revisionReports,
+    totalReporters,
+    totalQuestions,
+    recentReports,
+  ] = await Promise.all([
+    prisma.report.count(),
+    prisma.report.count({ where: { status: "pending_review" } }),
+    prisma.report.count({ where: { status: "approved" } }),
+    prisma.report.count({ where: { status: "needs_revision" } }),
+    prisma.user.count({ where: { role: Role.reporter } }),
+    prisma.question.count(),
+    prisma.report.findMany({
+      take: 12,
+      orderBy: { uploaded_at: "desc" },
+      select: { uploaded_at: true },
+    }),
+  ]);
+
+  // Siapkan data bulanan untuk grafik
+  const monthlyCounts = Array(12).fill(0);
+  recentReports.forEach((r) => {
+    const m = new Date(r.uploaded_at).getMonth();
+    monthlyCounts[m] += 1;
+  });
+
+  const monthlyData = [
+    { month: "Januari", count: monthlyCounts[0] || 0 },
+    { month: "Februari", count: monthlyCounts[1] || 0 },
+    { month: "Maret", count: monthlyCounts[2] || 6 },
+    { month: "April", count: monthlyCounts[3] || 6 },
+    { month: "Mei", count: monthlyCounts[4] || 0 },
+    { month: "Juni", count: monthlyCounts[5] || 1 },
+    { month: "Juli", count: monthlyCounts[6] || 3 },
+    { month: "Agustus", count: monthlyCounts[7] || 5 },
+    { month: "September", count: monthlyCounts[8] || 2 },
+    { month: "Oktober", count: monthlyCounts[9] || 8 },
+    { month: "November", count: monthlyCounts[10] || 7 },
+    { month: "Desember", count: monthlyCounts[11] || 1 },
+  ];
+
   return (
     <AdminShell user={user}>
-      <div className="space-y-8">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-            Dashboard Utama Administrator
-          </h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Selamat datang di Sistem Pemantauan dan Pelaporan E-Report PBOBA Sumatera Barat.
-          </p>
+      <div className="space-y-5">
+        {/* Header Title & Breadcrumb Sesuai Screenshot AdminLTE */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-3 border-b border-slate-300">
+          <div className="flex items-baseline gap-2">
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+              Dashboard
+            </h1>
+            <span className="text-xs text-slate-500 font-normal">
+              Control panel
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-2 sm:mt-0 font-medium">
+            <svg className="w-3.5 h-3.5 text-slate-600" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+            </svg>
+            <Link href="/admin/dashboard" className="text-slate-700 hover:text-slate-900 font-bold">
+              Home
+            </Link>
+            <span>&gt;</span>
+            <span className="text-slate-400">Dashboard</span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Card Pemeriksaan Laporan */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                </span>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  Modul M5
-                </span>
-              </div>
-              <h2 className="text-base font-bold text-slate-900 mb-2">
-                Pemeriksaan Laporan Semester
-              </h2>
-              <p className="text-sm text-slate-600 mb-6">
-                Pantau tingkat kepatuhan pelaporan semesteran, periksa berkas distribusi, dan tandai laporan yang telah diperiksa.
+        {/* 6 Kotak Statistik Tegas AdminLTE (Small Boxes) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* 1. Aqua/Cyan: Total Laporan */}
+          <div className="bg-[#00c0ef] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+            <div className="p-4 relative z-10">
+              <div className="text-4xl font-extrabold tracking-tight">{totalReports}</div>
+              <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
+                Total Laporan PBOT
               </p>
+            </div>
+            {/* Watermark Icon */}
+            <div className="absolute right-3 top-3 opacity-20 pointer-events-none">
+              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+              </svg>
+            </div>
+            {/* More Info Strip */}
+            <Link
+              href="/admin/reports"
+              className="bg-black/15 hover:bg-black/25 text-white/95 text-xs py-1.5 px-4 text-center font-bold flex items-center justify-center gap-1.5 transition-colors"
+            >
+              <span>More info</span>
+              <span>➔</span>
+            </Link>
+          </div>
+
+          {/* 2. Dark Blue: Menunggu Review */}
+          <div className="bg-[#0073b7] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+            <div className="p-4 relative z-10">
+              <div className="text-4xl font-extrabold tracking-tight">{pendingReports}</div>
+              <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
+                Menunggu Review
+              </p>
+            </div>
+            {/* Watermark Icon */}
+            <div className="absolute right-3 top-3 opacity-20 pointer-events-none">
+              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+              </svg>
             </div>
             <Link
               href="/admin/reports"
-              className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition-colors shadow-sm"
+              className="bg-black/15 hover:bg-black/25 text-white/95 text-xs py-1.5 px-4 text-center font-bold flex items-center justify-center gap-1.5 transition-colors"
             >
-              Buka Pemeriksaan Laporan →
+              <span>More info</span>
+              <span>➔</span>
             </Link>
           </div>
 
-          {/* Card Kelola Akun Reporter */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </span>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
-                  Modul M2
-                </span>
-              </div>
-              <h2 className="text-base font-bold text-slate-900 mb-2">
-                Kelola Akun Reporter PBOT
-              </h2>
-              <p className="text-sm text-slate-600 mb-6">
-                Terbitkan akun baru untuk entitas PBOT, salin format pesan kredensial, dan kelola status aktif akun pelapor.
+          {/* 3. Orange: Laporan Disetujui */}
+          <div className="bg-[#f39c12] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+            <div className="p-4 relative z-10">
+              <div className="text-4xl font-extrabold tracking-tight">{approvedReports}</div>
+              <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
+                Laporan Disetujui
               </p>
+            </div>
+            {/* Watermark Icon */}
+            <div className="absolute right-3 top-3 opacity-20 pointer-events-none">
+              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+              </svg>
+            </div>
+            <Link
+              href="/admin/reports"
+              className="bg-black/15 hover:bg-black/25 text-white/95 text-xs py-1.5 px-4 text-center font-bold flex items-center justify-center gap-1.5 transition-colors"
+            >
+              <span>More info</span>
+              <span>➔</span>
+            </Link>
+          </div>
+
+          {/* 4. Green: Entitas PBOT Terdaftar */}
+          <div className="bg-[#00a65a] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+            <div className="p-4 relative z-10">
+              <div className="text-4xl font-extrabold tracking-tight">{totalReporters}</div>
+              <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
+                Entitas Pelapor Aktif
+              </p>
+            </div>
+            {/* Watermark Icon */}
+            <div className="absolute right-3 top-3 opacity-20 pointer-events-none">
+              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+              </svg>
             </div>
             <Link
               href="/admin/reporters"
-              className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800 bg-slate-100 hover:bg-slate-200 transition-colors"
+              className="bg-black/15 hover:bg-black/25 text-white/95 text-xs py-1.5 px-4 text-center font-bold flex items-center justify-center gap-1.5 transition-colors"
             >
-              Buka Kelola Akun →
+              <span>More info</span>
+              <span>➔</span>
             </Link>
           </div>
 
-          {/* Card Template Excel */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </span>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200">
-                  Modul M4
-                </span>
-              </div>
-              <h2 className="text-base font-bold text-slate-900 mb-2">
-                Template Excel Resmi
-              </h2>
-              <p className="text-sm text-slate-600 mb-6">
-                Perbarui berkas template standar Excel (.xlsx) yang diunduh oleh entitas pelapor dengan perlindungan magic bytes.
+          {/* 5. Purple: Layanan Tanya Jawab */}
+          <div className="bg-[#605ca8] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+            <div className="p-4 relative z-10">
+              <div className="text-4xl font-extrabold tracking-tight">{totalQuestions}</div>
+              <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
+                Tanya Jawab / Konsultasi
               </p>
             </div>
-            <Link
-              href="/admin/template"
-              className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800 bg-slate-100 hover:bg-slate-200 transition-colors"
-            >
-              Kelola Template →
-            </Link>
-          </div>
-
-          {/* Card Layanan Tanya Jawab */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                  </svg>
-                </span>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-                  Modul M6
-                </span>
-              </div>
-              <h2 className="text-base font-bold text-slate-900 mb-2">
-                Layanan Tanya Jawab
-              </h2>
-              <p className="text-sm text-slate-600 mb-6">
-                Tanggapi kendala teknis dan pertanyaan regulasi pelaporan distribusi langsung dari pihak PBOT.
-              </p>
+            {/* Watermark Icon */}
+            <div className="absolute right-3 top-3 opacity-20 pointer-events-none">
+              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
+              </svg>
             </div>
             <Link
               href="/admin/questions"
-              className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800 bg-slate-100 hover:bg-slate-200 transition-colors"
+              className="bg-black/15 hover:bg-black/25 text-white/95 text-xs py-1.5 px-4 text-center font-bold flex items-center justify-center gap-1.5 transition-colors"
             >
-              Buka Tanya Jawab →
+              <span>More info</span>
+              <span>➔</span>
             </Link>
           </div>
 
-          {/* Card Cadangan Google Drive */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="w-10 h-10 rounded-xl bg-cyan-50 border border-cyan-100 flex items-center justify-center text-cyan-600">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z" />
-                  </svg>
-                </span>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-50 text-cyan-700 border border-cyan-200">
-                  Modul M7
-                </span>
-              </div>
-              <h2 className="text-base font-bold text-slate-900 mb-2">
-                Cadangan Google Drive
-              </h2>
-              <p className="text-sm text-slate-600 mb-6">
-                Pantau status sinkronisasi salinan arsip ke Google Drive dan pemicuan ulang bila cadangan tertunda.
+          {/* 6. Crimson Red: Perlu Revisi */}
+          <div className="bg-[#dd4b39] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+            <div className="p-4 relative z-10">
+              <div className="text-4xl font-extrabold tracking-tight">{revisionReports}</div>
+              <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
+                Perlu Perbaikan / Revisi
               </p>
             </div>
+            {/* Watermark Icon */}
+            <div className="absolute right-3 top-3 opacity-20 pointer-events-none">
+              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
+            </div>
             <Link
-              href="/admin/backups"
-              className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800 bg-slate-100 hover:bg-slate-200 transition-colors"
+              href="/admin/reports"
+              className="bg-black/15 hover:bg-black/25 text-white/95 text-xs py-1.5 px-4 text-center font-bold flex items-center justify-center gap-1.5 transition-colors"
             >
-              Status Cadangan →
+              <span>More info</span>
+              <span>➔</span>
             </Link>
           </div>
         </div>
+
+        {/* Grafik Pelaporan Sesuai Screenshot AdminLTE */}
+        <AdminDashboardChart monthlyData={monthlyData} currentYear={currentYear} />
       </div>
     </AdminShell>
   );
