@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "bootstrap:admin": "tsx src/scripts/bootstrap-admin.ts",
-    "test:m1": "tsx src/scripts/test-m1.ts"
+    "test:m1": "tsx src/scripts/test-m1.ts",
+    "test:m2": "tsx src/scripts/test-m2.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
