@@ -1,0 +1,108 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  admin
+  reporter
+}
+
+enum ReportStatus {
+  pending_review
+  reviewed
+  revision_required
+}
+
+enum BackupStatus {
+  pending
+  success
+  failed
+}
+
+enum QuestionStatus {
+  open
+  answered
+}
+
+model User {
+  id            String     @id @default(uuid()) @db.Uuid
+  identifier    String     @unique
+  name          String
+  email         String     @unique
+  password_hash String
+  role          Role
+  is_active     Boolean    @default(true)
+  created_at    DateTime   @default(now()) @db.Timestamptz
+  updated_at    DateTime   @updatedAt @db.Timestamptz
+
+  reports            Report[]
+  questions          Question[] @relation("UserQuestions")
+  answered_questions Question[] @relation("AdminAnsweredQuestions")
+
+  @@map("users")
+}
+
+model Report {
+  id                String       @id @default(uuid()) @db.Uuid
+  user_id           String       @db.Uuid
+  period_year       Int
+  period_semester   Int          @db.SmallInt
+  file_path         String
+  original_filename String
+  uploaded_at       DateTime     @default(now()) @db.Timestamptz
+  status            ReportStatus @default(pending_review)
+  reviewed_at       DateTime?    @db.Timestamptz
+  created_at        DateTime     @default(now()) @db.Timestamptz
+  updated_at        DateTime     @updatedAt @db.Timestamptz
+
+  user    User     @relation(fields: [user_id], references: [id], onDelete: Restrict)
+  backups Backup[]
+
+  @@unique([user_id, period_year, period_semester])
+  @@index([period_year, period_semester])
+  @@index([user_id])
+  @@map("reports")
+}
+
+model Backup {
+  id            String       @id @default(uuid()) @db.Uuid
+  report_id     String       @db.Uuid
+  provider      String       @default("google_drive")
+  drive_file_id String?
+  backup_status BackupStatus @default(pending)
+  backed_up_at  DateTime?    @db.Timestamptz
+  error_message String?
+  created_at    DateTime     @default(now()) @db.Timestamptz
+  updated_at    DateTime     @updatedAt @db.Timestamptz
+
+  report Report @relation(fields: [report_id], references: [id], onDelete: Restrict)
+
+  @@index([report_id])
+  @@map("backups")
+}
+
+model Question {
+  id          String         @id @default(uuid()) @db.Uuid
+  user_id     String         @db.Uuid
+  subject     String
+  question    String
+  answer      String?
+  answered_by String?        @db.Uuid
+  status      QuestionStatus @default(open)
+  created_at  DateTime       @default(now()) @db.Timestamptz
+  answered_at DateTime?      @db.Timestamptz
+  updated_at  DateTime       @updatedAt @db.Timestamptz
+
+  author   User  @relation("UserQuestions", fields: [user_id], references: [id], onDelete: Restrict)
+  answerer User? @relation("AdminAnsweredQuestions", fields: [answered_by], references: [id], onDelete: Restrict)
+
+  @@index([user_id])
+  @@index([status])
+  @@map("questions")
+}
