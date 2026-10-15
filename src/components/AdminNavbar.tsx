@@ -47,6 +47,16 @@ export default function AdminNavbar({ user, currentPath }: AdminNavbarProps) {
                 Kelola Akun Reporter
               </Link>
               <Link
+                href="/admin/reports"
+                className={`px-3 py-2 rounded-lg font-medium transition-colors ${
+                  currentPath === "/admin/reports"
+                    ? "bg-slate-100 text-slate-900"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                }`}
+              >
+                Pemeriksaan Laporan
+              </Link>
+              <Link
                 href="/admin/template"
                 className={`px-3 py-2 rounded-lg font-medium transition-colors ${
                   currentPath === "/admin/template"
@@ -55,6 +65,16 @@ export default function AdminNavbar({ user, currentPath }: AdminNavbarProps) {
                 }`}
               >
                 Template Excel
+              </Link>
+              <Link
+                href="/admin/questions"
+                className={`px-3 py-2 rounded-lg font-medium transition-colors ${
+                  currentPath === "/admin/questions"
+                    ? "bg-slate-100 text-slate-900"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                }`}
+              >
+                Tanya Jawab
               </Link>
             </nav>
           </div>

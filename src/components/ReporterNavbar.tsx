@@ -47,6 +47,16 @@ export default function ReporterNavbar({ user, currentPath }: ReporterNavbarProp
                 Pelaporan Semester
               </Link>
               <Link
+                href="/reporter/questions"
+                className={`px-3 py-2 rounded-lg font-medium transition-colors ${
+                  currentPath === "/reporter/questions"
+                    ? "bg-slate-100 text-slate-900"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                }`}
+              >
+                Tanya Jawab
+              </Link>
+              <Link
                 href="/reporter/profile"
                 className={`px-3 py-2 rounded-lg font-medium transition-colors ${
                   currentPath === "/reporter/profile"
