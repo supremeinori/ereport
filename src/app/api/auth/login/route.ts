@@ -3,23 +3,26 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { signSessionToken, SESSION_COOKIE_NAME } from "@/lib/auth";
 import { checkLoginRateLimit, recordFailedLogin, resetLoginRateLimit } from "@/lib/rate-limiter";
+import { Role } from "@prisma/client";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { email, password } = body;
+    const body = await request.json().catch(() => ({}));
+    // Mendukung input 'username' (utama) maupun 'email' (fallback)
+    const loginCredential = typeof body.username === "string" ? body.username : (typeof body.email === "string" ? body.email : "");
+    const password = typeof body.password === "string" ? body.password : "";
 
-    if (!email || !password || typeof email !== "string" || typeof password !== "string") {
+    if (!loginCredential.trim() || !password) {
       return NextResponse.json(
-        { message: "Email dan kata sandi wajib diisi." },
+        { message: "Username dan kata sandi wajib diisi." },
         { status: 400 }
       );
     }
 
-    const cleanEmail = email.toLowerCase().trim();
-    // Gunakan kombinasi IP dan email sebagai key rate limit
+    const cleanInput = loginCredential.trim();
+    // Gunakan kombinasi IP dan identifier input sebagai key rate limit
     const ip = request.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-    const rateLimitKey = `${ip}:${cleanEmail}`;
+    const rateLimitKey = `${ip}:${cleanInput.toLowerCase()}`;
 
     const rateLimit = checkLoginRateLimit(rateLimitKey);
     if (rateLimit.isBlocked) {
@@ -31,14 +34,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email: cleanEmail },
+    // Cari user berdasarkan identifier (username), email, atau alias 'admin'
+    let user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { identifier: { equals: cleanInput, mode: "insensitive" } },
+          { email: { equals: cleanInput.toLowerCase(), mode: "insensitive" } },
+        ],
+      },
     });
+
+    // Jika input adalah kata "admin", cocokkan dengan admin aktif
+    if (!user && cleanInput.toLowerCase() === "admin") {
+      user = await prisma.user.findFirst({
+        where: {
+          role: Role.admin,
+        },
+      });
+    }
 
     if (!user) {
       recordFailedLogin(rateLimitKey);
       return NextResponse.json(
-        { message: "Email atau kata sandi tidak valid." },
+        { message: "Username atau kata sandi tidak valid." },
         { status: 401 }
       );
     }
@@ -48,7 +66,7 @@ export async function POST(request: NextRequest) {
     if (!isPasswordValid) {
       recordFailedLogin(rateLimitKey);
       return NextResponse.json(
-        { message: "Email atau kata sandi tidak valid." },
+        { message: "Username atau kata sandi tidak valid." },
         { status: 401 }
       );
     }

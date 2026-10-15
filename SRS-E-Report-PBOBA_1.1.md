@@ -10,6 +10,11 @@ Sistem pelaporan dan pemantauan distribusi obat tradisional untuk Pedagang Besar
 | Bahasa antarmuka | Bahasa Indonesia |
 | Pemilik keputusan | Pemilik proyek (lihat bagian 13) |
 
+> ### 📝 Catatan Revisi Kredensial & Autentikasi (Persetujuan Pemilik Proyek - Oktober 2026):
+> 1. **Mekanisme Login**: Autentikasi masuk ke sistem menggunakan **`username`** (yang dipetakan ke field `identifier` unik pada tabel `users`, mis. `ADMIN-SUMBAR-01` atau nomor izin PBOT seperti `PBOT-SB-001`, serta kata `admin`), **bukan menggunakan email**.
+> 2. **Peran Kolom `email`**: Kolom `email` difungsikan sebagai sarana korespondensi resmi, kanal feedback/umpan balik evaluasi laporan dari admin, dan asistensi teknis. Entitas pelapor dapat memperbarui alamat email feedback miliknya secara mandiri melalui menu Profil.
+> 3. **Fitur Salin Kredensial Admin**: Pada formulir/tabel pembuatan akun reporter oleh Administrator, disediakan tombol **Salin Kredensial (Copy)** dengan template pesan terstruktur ("Selamat siang Bapak/Ibu pimpinan PT..., berikut akun username dan password...") untuk memudahkan admin membagikan akses kepada pimpinan PBOT.
+
 > **Cara membaca dokumen ini (untuk AI builder):**
 > Kata **WAJIB** = harus dipenuhi. **DILARANG** = tidak boleh dilakukan tanpa persetujuan tertulis pemilik proyek. **DISARANKAN** = default yang baik, boleh menyimpang jika ada alasan dan dijelaskan. Setiap kebutuhan punya ID (mis. `FR-ADM-03`) agar bisa dirujuk di commit, pengujian, dan laporan.
 >

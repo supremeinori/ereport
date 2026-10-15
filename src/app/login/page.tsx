@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,8 +15,8 @@ export default function LoginPage() {
     e.preventDefault();
     setErrorMessage(null);
 
-    if (!email || !password) {
-      setErrorMessage("Silakan isi email dan kata sandi.");
+    if (!username.trim() || !password) {
+      setErrorMessage("Silakan isi username dan kata sandi.");
       return;
     }
 
@@ -26,7 +26,7 @@ export default function LoginPage() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username: username.trim(), password }),
       });
 
       const data = await res.json();
@@ -61,7 +61,7 @@ export default function LoginPage() {
             Masuk ke E-Report PBOBA
           </h1>
           <p className="mt-2 text-sm text-slate-500">
-            Gunakan akun administrator atau entitas pelapor yang terdaftar.
+            Gunakan username akun administrator atau entitas pelapor yang terdaftar.
           </p>
         </div>
 
@@ -90,19 +90,19 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label
-              htmlFor="email"
+              htmlFor="username"
               className="block text-sm font-medium text-slate-700 mb-1.5"
             >
-              Alamat Email
+              Username Akun
             </label>
             <input
-              id="email"
-              type="email"
+              id="username"
+              type="text"
               required
-              autoComplete="email"
-              placeholder="nama@contoh.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="username"
+              placeholder="Contoh: PBOT-SUMBAR-001 atau admin"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               disabled={isLoading}
               className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-slate-100 disabled:cursor-not-allowed"
             />
@@ -167,14 +167,14 @@ export default function LoginPage() {
                 Memproses Masuk...
               </span>
             ) : (
-              "Masuk"
+              "Masuk ke Sistem"
             )}
           </button>
         </form>
 
         <div className="mt-8 pt-6 border-t border-slate-100 text-center">
           <p className="text-xs text-slate-400">
-            Belum memiliki akun? Hubungi administrator resmi untuk pendaftaran entitas pelapor.
+            Belum memiliki username? Hubungi administrator resmi E-Report PBOBA untuk penerbitan akun entitas pelapor.
           </p>
         </div>
       </div>
