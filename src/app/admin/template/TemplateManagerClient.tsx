@@ -75,14 +75,14 @@ export default function TemplateManagerClient() {
 
       {/* Notifikasi */}
       {successMessage && (
-        <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-sm text-emerald-800 flex items-center justify-between">
+        <div className="p-4 rounded-none-none bg-emerald-50 border border-emerald-200 text-sm text-emerald-800 flex items-center justify-between">
           <span className="font-medium">{successMessage}</span>
           <button onClick={() => setSuccessMessage(null)} className="text-xs text-emerald-600 font-semibold">Tutup</button>
         </div>
       )}
 
       {/* Download Current Template */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+      <div className="bg-white rounded-none-none border border-slate-200 shadow-sm p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
           <div>
             <h2 className="text-base font-bold text-slate-900">Template Aktif Saat Ini</h2>
@@ -97,15 +97,15 @@ export default function TemplateManagerClient() {
         <div className="mt-5 border-t border-slate-100 pt-5">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span className="w-2 h-2 rounded-none-none bg-emerald-500"></span>
               Struktur Format Standar (18 Kolom)
             </h3>
-            <span className="text-2xs font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span className="text-2xs font-semibold px-2 py-0.5 rounded-none bg-emerald-50 text-emerald-700 border border-emerald-200">
               Format Terverifikasi
             </span>
           </div>
 
-          <div className="overflow-x-auto rounded-lg border border-slate-200 text-xs">
+          <div className="overflow-x-auto rounded-none-none border border-slate-200 text-xs">
             <table className="w-full text-center border-collapse">
               <thead>
                 <tr className="bg-emerald-800 text-white font-semibold">
@@ -166,26 +166,26 @@ export default function TemplateManagerClient() {
       </div>
 
       {/* Upload New Template */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+      <div className="bg-white rounded-none-none border border-slate-200 shadow-sm p-6">
         <h2 className="text-base font-bold text-slate-900 mb-1">Perbarui Template Resmi</h2>
         <p className="text-sm text-slate-600 mb-5">
           Unggah berkas Excel (.xlsx) baru untuk menggantikan template resmi yang aktif. Template lama akan langsung digantikan.
         </p>
 
         {uploadError && (
-          <div className="mb-4 p-3.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
+          <div className="mb-4 p-3.5 rounded-none-none bg-red-50 border border-red-200 text-xs text-red-700">
             {uploadError}
           </div>
         )}
 
         <form onSubmit={handleUploadTemplate} className="space-y-5">
-          <div className="flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-xl hover:border-emerald-400 transition-colors bg-slate-50/50">
+          <div className="flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-none-none hover:border-emerald-400 transition-colors bg-slate-50/50">
             <div className="space-y-2 text-center">
               <svg className="mx-auto h-10 w-10 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                 <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               <div className="flex text-sm text-slate-600 justify-center">
-                <label htmlFor="template-file-input" className="cursor-pointer font-semibold text-emerald-600 hover:text-emerald-500 px-2 py-0.5 border border-slate-200 bg-white rounded-md">
+                <label htmlFor="template-file-input" className="cursor-pointer font-semibold text-emerald-600 hover:text-emerald-500 px-2 py-0.5 border border-slate-200 bg-white rounded-none-none">
                   <span>Pilih Berkas Template</span>
                   <input
                     id="template-file-input"
@@ -198,7 +198,7 @@ export default function TemplateManagerClient() {
               </div>
               <p className="text-xs text-slate-400">Format .xlsx, maksimum 20 MB</p>
               {selectedFile && (
-                <p className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full inline-block border border-emerald-200">
+                <p className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-none-none inline-block border border-emerald-200">
                   {selectedFile.name} ({(selectedFile.size / 1024).toFixed(0)} KB)
                 </p>
               )}
@@ -209,7 +209,7 @@ export default function TemplateManagerClient() {
             <button
               type="submit"
               disabled={isUploading || !selectedFile}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed shadow-sm transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none-none text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed shadow-sm transition-colors"
             >
               {isUploading ? (
                 <>

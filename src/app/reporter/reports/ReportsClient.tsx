@@ -130,23 +130,23 @@ export default function ReportsClient() {
     switch (status) {
       case "reviewed":
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-none-none text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span className="w-1.5 h-1.5 rounded-none-none bg-emerald-500"></span>
             Telah Diperiksa
           </span>
         );
       case "revision_required":
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-none-none text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
+            <span className="w-1.5 h-1.5 rounded-none-none bg-red-500"></span>
             Perlu Revisi
           </span>
         );
       case "pending_review":
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-none-none text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+            <span className="w-1.5 h-1.5 rounded-none-none bg-amber-500"></span>
             Menunggu Pemeriksaan
           </span>
         );
@@ -166,7 +166,7 @@ export default function ReportsClient() {
       </div>
 
       {/* Instruksi Pelaporan (FR-REP-03) */}
-      <div className="bg-blue-50/60 border border-blue-200 rounded-xl p-5 sm:p-6 text-sm text-blue-900">
+      <div className="bg-blue-50/60 border border-blue-200 rounded-none-none p-5 sm:p-6 text-sm text-blue-900">
         <div className="flex items-start gap-3">
           <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -184,12 +184,12 @@ export default function ReportsClient() {
       </div>
 
       {/* Unduh Template Resmi (FR-REP-04) */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
+      <div className="bg-white rounded-none-none border border-slate-200 shadow-sm p-5 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-sm font-bold text-slate-900">Template Laporan Resmi (.xlsx)</h3>
-              <span className="text-2xs font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span className="text-2xs font-semibold px-2 py-0.5 rounded-none bg-emerald-50 text-emerald-700 border border-emerald-200">
                 Format Standar BBPOM Padang
               </span>
             </div>
@@ -201,7 +201,7 @@ export default function ReportsClient() {
             <button
               type="button"
               onClick={() => setShowColumnGuide(!showColumnGuide)}
-              className="text-xs font-semibold text-slate-600 hover:text-slate-900 px-3 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+              className="text-xs font-semibold text-slate-600 hover:text-slate-900 px-3 py-2 border border-slate-200 rounded-none-none hover:bg-slate-50 transition-colors"
             >
               {showColumnGuide ? "Sembunyikan Format" : "Lihat Format Kolom"}
             </button>
@@ -212,7 +212,7 @@ export default function ReportsClient() {
         {/* Tabel Panduan Kolom Resmi */}
         {showColumnGuide && (
           <div className="border-t border-slate-100 pt-4 animate-in fade-in duration-200">
-            <div className="overflow-x-auto rounded-lg border border-slate-200 text-xs">
+            <div className="overflow-x-auto rounded-none-none border border-slate-200 text-xs">
               <table className="w-full text-center border-collapse">
                 <thead>
                   <tr className="bg-emerald-800 text-white font-semibold">
@@ -273,7 +273,7 @@ export default function ReportsClient() {
 
       {/* Alert Notifikasi Global */}
       {successMessage && (
-        <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-sm text-emerald-800 flex items-center justify-between">
+        <div className="p-4 rounded-none-none bg-emerald-50 border border-emerald-200 text-sm text-emerald-800 flex items-center justify-between">
           <span className="font-medium">{successMessage}</span>
           <button
             onClick={() => setSuccessMessage(null)}
@@ -285,7 +285,7 @@ export default function ReportsClient() {
       )}
 
       {errorMessage && (
-        <div className="p-4 rounded-lg bg-red-50 border border-red-200 text-sm text-red-800 flex items-center justify-between">
+        <div className="p-4 rounded-none-none bg-red-50 border border-red-200 text-sm text-red-800 flex items-center justify-between">
           <span>{errorMessage}</span>
           <button
             onClick={() => setErrorMessage(null)}
@@ -297,13 +297,13 @@ export default function ReportsClient() {
       )}
 
       {/* Form Unggah Laporan (FR-REP-05, FR-REP-06) */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+      <div className="bg-white rounded-none-none border border-slate-200 shadow-sm p-6">
         <h2 className="text-lg font-bold text-slate-900 mb-4 pb-3 border-b border-slate-100">
           Formulir Unggah Laporan Semester
         </h2>
 
         {uploadError && (
-          <div className="mb-4 p-3.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
+          <div className="mb-4 p-3.5 rounded-none-none bg-red-50 border border-red-200 text-xs text-red-700">
             {uploadError}
           </div>
         )}
@@ -319,7 +319,7 @@ export default function ReportsClient() {
                 id="period_year"
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(parseInt(e.target.value, 10))}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                className="w-full px-3 py-2 rounded-none-none border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
               >
                 {[currentYear + 1, currentYear, currentYear - 1, currentYear - 2, currentYear - 3].map((y) => (
                   <option key={y} value={y}>
@@ -338,7 +338,7 @@ export default function ReportsClient() {
                 id="period_semester"
                 value={selectedSemester}
                 onChange={(e) => setSelectedSemester(parseInt(e.target.value, 10))}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                className="w-full px-3 py-2 rounded-none-none border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
               >
                 <option value={1}>Semester 1 (Januari – Juni)</option>
                 <option value={2}>Semester 2 (Juli – Desember)</option>
@@ -348,7 +348,7 @@ export default function ReportsClient() {
 
           {/* Indikator apakah periode ini sudah ada */}
           {existingReportForPeriod && (
-            <div className="p-3.5 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-800 flex items-start gap-2">
+            <div className="p-3.5 rounded-none-none bg-amber-50 border border-amber-200 text-xs text-amber-800 flex items-start gap-2">
               <svg className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
@@ -366,13 +366,13 @@ export default function ReportsClient() {
             <label className="block text-xs font-semibold text-slate-700 mb-1.5">
               Pilih Berkas Laporan Excel (.xlsx) *
             </label>
-            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-xl hover:border-emerald-400 transition-colors bg-slate-50/50">
+            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-none-none hover:border-emerald-400 transition-colors bg-slate-50/50">
               <div className="space-y-2 text-center">
                 <svg className="mx-auto h-10 w-10 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                   <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <div className="flex text-sm text-slate-600 justify-center">
-                  <label htmlFor="report-file-input" className="relative cursor-pointer bg-white rounded-md font-semibold text-emerald-600 hover:text-emerald-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-emerald-500 px-2 py-0.5 border border-slate-200">
+                  <label htmlFor="report-file-input" className="relative cursor-pointer bg-white rounded-none-none font-semibold text-emerald-600 hover:text-emerald-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-emerald-500 px-2 py-0.5 border border-slate-200">
                     <span>Pilih Berkas</span>
                     <input
                       id="report-file-input"
@@ -389,7 +389,7 @@ export default function ReportsClient() {
                   Format resmi .xlsx hingga batas 10 MB
                 </p>
                 {selectedFile && (
-                  <p className="text-xs font-semibold text-emerald-700 bg-emerald-50 py-1 px-3 rounded-full inline-block border border-emerald-200">
+                  <p className="text-xs font-semibold text-emerald-700 bg-emerald-50 py-1 px-3 rounded-none-none inline-block border border-emerald-200">
                     Berkas terpilih: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
                   </p>
                 )}
@@ -401,7 +401,7 @@ export default function ReportsClient() {
             <button
               type="submit"
               disabled={isUploading || !selectedFile}
-              className="inline-flex items-center justify-center px-6 py-2.5 rounded-lg text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors shadow-sm gap-2"
+              className="inline-flex items-center justify-center px-6 py-2.5 rounded-none-none text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors shadow-sm gap-2"
             >
               {isUploading ? (
                 <>
@@ -422,7 +422,7 @@ export default function ReportsClient() {
       </div>
 
       {/* Riwayat Laporan (FR-REP-07, UI-04, UI-08) */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-none-none border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
           <h2 className="text-base font-bold text-slate-900">
             Riwayat Laporan Semester Entitas
@@ -442,7 +442,7 @@ export default function ReportsClient() {
           </div>
         ) : reports.length === 0 ? (
           <div className="p-12 text-center">
-            <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+            <div className="w-12 h-12 rounded-none-none bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>

@@ -92,12 +92,9 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
 
           {/* Hamburger Menu Button */}
           <button
-            onClick={() => {
-              setIsSidebarOpen(!isSidebarOpen);
-              setIsMobileOpen(!isMobileOpen);
-            }}
+            onClick={() => setIsSidebarOpen((prev) => !prev)}
             className="h-12 w-12 flex items-center justify-center hover:bg-[#256c85] transition-colors text-white"
-            title="Toggle Sidebar"
+            title="Buka/Tutup Sidebar"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
@@ -125,20 +122,22 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
       </header>
 
       {/* Main Layout Container */}
-      <div className="flex-1 flex">
+      <div className="flex-1 flex relative">
         {/* Mobile Backdrop */}
-        {isMobileOpen && (
+        {isSidebarOpen && (
           <div
-            className="fixed inset-0 z-30 bg-black/50 lg:hidden"
-            onClick={() => setIsMobileOpen(false)}
+            className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+            onClick={() => setIsSidebarOpen(false)}
           />
         )}
 
         {/* Sidebar (AdminLTE Light Grey Sharp Style) */}
         <aside
-          className={`w-56 bg-[#f9fafb] border-r border-slate-300 flex flex-col shrink-0 transition-all duration-200 z-30 ${
-            isSidebarOpen ? "block" : "hidden lg:block"
-          } ${isMobileOpen ? "fixed inset-y-12 left-0 shadow-xl" : "hidden lg:flex"}`}
+          className={`bg-[#f9fafb] border-r border-slate-300 flex flex-col shrink-0 transition-all duration-200 z-50 ${
+            isSidebarOpen
+              ? "fixed lg:static inset-y-12 lg:inset-auto left-0 w-56 shadow-xl lg:shadow-none block"
+              : "w-0 overflow-hidden border-r-0 hidden"
+          }`}
         >
           {/* User Profile Box */}
           <div className="p-4 flex items-center gap-3 border-b border-slate-200 bg-white">

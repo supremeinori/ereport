@@ -4,7 +4,6 @@ import { Role, ReportStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import AdminShell from "@/components/AdminShell";
 import Link from "next/link";
-import AdminDashboardChart from "./AdminDashboardChart";
 
 export default async function AdminDashboardPage() {
   let user;
@@ -15,8 +14,6 @@ export default async function AdminDashboardPage() {
   }
 
   // Ambil data agregat statistik riil dari database
-  const currentYear = new Date().getFullYear();
-
   const [
     totalReports,
     pendingReports,
@@ -24,7 +21,6 @@ export default async function AdminDashboardPage() {
     revisionReports,
     totalReporters,
     totalQuestions,
-    recentReports,
   ] = await Promise.all([
     prisma.report.count(),
     prisma.report.count({ where: { status: ReportStatus.pending_review } }),
@@ -32,34 +28,7 @@ export default async function AdminDashboardPage() {
     prisma.report.count({ where: { status: ReportStatus.revision_required } }),
     prisma.user.count({ where: { role: Role.reporter } }),
     prisma.question.count(),
-    prisma.report.findMany({
-      take: 12,
-      orderBy: { uploaded_at: "desc" },
-      select: { uploaded_at: true },
-    }),
   ]);
-
-  // Siapkan data bulanan untuk grafik
-  const monthlyCounts = Array(12).fill(0);
-  recentReports.forEach((r) => {
-    const m = new Date(r.uploaded_at).getMonth();
-    monthlyCounts[m] += 1;
-  });
-
-  const monthlyData = [
-    { month: "Januari", count: monthlyCounts[0] || 0 },
-    { month: "Februari", count: monthlyCounts[1] || 0 },
-    { month: "Maret", count: monthlyCounts[2] || 6 },
-    { month: "April", count: monthlyCounts[3] || 6 },
-    { month: "Mei", count: monthlyCounts[4] || 0 },
-    { month: "Juni", count: monthlyCounts[5] || 1 },
-    { month: "Juli", count: monthlyCounts[6] || 3 },
-    { month: "Agustus", count: monthlyCounts[7] || 5 },
-    { month: "September", count: monthlyCounts[8] || 2 },
-    { month: "Oktober", count: monthlyCounts[9] || 8 },
-    { month: "November", count: monthlyCounts[10] || 7 },
-    { month: "Desember", count: monthlyCounts[11] || 1 },
-  ];
 
   return (
     <AdminShell user={user}>
@@ -228,9 +197,6 @@ export default async function AdminDashboardPage() {
             </Link>
           </div>
         </div>
-
-        {/* Grafik Pelaporan Sesuai Screenshot AdminLTE */}
-        <AdminDashboardChart monthlyData={monthlyData} currentYear={currentYear} />
       </div>
     </AdminShell>
   );

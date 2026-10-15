@@ -114,7 +114,7 @@ export default function BackupsAdminClient() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="bg-white rounded-none-none border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-slate-900 tracking-tight">
             Pemantauan Cadangan Google Drive
@@ -125,10 +125,10 @@ export default function BackupsAdminClient() {
         </div>
 
         {/* Filter Tab */}
-        <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-lg text-xs font-semibold">
+        <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-none-none text-xs font-semibold">
           <button
             onClick={() => setFilterStatus("all")}
-            className={`px-3 py-1.5 rounded-md transition-colors ${
+            className={`px-3 py-1.5 rounded-none-none transition-colors ${
               filterStatus === "all"
                 ? "bg-white text-slate-900 shadow-xs"
                 : "text-slate-600 hover:text-slate-900"
@@ -138,7 +138,7 @@ export default function BackupsAdminClient() {
           </button>
           <button
             onClick={() => setFilterStatus("success")}
-            className={`px-3 py-1.5 rounded-md transition-colors ${
+            className={`px-3 py-1.5 rounded-none-none transition-colors ${
               filterStatus === "success"
                 ? "bg-white text-emerald-700 shadow-xs"
                 : "text-slate-600 hover:text-slate-900"
@@ -148,7 +148,7 @@ export default function BackupsAdminClient() {
           </button>
           <button
             onClick={() => setFilterStatus("pending")}
-            className={`px-3 py-1.5 rounded-md transition-colors ${
+            className={`px-3 py-1.5 rounded-none-none transition-colors ${
               filterStatus === "pending"
                 ? "bg-white text-amber-700 shadow-xs"
                 : "text-slate-600 hover:text-slate-900"
@@ -158,7 +158,7 @@ export default function BackupsAdminClient() {
           </button>
           <button
             onClick={() => setFilterStatus("failed")}
-            className={`px-3 py-1.5 rounded-md transition-colors ${
+            className={`px-3 py-1.5 rounded-none-none transition-colors ${
               filterStatus === "failed"
                 ? "bg-white text-rose-700 shadow-xs"
                 : "text-slate-600 hover:text-slate-900"
@@ -171,7 +171,7 @@ export default function BackupsAdminClient() {
 
       {/* Banner Status Konfigurasi Google Drive (BKP-04) */}
       <div
-        className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+        className={`p-4 rounded-none-none border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
           data?.is_configured
             ? "bg-emerald-50 border-emerald-200 text-emerald-900"
             : "bg-blue-50 border-blue-200 text-blue-900"
@@ -179,7 +179,7 @@ export default function BackupsAdminClient() {
       >
         <div className="flex items-center gap-3">
           <span
-            className={`w-3 h-3 rounded-full shrink-0 ${
+            className={`w-3 h-3 rounded-none-none shrink-0 ${
               data?.is_configured ? "bg-emerald-500 animate-pulse" : "bg-blue-400"
             }`}
           />
@@ -200,7 +200,7 @@ export default function BackupsAdminClient() {
         <button
           onClick={fetchBackups}
           disabled={loading}
-          className="self-start sm:self-auto px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors shrink-0"
+          className="self-start sm:self-auto px-3 py-1.5 rounded-none-none text-xs font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors shrink-0"
         >
           {loading ? "Memuat..." : "Segarkan"}
         </button>
@@ -208,7 +208,7 @@ export default function BackupsAdminClient() {
 
       {feedback && (
         <div
-          className={`p-4 rounded-xl text-sm font-medium flex items-center justify-between ${
+          className={`p-4 rounded-none-none text-sm font-medium flex items-center justify-between ${
             feedback.type === "success"
               ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
               : "bg-rose-50 text-rose-800 border border-rose-200"
@@ -226,7 +226,7 @@ export default function BackupsAdminClient() {
 
       {/* Metrik Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <div className="bg-white p-5 rounded-none-none border border-slate-200 shadow-sm">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
             Total Arsip Cadangan
           </p>
@@ -234,7 +234,7 @@ export default function BackupsAdminClient() {
             {data?.summary.total ?? 0}
           </p>
         </div>
-        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <div className="bg-white p-5 rounded-none-none border border-slate-200 shadow-sm">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
             Berhasil Dicadangkan
           </p>
@@ -242,7 +242,7 @@ export default function BackupsAdminClient() {
             {data?.summary.success ?? 0}
           </p>
         </div>
-        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <div className="bg-white p-5 rounded-none-none border border-slate-200 shadow-sm">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
             Menunggu Antrean
           </p>
@@ -250,7 +250,7 @@ export default function BackupsAdminClient() {
             {data?.summary.pending ?? 0}
           </p>
         </div>
-        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <div className="bg-white p-5 rounded-none-none border border-slate-200 shadow-sm">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
             Perlu Tindak Lanjut
           </p>
@@ -261,7 +261,7 @@ export default function BackupsAdminClient() {
       </div>
 
       {/* Tabel Riwayat Backup */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden p-6">
+      <div className="bg-white rounded-none-none border border-slate-200 shadow-sm overflow-hidden p-6">
         {loading ? (
           <div className="py-12 text-center text-slate-400 text-sm">
             Memuat riwayat arsip cadangan...
@@ -305,15 +305,15 @@ export default function BackupsAdminClient() {
                     </td>
                     <td className="py-3 px-3">
                       {bkp.backup_status === "success" ? (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-none text-xs font-semibold bg-emerald-100 text-emerald-800">
                           Tersimpan ✓
                         </span>
                       ) : bkp.backup_status === "pending" ? (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-100 text-amber-800">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-none text-xs font-semibold bg-amber-100 text-amber-800">
                           Dalam Antrean
                         </span>
                       ) : (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-rose-100 text-rose-800">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-none text-xs font-semibold bg-rose-100 text-rose-800">
                           Gagal
                         </span>
                       )}
@@ -341,7 +341,7 @@ export default function BackupsAdminClient() {
                         <button
                           onClick={() => handleRetry(bkp.id)}
                           disabled={retryingId === bkp.id}
-                          className="px-3 py-1 text-xs font-semibold rounded bg-slate-100 hover:bg-slate-200 text-slate-800 transition-colors disabled:opacity-50"
+                          className="px-3 py-1 text-xs font-semibold rounded-none bg-slate-100 hover:bg-slate-200 text-slate-800 transition-colors disabled:opacity-50"
                         >
                           {retryingId === bkp.id ? "Memproses..." : "Coba Ulang"}
                         </button>

@@ -48,11 +48,11 @@ export default function DownloadButton({
     }
   };
 
-  const baseClass = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseClass = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-none text-xs font-bold uppercase tracking-wider transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
   const variantClass =
     variant === "primary"
-      ? "text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm"
-      : "text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200";
+      ? "text-white bg-[#00a65a] hover:bg-[#008d4c] shadow-xs"
+      : "text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300";
 
   return (
     <div className="inline-flex flex-col items-start gap-1">
