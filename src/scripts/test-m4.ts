@@ -206,6 +206,37 @@ async function testTemplateMimeValidation() {
   }
 }
 
+/* ─── Official Template Generation & Structure Test ───────────── */
+
+async function testOfficialTemplateGeneration() {
+  const { generateOfficialTemplateBuffer, TEMPLATE_COLUMNS_SPEC } = await import("../lib/excel-template");
+
+  // 1. Verifikasi spesifikasi 18 kolom
+  if (TEMPLATE_COLUMNS_SPEC.length === 18) {
+    pass("FR-REP-04: Spesifikasi format memuat tepat 18 kolom terstandarisasi");
+  } else {
+    fail("FR-REP-04: Jumlah kolom template", `Ditemukan ${TEMPLATE_COLUMNS_SPEC.length} kolom, diharapkan 18`);
+  }
+
+  // 2. Verifikasi pemisahan Pemasukan dan Pengeluaran
+  const pemasukanCols = TEMPLATE_COLUMNS_SPEC.filter((c) => c.group === "JUMLAH PEMASUKAN");
+  const pengeluaranCols = TEMPLATE_COLUMNS_SPEC.filter((c) => c.group === "JUMLAH PENGELUARAN");
+
+  if (pemasukanCols.length === 2 && pengeluaranCols.length === 9) {
+    pass("FR-REP-04: Subkolom Pemasukan (IOT, Lainnya) & Pengeluaran (9 kategori) sesuai format resmi");
+  } else {
+    fail("FR-REP-04: Struktur subkolom", `Pemasukan: ${pemasukanCols.length}, Pengeluaran: ${pengeluaranCols.length}`);
+  }
+
+  // 3. Verifikasi Buffer valid .xlsx (Magic Bytes PK\x03\x04)
+  const buffer = await generateOfficialTemplateBuffer();
+  if (buffer.length > 5000 && buffer[0] === 0x50 && buffer[1] === 0x4b) {
+    pass("FR-REP-04: Berkas binary Excel .xlsx berhasil di-generate secara utuh dengan magic bytes ZIP valid");
+  } else {
+    fail("FR-REP-04: Generate buffer template", "Buffer template kosong atau magic bytes tidak valid");
+  }
+}
+
 /* ─── MemoryStorageProvider basic operations ─────────────────────── */
 
 async function testMemoryStorageOps() {
@@ -259,6 +290,9 @@ async function main() {
 
   console.log("\n【5】 Validasi Template Excel");
   await testTemplateMimeValidation();
+
+  console.log("\n【6】 Struktur Template Resmi Excel BBPOM Padang (18 Kolom)");
+  await testOfficialTemplateGeneration();
 
   console.log("\n══════════════════════════════════════════════════════");
   if (process.exitCode === 1) {

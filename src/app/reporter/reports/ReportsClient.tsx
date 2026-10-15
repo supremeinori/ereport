@@ -27,6 +27,7 @@ export default function ReportsClient() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [showColumnGuide, setShowColumnGuide] = useState(false);
 
   const fetchReports = useCallback(async () => {
     setIsLoading(true);
@@ -183,14 +184,91 @@ export default function ReportsClient() {
       </div>
 
       {/* Unduh Template Resmi (FR-REP-04) */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h3 className="text-sm font-bold text-slate-900">Template Laporan Resmi</h3>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Unduh template Excel resmi yang disediakan oleh Administrator PBOBA. Pastikan laporan diisi sesuai format pada template.
-          </p>
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-bold text-slate-900">Template Laporan Resmi (.xlsx)</h3>
+              <span className="text-2xs font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                Format Standar BBPOM Padang
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Unduh template Excel resmi. Laporan mencakup 18 kolom terstandarisasi dengan formula perhitungan otomatis.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <button
+              type="button"
+              onClick={() => setShowColumnGuide(!showColumnGuide)}
+              className="text-xs font-semibold text-slate-600 hover:text-slate-900 px-3 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+            >
+              {showColumnGuide ? "Sembunyikan Format" : "Lihat Format Kolom"}
+            </button>
+            <TemplateDownloadButton label="Unduh Template (.xlsx)" variant="primary" />
+          </div>
         </div>
-        <TemplateDownloadButton label="Unduh Template Resmi (.xlsx)" variant="secondary" />
+
+        {/* Tabel Panduan Kolom Resmi */}
+        {showColumnGuide && (
+          <div className="border-t border-slate-100 pt-4 animate-in fade-in duration-200">
+            <div className="overflow-x-auto rounded-lg border border-slate-200 text-xs">
+              <table className="w-full text-center border-collapse">
+                <thead>
+                  <tr className="bg-emerald-800 text-white font-semibold">
+                    <th rowSpan={2} className="border border-emerald-700 px-3 py-2">NO</th>
+                    <th rowSpan={2} className="border border-emerald-700 px-3 py-2">NIE</th>
+                    <th rowSpan={2} className="border border-emerald-700 px-4 py-2">NAMA PRODUK</th>
+                    <th rowSpan={2} className="border border-emerald-700 px-3 py-2">KEMASAN</th>
+                    <th rowSpan={2} className="border border-emerald-700 px-3 py-2">STOK AWAL</th>
+                    <th colSpan={2} className="border border-emerald-700 px-3 py-1 bg-emerald-700">JUMLAH PEMASUKAN</th>
+                    <th colSpan={9} className="border border-emerald-700 px-3 py-1 bg-emerald-700">JUMLAH PENGELUARAN</th>
+                    <th rowSpan={2} className="border border-emerald-700 px-3 py-2">Sisa Stok</th>
+                    <th rowSpan={2} className="border border-emerald-700 px-3 py-2">HNA</th>
+                  </tr>
+                  <tr className="bg-emerald-900 text-emerald-100 text-2xs font-medium">
+                    <th className="border border-emerald-700 px-2.5 py-1.5">IOT</th>
+                    <th className="border border-emerald-700 px-2.5 py-1.5">Lainnya</th>
+                    <th className="border border-emerald-700 px-2 py-1.5">Pedagang eceran</th>
+                    <th className="border border-emerald-700 px-2 py-1.5">RS</th>
+                    <th className="border border-emerald-700 px-2 py-1.5">Apotek</th>
+                    <th className="border border-emerald-700 px-2 py-1.5">Sarana Pemerintah</th>
+                    <th className="border border-emerald-700 px-2 py-1.5">Puskesmas</th>
+                    <th className="border border-emerald-700 px-2 py-1.5">Klinik</th>
+                    <th className="border border-emerald-700 px-2 py-1.5">Toko Obat</th>
+                    <th className="border border-emerald-700 px-2 py-1.5">Retur</th>
+                    <th className="border border-emerald-700 px-2 py-1.5">Lainnya</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-slate-50 text-slate-500 font-mono text-2xs">
+                  <tr>
+                    <td className="border border-slate-200 px-2 py-1.5 text-slate-400">1..n</td>
+                    <td className="border border-slate-200 px-2 py-1.5">TR...</td>
+                    <td className="border border-slate-200 px-3 py-1.5 text-left">Nama Produk</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-left">Kemasan</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right font-bold text-emerald-700 bg-emerald-50/50">Otomatis</td>
+                    <td className="border border-slate-200 px-2 py-1.5 text-right">Rp...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p className="text-2xs text-slate-500 mt-2">
+              💡 Catatan: Kolom <strong>Sisa Stok</strong> dihitung otomatis oleh Excel dari: <code>Stok Awal + Pemasukan - Pengeluaran</code>. Bagian bawah tabel wajib ditandatangani oleh <strong>Penanggung Jawab PBOT</strong> beserta nomor registrasi tenaga kefarmasian (SIPTTK / STRA).
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Alert Notifikasi Global */}

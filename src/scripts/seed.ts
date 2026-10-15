@@ -108,6 +108,37 @@ async function main() {
     },
   });
 
+  // 3. Seeding Template Excel Resmi BBPOM Padang
+  console.log("\n3. Menyimpan & Menyiapkan Berkas Template Excel Resmi...");
+  try {
+    const fs = await import("fs");
+    const path = await import("path");
+    const { generateOfficialTemplateBuffer, OFFICIAL_TEMPLATE_FILENAME } = await import("../lib/excel-template");
+    const { getStorageProvider } = await import("../lib/storage");
+
+    const templateBuffer = await generateOfficialTemplateBuffer();
+    
+    // Simpan ke public/templates
+    const pubDir = path.join(process.cwd(), "public", "templates");
+    if (!fs.existsSync(pubDir)) fs.mkdirSync(pubDir, { recursive: true });
+    fs.writeFileSync(path.join(pubDir, OFFICIAL_TEMPLATE_FILENAME), templateBuffer);
+
+    // Unggah ke Storage Provider jika tersedia
+    try {
+      const storage = getStorageProvider();
+      await storage.uploadFile(
+        "templates/template_laporan_pboba.xlsx",
+        templateBuffer,
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      );
+      console.log("✅ Berkas template resmi berhasil diunggah ke storage provider.");
+    } catch (sErr) {
+      console.log("ℹ️ Berkas template resmi disimpan secara lokal (public/templates).");
+    }
+  } catch (tErr) {
+    console.warn("⚠️ Peringatan saat menyiapkan template:", tErr);
+  }
+
   console.log("\n==========================================");
   console.log(" SEEDING DATABASE BERHASIL SELESAI!       ");
   console.log("==========================================");

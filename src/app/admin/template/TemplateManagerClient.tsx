@@ -83,11 +83,86 @@ export default function TemplateManagerClient() {
 
       {/* Download Current Template */}
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-        <h2 className="text-base font-bold text-slate-900 mb-1">Template Aktif Saat Ini</h2>
-        <p className="text-sm text-slate-600 mb-5">
-          Pratinjau dan unduh versi template resmi yang sedang aktif digunakan oleh pelapor.
-        </p>
-        <TemplateDownloadButton label="Unduh Template Aktif" variant="secondary" />
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+          <div>
+            <h2 className="text-base font-bold text-slate-900">Template Aktif Saat Ini</h2>
+            <p className="text-sm text-slate-600 mt-0.5">
+              Template Excel resmi (.xlsx) berstandar BBPOM di Padang dengan formula otomatis Sisa Stok.
+            </p>
+          </div>
+          <TemplateDownloadButton label="Unduh Template Aktif (.xlsx)" variant="primary" />
+        </div>
+
+        {/* Struktur Kolom Template Resmi */}
+        <div className="mt-5 border-t border-slate-100 pt-5">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              Struktur Format Standar (18 Kolom)
+            </h3>
+            <span className="text-2xs font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+              Format Terverifikasi
+            </span>
+          </div>
+
+          <div className="overflow-x-auto rounded-lg border border-slate-200 text-xs">
+            <table className="w-full text-center border-collapse">
+              <thead>
+                <tr className="bg-emerald-800 text-white font-semibold">
+                  <th rowSpan={2} className="border border-emerald-700 px-3 py-2">NO</th>
+                  <th rowSpan={2} className="border border-emerald-700 px-3 py-2">NIE</th>
+                  <th rowSpan={2} className="border border-emerald-700 px-4 py-2">NAMA PRODUK</th>
+                  <th rowSpan={2} className="border border-emerald-700 px-3 py-2">KEMASAN</th>
+                  <th rowSpan={2} className="border border-emerald-700 px-3 py-2">STOK AWAL</th>
+                  <th colSpan={2} className="border border-emerald-700 px-3 py-1 bg-emerald-700">JUMLAH PEMASUKAN</th>
+                  <th colSpan={9} className="border border-emerald-700 px-3 py-1 bg-emerald-700">JUMLAH PENGELUARAN</th>
+                  <th rowSpan={2} className="border border-emerald-700 px-3 py-2">Sisa Stok</th>
+                  <th rowSpan={2} className="border border-emerald-700 px-3 py-2">HNA</th>
+                </tr>
+                <tr className="bg-emerald-900 text-emerald-100 text-2xs font-medium">
+                  {/* Pemasukan */}
+                  <th className="border border-emerald-700 px-2.5 py-1.5">IOT</th>
+                  <th className="border border-emerald-700 px-2.5 py-1.5">Lainnya</th>
+                  {/* Pengeluaran */}
+                  <th className="border border-emerald-700 px-2 py-1.5">Pedagang eceran</th>
+                  <th className="border border-emerald-700 px-2 py-1.5">RS</th>
+                  <th className="border border-emerald-700 px-2 py-1.5">Apotek</th>
+                  <th className="border border-emerald-700 px-2 py-1.5">Sarana Pemerintah</th>
+                  <th className="border border-emerald-700 px-2 py-1.5">Puskesmas</th>
+                  <th className="border border-emerald-700 px-2 py-1.5">Klinik</th>
+                  <th className="border border-emerald-700 px-2 py-1.5">Toko Obat</th>
+                  <th className="border border-emerald-700 px-2 py-1.5">Retur</th>
+                  <th className="border border-emerald-700 px-2 py-1.5">Lainnya</th>
+                </tr>
+              </thead>
+              <tbody className="bg-slate-50 text-slate-500 font-mono text-2xs">
+                <tr>
+                  <td className="border border-slate-200 px-2 py-1.5 text-slate-400">1..30</td>
+                  <td className="border border-slate-200 px-2 py-1.5">TR...</td>
+                  <td className="border border-slate-200 px-3 py-1.5 text-left">Nama Obat Herbal</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-left">Dus, botol</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right font-bold text-emerald-700 bg-emerald-50/50">=E+Pemasukan-Pengeluaran</td>
+                  <td className="border border-slate-200 px-2 py-1.5 text-right">Rp...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="text-2xs text-slate-500 mt-2">
+            * Kolom <strong>Sisa Stok</strong> dihitung otomatis oleh formula Excel. Bagian bawah tabel dilengkapi kolom tanda tangan resmi Penanggung Jawab PBOT & nomor SIPTTK/STRA.
+          </p>
+        </div>
       </div>
 
       {/* Upload New Template */}
