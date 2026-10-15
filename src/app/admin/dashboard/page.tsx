@@ -58,8 +58,8 @@ export default async function AdminDashboardPage() {
 
         {/* 6 Kotak Statistik Tegas AdminLTE (Small Boxes) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* 1. Aqua/Cyan: Total Laporan */}
-          <div className="bg-[#00c0ef] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+          {/* 1. Jade Green: Total Laporan */}
+          <div className="bg-[#00BB77] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="p-4 relative z-10">
               <div className="text-4xl font-extrabold tracking-tight">{totalReports}</div>
               <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
@@ -82,8 +82,8 @@ export default async function AdminDashboardPage() {
             </Link>
           </div>
 
-          {/* 2. Dark Blue: Menunggu Review */}
-          <div className="bg-[#0073b7] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+          {/* 2. Toska Jade: Menunggu Review */}
+          <div className="bg-[#00a86b] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="p-4 relative z-10">
               <div className="text-4xl font-extrabold tracking-tight">{pendingReports}</div>
               <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
@@ -105,8 +105,8 @@ export default async function AdminDashboardPage() {
             </Link>
           </div>
 
-          {/* 3. Orange: Laporan Disetujui */}
-          <div className="bg-[#f39c12] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+          {/* 3. Deep Jade: Laporan Disetujui */}
+          <div className="bg-[#00925d] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="p-4 relative z-10">
               <div className="text-4xl font-extrabold tracking-tight">{approvedReports}</div>
               <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
@@ -128,8 +128,8 @@ export default async function AdminDashboardPage() {
             </Link>
           </div>
 
-          {/* 4. Green: Entitas PBOT Terdaftar */}
-          <div className="bg-[#00a65a] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+          {/* 4. Dark Jade: Entitas PBOT Terdaftar */}
+          <div className="bg-[#007f50] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="p-4 relative z-10">
               <div className="text-4xl font-extrabold tracking-tight">{totalReporters}</div>
               <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
@@ -151,8 +151,8 @@ export default async function AdminDashboardPage() {
             </Link>
           </div>
 
-          {/* 5. Purple: Layanan Tanya Jawab */}
-          <div className="bg-[#605ca8] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+          {/* 5. Medium Jade: Layanan Tanya Jawab */}
+          <div className="bg-[#00a368] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="p-4 relative z-10">
               <div className="text-4xl font-extrabold tracking-tight">{totalQuestions}</div>
               <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
@@ -174,8 +174,8 @@ export default async function AdminDashboardPage() {
             </Link>
           </div>
 
-          {/* 6. Crimson Red: Perlu Revisi */}
-          <div className="bg-[#dd4b39] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+          {/* 6. Forest Jade: Perlu Perbaikan */}
+          <div className="bg-[#006e45] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="p-4 relative z-10">
               <div className="text-4xl font-extrabold tracking-tight">{revisionReports}</div>
               <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">

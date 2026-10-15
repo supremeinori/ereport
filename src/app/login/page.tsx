@@ -49,13 +49,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-[#08333c]">
-      {/* Box Login Putih Persegi Tegas (Square / rounded-none) */}
-      <div className="w-full max-w-[360px] bg-white rounded-none shadow-2xl p-8 border-t-4 border-[#348fe2]">
-        {/* Logo Resmi Bersih Tanpa Gembok/Headset */}
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#062e24]">
+      {/* Box Login Putih Persegi Tegas (Square / rounded-none) dengan aksen Hijau Toska #00BB77 */}
+      <div className="w-full max-w-[360px] bg-white rounded-none shadow-2xl p-8 border-t-4 border-[#00BB77]">
+        {/* Logo Resmi Bersih */}
         <div className="text-center mb-6">
-          <div className="w-20 h-20 mx-auto mb-3 bg-[#08333c] text-white flex flex-col items-center justify-center rounded-none shadow-sm border border-[#0c4a55]">
-            <span className="text-xl font-black tracking-widest text-emerald-400">PBOBA</span>
+          <div className="w-20 h-20 mx-auto mb-3 bg-[#062e24] text-white flex flex-col items-center justify-center rounded-none shadow-sm border border-[#00BB77]">
+            <span className="text-xl font-black tracking-widest text-[#00BB77]">PBOBA</span>
           </div>
           <h1 className="text-base font-extrabold tracking-wider text-slate-800 uppercase">
             E-REPORT PBOBA
@@ -93,7 +93,7 @@ export default function LoginPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               disabled={isLoading}
-              className="w-full px-3 py-2.5 bg-[#edf2f7] border border-slate-300 rounded-none text-slate-800 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-[#348fe2] pr-10"
+              className="w-full px-3 py-2.5 bg-[#edf2f7] border border-slate-300 rounded-none text-slate-800 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-[#00BB77] pr-10"
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -117,15 +117,15 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
-              className="w-full px-3 py-2.5 bg-[#edf2f7] border border-slate-300 rounded-none text-slate-800 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-[#348fe2] pr-10"
+              className="w-full px-3 py-2.5 bg-[#edf2f7] border border-slate-300 rounded-none text-slate-800 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-[#00BB77] pr-10"
             />
           </div>
 
-          {/* Tombol MASUK (Biru Tegas, Tanpa Logo Gembok) */}
+          {/* Tombol MASUK (Hijau Toska Tegas #00BB77) */}
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full flex items-center justify-center py-2.5 px-4 bg-[#348fe2] hover:bg-[#287fc9] text-white font-bold text-xs uppercase tracking-wider rounded-none shadow-sm transition-colors disabled:bg-slate-400 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center py-2.5 px-4 bg-[#00BB77] hover:bg-[#009e65] text-white font-bold text-xs uppercase tracking-wider rounded-none shadow-sm transition-colors disabled:bg-slate-400 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <span className="inline-flex items-center gap-2">

@@ -57,7 +57,8 @@ export default async function ReporterDashboardPage() {
         {/* 4 Kotak Statistik Tegas AdminLTE (Small Boxes) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* 1. Aqua/Cyan: Total Laporan Terunggah */}
-          <div className="bg-[#00c0ef] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+          {/* 1. Jade Green: Total Laporan */}
+          <div className="bg-[#00BB77] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="p-4 relative z-10">
               <div className="text-4xl font-extrabold tracking-tight">{myTotalReports}</div>
               <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
@@ -78,8 +79,8 @@ export default async function ReporterDashboardPage() {
             </Link>
           </div>
 
-          {/* 2. Dark Blue: Menunggu Review */}
-          <div className="bg-[#0073b7] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+          {/* 2. Toska Jade: Menunggu Review */}
+          <div className="bg-[#00a86b] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="p-4 relative z-10">
               <div className="text-4xl font-extrabold tracking-tight">{myPendingReports}</div>
               <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
@@ -100,8 +101,8 @@ export default async function ReporterDashboardPage() {
             </Link>
           </div>
 
-          {/* 3. Green: Laporan Disetujui */}
-          <div className="bg-[#00a65a] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+          {/* 3. Deep Jade: Laporan Disetujui */}
+          <div className="bg-[#00925d] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="p-4 relative z-10">
               <div className="text-4xl font-extrabold tracking-tight">{myApprovedReports}</div>
               <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
@@ -122,8 +123,8 @@ export default async function ReporterDashboardPage() {
             </Link>
           </div>
 
-          {/* 4. Crimson Red: Perlu Revisi */}
-          <div className="bg-[#dd4b39] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
+          {/* 4. Dark Jade: Perlu Revisi */}
+          <div className="bg-[#007f50] text-white rounded-none shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="p-4 relative z-10">
               <div className="text-4xl font-extrabold tracking-tight">{myRevisionReports}</div>
               <p className="text-xs font-semibold uppercase tracking-wider mt-1 opacity-90">
@@ -149,7 +150,7 @@ export default async function ReporterDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
           <div className="bg-white border border-slate-300 rounded-none shadow-xs p-6">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 bg-[#2d7d9a] text-white flex items-center justify-center font-bold rounded-none">
+              <div className="w-8 h-8 bg-[#00BB77] text-white flex items-center justify-center font-bold rounded-none">
                 📥
               </div>
               <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
@@ -161,7 +162,7 @@ export default async function ReporterDashboardPage() {
             </p>
             <Link
               href="/reporter/reports"
-              className="inline-flex items-center gap-2 bg-[#2d7d9a] hover:bg-[#236881] text-white text-xs font-bold py-2.5 px-4 rounded-none uppercase tracking-wider transition-colors"
+              className="inline-flex items-center gap-2 bg-[#00BB77] hover:bg-[#009e65] text-white text-xs font-bold py-2.5 px-4 rounded-none uppercase tracking-wider transition-colors"
             >
               <span>Buka Formulir Pelaporan</span>
               <span>➔</span>
@@ -170,7 +171,7 @@ export default async function ReporterDashboardPage() {
 
           <div className="bg-white border border-slate-300 rounded-none shadow-xs p-6">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 bg-[#605ca8] text-white flex items-center justify-center font-bold rounded-none">
+              <div className="w-8 h-8 bg-[#00a86b] text-white flex items-center justify-center font-bold rounded-none">
                 💬
               </div>
               <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
@@ -182,7 +183,7 @@ export default async function ReporterDashboardPage() {
             </p>
             <Link
               href="/reporter/questions"
-              className="inline-flex items-center gap-2 bg-[#605ca8] hover:bg-[#504c92] text-white text-xs font-bold py-2.5 px-4 rounded-none uppercase tracking-wider transition-colors"
+              className="inline-flex items-center gap-2 bg-[#00a86b] hover:bg-[#00925d] text-white text-xs font-bold py-2.5 px-4 rounded-none uppercase tracking-wider transition-colors"
             >
               <span>Buka Layanan Tanya Jawab</span>
               <span>➔</span>

@@ -324,10 +324,10 @@ export default function ReportsAdminClient() {
         </div>
       </div>
 
-      {/* Kartu Ringkasan Kepatuhan (4 Kotak Tegas Persegi) */}
+      {/* Kartu Ringkasan Kepatuhan (4 Kotak Tegas Persegi - Hijau Toska) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Sudah Lapor */}
-        <div className="bg-[#00c0ef] text-white p-4 rounded-none shadow-xs">
+        <div className="bg-[#00BB77] text-white p-4 rounded-none shadow-xs">
           <div className="text-3xl font-extrabold">{data?.summary.submitted_count ?? 0}</div>
           <p className="text-xs font-bold uppercase tracking-wider mt-1 opacity-90">
             Laporan Masuk
@@ -335,7 +335,7 @@ export default function ReportsAdminClient() {
         </div>
 
         {/* Sudah Diperiksa */}
-        <div className="bg-[#00a65a] text-white p-4 rounded-none shadow-xs">
+        <div className="bg-[#00a86b] text-white p-4 rounded-none shadow-xs">
           <div className="text-3xl font-extrabold">{data?.summary.reviewed_count ?? 0}</div>
           <p className="text-xs font-bold uppercase tracking-wider mt-1 opacity-90">
             Sudah Diperiksa
@@ -343,7 +343,7 @@ export default function ReportsAdminClient() {
         </div>
 
         {/* Menunggu Review */}
-        <div className="bg-[#0073b7] text-white p-4 rounded-none shadow-xs">
+        <div className="bg-[#00925d] text-white p-4 rounded-none shadow-xs">
           <div className="text-3xl font-extrabold">{data?.summary.pending_review_count ?? 0}</div>
           <p className="text-xs font-bold uppercase tracking-wider mt-1 opacity-90">
             Menunggu Pemeriksaan
@@ -351,7 +351,7 @@ export default function ReportsAdminClient() {
         </div>
 
         {/* Belum Lapor */}
-        <div className="bg-[#dd4b39] text-white p-4 rounded-none shadow-xs">
+        <div className="bg-[#007f50] text-white p-4 rounded-none shadow-xs">
           <div className="text-3xl font-extrabold">{data?.summary.unsubmitted_count ?? 0}</div>
           <p className="text-xs font-bold uppercase tracking-wider mt-1 opacity-90">
             Belum Menyerahkan
@@ -366,7 +366,7 @@ export default function ReportsAdminClient() {
             onClick={() => setActiveTab("submitted")}
             className={`px-5 py-3 text-xs font-bold uppercase tracking-wider transition-colors border-b-2 rounded-none flex items-center gap-2 ${
               activeTab === "submitted"
-                ? "border-[#2d7d9a] text-[#2d7d9a] bg-white font-black"
+                ? "border-[#00BB77] text-[#008f5d] bg-white font-black"
                 : "border-transparent text-slate-600 hover:text-slate-900"
             }`}
           >
@@ -424,17 +424,17 @@ export default function ReportsAdminClient() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
-                    <tr className="bg-[#2d7d9a] text-white uppercase text-2xs font-bold">
-                      <th className="py-2.5 px-3 border border-[#236881]">Entitas PBOT (Klik untuk Buka)</th>
-                      <th className="py-2.5 px-3 border border-[#236881]">ID Pelapor</th>
-                      <th className="py-2.5 px-3 border border-[#236881]">Waktu Unggah</th>
-                      <th className="py-2.5 px-3 border border-[#236881]">Status</th>
-                      <th className="py-2.5 px-3 border border-[#236881] text-right">Aksi Pemeriksaan</th>
+                    <tr className="bg-[#008f5d] text-white uppercase text-2xs font-bold">
+                      <th className="py-2.5 px-3 border border-[#007f50]">Entitas PBOT (Klik untuk Buka)</th>
+                      <th className="py-2.5 px-3 border border-[#007f50]">ID Pelapor</th>
+                      <th className="py-2.5 px-3 border border-[#007f50]">Waktu Unggah</th>
+                      <th className="py-2.5 px-3 border border-[#007f50]">Status</th>
+                      <th className="py-2.5 px-3 border border-[#007f50] text-right">Aksi Pemeriksaan</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
                     {filteredReports.map((rep) => (
-                      <tr key={rep.id} className="hover:bg-cyan-50/50 transition-colors">
+                      <tr key={rep.id} className="hover:bg-emerald-50/50 transition-colors">
                         {/* Klik Nama Entitas langsung membuka isi spreadsheet di sistem */}
                         <td className="py-2.5 px-3 border border-slate-200">
                           <button
@@ -443,10 +443,10 @@ export default function ReportsAdminClient() {
                             className="text-left group cursor-pointer"
                             title="Klik untuk membuka isi laporan di dalam sistem"
                           >
-                            <p className="font-bold text-[#0c4a55] group-hover:underline text-xs flex items-center gap-1.5">
+                            <p className="font-bold text-[#008f5d] group-hover:underline text-xs flex items-center gap-1.5">
                               <span>📄</span>
                               <span>{rep.user.name}</span>
-                              <span className="text-3xs bg-cyan-100 text-cyan-800 px-1 py-0.2 rounded-none font-bold uppercase">
+                              <span className="text-3xs bg-emerald-100 text-emerald-800 px-1 py-0.2 rounded-none font-bold uppercase">
                                 Buka
                               </span>
                             </p>
@@ -478,7 +478,7 @@ export default function ReportsAdminClient() {
                           <button
                             type="button"
                             onClick={() => handleOpenPreview(rep.id)}
-                            className="bg-[#2d7d9a] hover:bg-[#236881] text-white px-2.5 py-1 text-2xs font-bold uppercase rounded-none transition-colors"
+                            className="bg-[#00BB77] hover:bg-[#009e65] text-white px-2.5 py-1 text-2xs font-bold uppercase rounded-none transition-colors shadow-xs"
                           >
                             Buka Laporan
                           </button>
@@ -487,7 +487,7 @@ export default function ReportsAdminClient() {
                             <button
                               type="button"
                               onClick={() => setReviewingId(rep.id)}
-                              className="bg-[#00a65a] hover:bg-[#008d4c] text-white px-2.5 py-1 text-2xs font-bold uppercase rounded-none transition-colors"
+                              className="bg-[#008f5d] hover:bg-[#007f50] text-white px-2.5 py-1 text-2xs font-bold uppercase rounded-none transition-colors shadow-xs"
                             >
                               Tandai Selesai
                             </button>
@@ -565,11 +565,11 @@ export default function ReportsAdminClient() {
       {/* ========================================================================= */}
       {previewReportId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2 sm:p-4 animate-in fade-in duration-150">
-          <div className="bg-white rounded-none border-2 border-[#0c4a55] shadow-2xl w-full max-w-6xl max-h-[92vh] flex flex-col overflow-hidden">
+          <div className="bg-white rounded-none border-2 border-[#008f5d] shadow-2xl w-full max-w-6xl max-h-[92vh] flex flex-col overflow-hidden">
             {/* Header Modal */}
-            <div className="bg-[#0c4a55] text-white px-5 py-3 flex items-center justify-between shrink-0">
+            <div className="bg-[#008f5d] text-white px-5 py-3 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-emerald-500 text-slate-900 font-black text-xs flex items-center justify-center rounded-none">
+                <div className="w-8 h-8 bg-[#00BB77] text-white font-black text-xs flex items-center justify-center rounded-none shadow-xs">
                   XLS
                 </div>
                 <div>

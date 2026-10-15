@@ -74,34 +74,23 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
 
   return (
     <div className="min-h-screen bg-[#ecf0f5] flex flex-col font-sans">
-      {/* Top Navbar Classic AdminLTE Style */}
-      <header className="h-12 bg-[#2d7d9a] text-white flex items-center justify-between sticky top-0 z-40 shadow-sm">
-        {/* Left Brand Area (Dark Toska Box) - Judul Bersih E-Report PBOBA */}
+      {/* Top Navbar Jade Green Clean */}
+      <header className="h-12 bg-[#00BB77] text-white flex items-center justify-between sticky top-0 z-40 shadow-xs border-b border-[#00a86b]">
+        {/* Left Brand Area (Deep Jade Box) */}
         <div className="flex items-center">
           <Link
             href="/reporter/dashboard"
-            className="w-56 h-12 bg-[#0c4a55] hover:bg-[#093d46] text-white font-extrabold text-sm tracking-wider uppercase px-4 flex items-center justify-center transition-colors border-r border-[#093d46]"
+            className="w-56 h-12 bg-[#008f5d] hover:bg-[#007f50] text-white font-extrabold text-sm tracking-wider uppercase px-4 flex items-center justify-center transition-colors border-r border-[#093d46]"
           >
             <span>E-Report PBOBA</span>
           </Link>
         </div>
 
-        {/* Right Nav Area: User Info & Sign Out */}
-        <div className="flex items-center pr-3 gap-2">
-          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-black/15 text-white text-xs font-semibold rounded-none">
-            <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-            </svg>
-            <span className="max-w-[200px] truncate">{user.name}</span>
-          </div>
-
-          <button
-            onClick={handleLogout}
-            disabled={isLoggingOut}
-            className="px-3 py-1.5 bg-black/20 hover:bg-black/35 text-white text-xs font-bold rounded-none uppercase tracking-wider transition-colors disabled:opacity-50"
-          >
-            {isLoggingOut ? "..." : "Sign out"}
-          </button>
+        {/* Clean Right Navbar Area (Tanpa Redundansi Profil / Logout) */}
+        <div className="flex items-center pr-4">
+          <span className="hidden md:inline-block text-xs font-semibold text-emerald-950/70 tracking-wide">
+            Portal Resmi Pelaporan Entitas PBOT Sumatera Barat
+          </span>
         </div>
       </header>
 
@@ -109,9 +98,9 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
       <div className="flex-1 flex">
         {/* Sidebar Statis Permanen (Tanpa Geser/Tutup) */}
         <aside className="w-56 bg-[#f9fafb] border-r border-slate-300 flex flex-col shrink-0">
-          {/* User Profile Box */}
+          {/* User Profile Box di Sidebar */}
           <div className="p-4 flex items-center gap-3 border-b border-slate-200 bg-white">
-            <div className="w-10 h-10 bg-[#0c4a55] text-white flex items-center justify-center font-bold text-sm rounded-none shrink-0 shadow-xs">
+            <div className="w-10 h-10 bg-[#00BB77] text-white flex items-center justify-center font-bold text-sm rounded-none shrink-0 shadow-xs">
               <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
               </svg>
@@ -119,7 +108,7 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
             <div className="min-w-0">
               <p className="text-xs font-bold text-slate-800 truncate">{user.name}</p>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span className="w-2 h-2 rounded-full bg-[#00BB77]"></span>
                 <span className="text-2xs text-slate-500 font-medium truncate">@{user.identifier}</span>
               </div>
             </div>
@@ -140,11 +129,11 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
                   href={item.href}
                   className={`flex items-center gap-3 px-4 py-2.5 text-xs font-medium rounded-none transition-colors ${
                     isActive
-                      ? "bg-white text-slate-900 font-bold border-l-4 border-[#2d7d9a] shadow-xs"
+                      ? "bg-white text-slate-900 font-bold border-l-4 border-[#00BB77] shadow-xs"
                       : "text-slate-600 hover:bg-slate-200/70 hover:text-slate-900 border-l-4 border-transparent"
                   }`}
                 >
-                  <span className={isActive ? "text-[#2d7d9a]" : "text-slate-500"}>
+                  <span className={isActive ? "text-[#00BB77]" : "text-slate-500"}>
                     {item.icon}
                   </span>
                   <span className="truncate">{item.name}</span>
@@ -153,9 +142,21 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
             })}
           </nav>
 
-          {/* Sidebar Footer Info */}
-          <div className="p-3 border-t border-slate-200 bg-[#f4f6f9] text-center">
-            <span className="text-3xs text-slate-400 font-mono">PORTAL PELAPOR PBOT</span>
+          {/* Bottom Sidebar: Tombol Logout & Info Versi */}
+          <div className="p-3 border-t border-slate-200 bg-[#f4f6f9] space-y-2">
+            <button
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-none uppercase tracking-wider transition-colors disabled:opacity-50 shadow-xs"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span>{isLoggingOut ? "Keluar..." : "Keluar (Logout)"}</span>
+            </button>
+            <div className="text-center">
+              <span className="text-3xs text-slate-400 font-mono">PORTAL PELAPOR PBOT</span>
+            </div>
           </div>
         </aside>
 
@@ -166,7 +167,7 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
           {/* Footer Bar */}
           <footer className="h-11 bg-white border-t border-slate-300 px-6 flex items-center justify-between text-xs text-slate-600">
             <div>
-              <strong>Copyright &copy; 2026 <span className="text-[#2d7d9a]">E-Report PBOBA</span>.</strong> All rights reserved.
+              <strong>Copyright &copy; 2026 <span className="text-[#008f5d]">E-Report PBOBA</span>.</strong> All rights reserved.
             </div>
             <div className="hidden sm:block text-2xs text-slate-400">
               Sistem Pelaporan PBOT
