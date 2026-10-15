@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import DownloadButton from "@/components/DownloadButton";
 
 interface ReporterUser {
@@ -97,6 +97,7 @@ export default function ReportsAdminClient() {
   const [selectedYear, setSelectedYear] = useState<number>(currentYear);
   const [selectedSemester, setSelectedSemester] = useState<number>(currentSemester);
   const [activeTab, setActiveTab] = useState<"submitted" | "unsubmitted">("submitted");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const [data, setData] = useState<ReportsResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -112,6 +113,32 @@ export default function ReportsAdminClient() {
   const [reviewingId, setReviewingId] = useState<string | null>(null);
   const [reviewLoading, setReviewLoading] = useState<boolean>(false);
   const [feedbackMsg, setFeedbackMsg] = useState<{ text: string; type: "success" | "error" } | null>(null);
+
+  // Filter daftar laporan berdasarkan input pencarian nama entitas, ID/username, atau email
+  const filteredReports = useMemo(() => {
+    if (!data?.reports) return [];
+    if (!searchQuery.trim()) return data.reports;
+    const q = searchQuery.toLowerCase().trim();
+    return data.reports.filter(
+      (r) =>
+        r.user.name.toLowerCase().includes(q) ||
+        r.user.identifier.toLowerCase().includes(q) ||
+        r.user.email.toLowerCase().includes(q)
+    );
+  }, [data?.reports, searchQuery]);
+
+  // Filter daftar pelapor yang belum melapor
+  const filteredUnsubmitted = useMemo(() => {
+    if (!data?.unsubmitted_reporters) return [];
+    if (!searchQuery.trim()) return data.unsubmitted_reporters;
+    const q = searchQuery.toLowerCase().trim();
+    return data.unsubmitted_reporters.filter(
+      (u) =>
+        u.name.toLowerCase().includes(q) ||
+        u.identifier.toLowerCase().includes(q) ||
+        u.email.toLowerCase().includes(q)
+    );
+  }, [data?.unsubmitted_reporters, searchQuery]);
 
   const fetchReports = useCallback(async () => {
     setLoading(true);
@@ -236,9 +263,9 @@ export default function ReportsAdminClient() {
         </div>
       )}
 
-      {/* Filter Toolbar (AdminLTE Square Style) */}
+      {/* Filter & Pencarian Toolbar (AdminLTE Square Style) */}
       <div className="bg-white border border-slate-300 rounded-none shadow-xs p-4 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <label className="text-xs font-bold text-slate-700 uppercase">
             Periode:
           </label>
@@ -264,8 +291,35 @@ export default function ReportsAdminClient() {
           </select>
         </div>
 
+        {/* Kotak Pencarian Entitas PBOT */}
+        <div className="flex-1 max-w-xs min-w-[220px] relative">
+          <input
+            type="text"
+            placeholder="Cari entitas, username, ID..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-[#f4f6f9] border border-slate-300 rounded-none px-3 py-1.5 pr-8 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-[#2d7d9a]"
+          />
+          {searchQuery ? (
+            <button
+              type="button"
+              onClick={() => setSearchQuery("")}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs font-bold"
+              title="Bersihkan Pencarian"
+            >
+              ✕
+            </button>
+          ) : (
+            <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </span>
+          )}
+        </div>
+
         <div className="text-xs font-semibold text-slate-600">
-          Total Pelapor Terdaftar:{" "}
+          Total Pelapor:{" "}
           <strong className="text-slate-900">{data?.summary.total_reporters ?? 0} PBOT</strong>
         </div>
       </div>
@@ -318,7 +372,7 @@ export default function ReportsAdminClient() {
           >
             <span>Berkas Laporan Masuk</span>
             <span className="px-1.5 py-0.2 text-2xs bg-slate-200 text-slate-800 font-bold rounded-none">
-              {data?.reports.length ?? 0}
+              {searchQuery ? `${filteredReports.length}/${data?.reports.length ?? 0}` : (data?.reports.length ?? 0)}
             </span>
           </button>
 
@@ -332,7 +386,7 @@ export default function ReportsAdminClient() {
           >
             <span>Belum Melapor</span>
             <span className="px-1.5 py-0.2 text-2xs bg-slate-200 text-slate-800 font-bold rounded-none">
-              {data?.unsubmitted_reporters.length ?? 0}
+              {searchQuery ? `${filteredUnsubmitted.length}/${data?.unsubmitted_reporters.length ?? 0}` : (data?.unsubmitted_reporters.length ?? 0)}
             </span>
           </button>
         </div>
@@ -347,9 +401,24 @@ export default function ReportsAdminClient() {
             <div className="py-12 text-center text-red-600 text-xs">{error}</div>
           ) : activeTab === "submitted" ? (
             /* TAB 1: LAPORAN MASUK */
-            data?.reports.length === 0 ? (
+            filteredReports.length === 0 ? (
               <div className="py-12 text-center text-slate-500 text-xs">
-                Belum ada berkas laporan yang diunggah untuk Tahun {selectedYear} Semester {selectedSemester}.
+                {searchQuery ? (
+                  <div>
+                    <p className="font-semibold text-slate-700">
+                      Tidak ada entitas yang cocok dengan pencarian &quot;{searchQuery}&quot;.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery("")}
+                      className="mt-2 text-xs text-[#2d7d9a] underline font-bold"
+                    >
+                      Bersihkan Pencarian
+                    </button>
+                  </div>
+                ) : (
+                  "Belum ada berkas laporan yang diunggah untuk Tahun " + selectedYear + " Semester " + selectedSemester + "."
+                )}
               </div>
             ) : (
               <div className="overflow-x-auto">
@@ -364,7 +433,7 @@ export default function ReportsAdminClient() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
-                    {data?.reports.map((rep) => (
+                    {filteredReports.map((rep) => (
                       <tr key={rep.id} className="hover:bg-cyan-50/50 transition-colors">
                         {/* Klik Nama Entitas langsung membuka isi spreadsheet di sistem */}
                         <td className="py-2.5 px-3 border border-slate-200">
@@ -432,9 +501,26 @@ export default function ReportsAdminClient() {
             )
           ) : (
             /* TAB 2: BELUM MELAPOR */
-            data?.unsubmitted_reporters.length === 0 ? (
-              <div className="py-12 text-center text-emerald-700 font-bold text-xs">
-                Seluruh entitas PBOT telah menyerahkan laporan untuk periode ini.
+            filteredUnsubmitted.length === 0 ? (
+              <div className="py-12 text-center text-xs">
+                {searchQuery ? (
+                  <div>
+                    <p className="font-semibold text-slate-700">
+                      Tidak ada entitas yang cocok dengan pencarian &quot;{searchQuery}&quot;.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery("")}
+                      className="mt-2 text-xs text-[#dd4b39] underline font-bold"
+                    >
+                      Bersihkan Pencarian
+                    </button>
+                  </div>
+                ) : (
+                  <span className="text-emerald-700 font-bold">
+                    Seluruh entitas PBOT telah menyerahkan laporan untuk periode ini.
+                  </span>
+                )}
               </div>
             ) : (
               <div className="overflow-x-auto">
@@ -448,7 +534,7 @@ export default function ReportsAdminClient() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
-                    {data?.unsubmitted_reporters.map((usr) => (
+                    {filteredUnsubmitted.map((usr) => (
                       <tr key={usr.id} className="hover:bg-red-50/50">
                         <td className="py-2.5 px-3 border border-slate-200 font-bold text-slate-800">
                           {usr.name}
