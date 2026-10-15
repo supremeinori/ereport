@@ -13,7 +13,9 @@
     "test:m3": "tsx src/scripts/test-m3.ts",
     "test:m4": "tsx src/scripts/test-m4.ts",
     "test:m5": "tsx src/scripts/test-m5.ts",
-    "test:m6": "tsx src/scripts/test-m6.ts"
+    "test:m6": "tsx src/scripts/test-m6.ts",
+    "test:m7": "tsx src/scripts/test-m7.ts",
+    "test:all": "tsx src/scripts/test-all.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
