@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { requireRole } from "@/lib/auth";
-import { Role } from "@prisma/client";
+import { Role, ReportStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import ReporterShell from "@/components/ReporterShell";
 import Link from "next/link";
@@ -22,9 +22,9 @@ export default async function ReporterDashboardPage() {
     myQuestionsCount,
   ] = await Promise.all([
     prisma.report.count({ where: { user_id: user.id } }),
-    prisma.report.count({ where: { user_id: user.id, status: "pending_review" } }),
-    prisma.report.count({ where: { user_id: user.id, status: "approved" } }),
-    prisma.report.count({ where: { user_id: user.id, status: "needs_revision" } }),
+    prisma.report.count({ where: { user_id: user.id, status: ReportStatus.pending_review } }),
+    prisma.report.count({ where: { user_id: user.id, status: ReportStatus.reviewed } }),
+    prisma.report.count({ where: { user_id: user.id, status: ReportStatus.revision_required } }),
     prisma.question.count({ where: { user_id: user.id } }),
   ]);
 

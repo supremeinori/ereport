@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { requireRole } from "@/lib/auth";
-import { Role } from "@prisma/client";
+import { Role, ReportStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import AdminShell from "@/components/AdminShell";
 import Link from "next/link";
@@ -27,9 +27,9 @@ export default async function AdminDashboardPage() {
     recentReports,
   ] = await Promise.all([
     prisma.report.count(),
-    prisma.report.count({ where: { status: "pending_review" } }),
-    prisma.report.count({ where: { status: "approved" } }),
-    prisma.report.count({ where: { status: "needs_revision" } }),
+    prisma.report.count({ where: { status: ReportStatus.pending_review } }),
+    prisma.report.count({ where: { status: ReportStatus.reviewed } }),
+    prisma.report.count({ where: { status: ReportStatus.revision_required } }),
     prisma.user.count({ where: { role: Role.reporter } }),
     prisma.question.count(),
     prisma.report.findMany({
