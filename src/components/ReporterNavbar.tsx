@@ -34,7 +34,17 @@ export default function ReporterNavbar({ user, currentPath }: ReporterNavbarProp
                     : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                 }`}
               >
-                Dashboard Pelaporan
+                Dashboard
+              </Link>
+              <Link
+                href="/reporter/reports"
+                className={`px-3 py-2 rounded-lg font-medium transition-colors ${
+                  currentPath === "/reporter/reports"
+                    ? "bg-slate-100 text-slate-900"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                }`}
+              >
+                Pelaporan Semester
               </Link>
               <Link
                 href="/reporter/profile"
