@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -10,9 +11,14 @@ export default function Home() {
       {/* Konten gamblang di tengah tanpa card pembungkus */}
       <div className="max-w-2xl w-full text-center relative z-10 px-4">
         {/* Modern Logo Badge */}
-        <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-purple-600 to-indigo-700 text-white flex flex-col items-center justify-center rounded-2xl shadow-lg shadow-purple-500/30">
-          <span className="text-xl font-black tracking-widest text-white">PB</span>
-        </div>
+        <Image
+          src="/ereport_pboba_logo_v2.svg"
+          alt="Logo E-Report PBOBA"
+          width={64}
+          height={64}
+          className="w-16 h-16 mx-auto mb-6 rounded-2xl shadow-lg shadow-purple-500/30 object-contain"
+          priority
+        />
 
         <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white">
           E-Report{" "}
@@ -52,9 +58,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="mt-12 text-center text-xs text-purple-200/50">
-          &copy; 2026 E-Report PBOBA. All rights reserved.
-        </div>
+
       </div>
     </main>
   );

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -58,9 +59,14 @@ export default function LoginPage() {
       <div className="w-full max-w-[400px] bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl shadow-purple-950/50 p-8 border border-white/20 relative z-10">
         {/* Modern Logo Badge */}
         <div className="text-center mb-6">
-          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-600 to-indigo-700 text-white flex flex-col items-center justify-center rounded-2xl shadow-lg shadow-purple-500/30">
-            <span className="text-xl font-black tracking-widest text-white">PB</span>
-          </div>
+          <Image
+            src="/ereport_pboba_logo_v2.svg"
+            alt="Logo E-Report PBOBA"
+            width={64}
+            height={64}
+            className="w-16 h-16 mx-auto mb-4 rounded-2xl shadow-md object-contain"
+            priority
+          />
           <h1 className="text-lg font-extrabold tracking-tight text-slate-900">
             <span className="text-purple-800">Login</span> E-Report PBOBA
           </h1>

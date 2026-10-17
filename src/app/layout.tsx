@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "E-Report PBOBA",
   description:
     "Sistem pelaporan dan pemantauan distribusi obat tradisional untuk Pedagang Besar Obat Tradisional (PBOT) di Sumatera Barat.",
+  icons: {
+    icon: "/ereport_pboba_logo_v2.svg",
+  },
 };
 
 export default function RootLayout({

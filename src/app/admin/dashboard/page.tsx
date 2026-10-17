@@ -4,6 +4,7 @@ import { Role, ReportStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import AdminShell from "@/components/AdminShell";
 import Link from "next/link";
+import Image from "next/image";
 
 export default async function AdminDashboardPage() {
   let user;
@@ -37,6 +38,13 @@ export default async function AdminDashboardPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200/80">
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
+              <Image
+                src="/ereport_pboba_logo_v2.svg"
+                alt="Logo E-Report PBOBA"
+                width={32}
+                height={32}
+                className="w-8 h-8 rounded-lg object-contain shrink-0"
+              />
               <span>Dashboard Analitik</span>
             </h1>
 

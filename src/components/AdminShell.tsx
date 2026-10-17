@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 
@@ -98,11 +99,16 @@ export default function AdminShell({ user, children }: AdminShellProps) {
         <div className="flex items-center">
           <Link
             href="/admin/dashboard"
-            className="w-64 h-14 bg-purple-900/40 hover:bg-purple-900/60 text-white font-extrabold text-sm tracking-wider uppercase px-5 flex items-center gap-2 transition-colors border-r border-purple-700/40"
+            className="w-64 h-14 bg-purple-900/40 hover:bg-purple-900/60 text-white font-extrabold text-sm tracking-wider uppercase px-5 flex items-center gap-2.5 transition-colors border-r border-purple-700/40"
           >
-            <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-purple-400 to-indigo-500 text-purple-950 font-black text-xs flex items-center justify-center shadow-xs">
-              PB
-            </span>
+            <Image
+              src="/ereport_pboba_logo_v2.svg"
+              alt="Logo E-Report PBOBA"
+              width={32}
+              height={32}
+              className="w-8 h-8 rounded-lg object-contain shadow-xs shrink-0"
+              priority
+            />
             <span>E-Report PBOBA</span>
           </Link>
         </div>

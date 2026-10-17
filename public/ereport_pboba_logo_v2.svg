@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="title desc">
+  <title id="title">E-Report PBOBA</title>
+  <desc id="desc">Logo sederhana botol obat tradisional dengan daun, kapsul, dan tablet berwarna ungu lavender.</desc>
+  <defs>
+    <linearGradient id="bottleFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#B99AC9"/>
+      <stop offset="1" stop-color="#A47DB9"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#6F4C80" flood-opacity=".13"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect x="20" y="20" width="472" height="472" rx="96" fill="#FAF7FC"/>
+  <circle cx="256" cy="256" r="178" fill="#F1E8F5"/>
+
+  <!-- Small botanical branch -->
+  <g fill="#A47DB9">
+    <path d="M123 329 C126 292 145 264 176 245 C175 278 155 309 123 329Z"/>
+    <path d="M129 342 C151 316 179 305 205 309 C187 332 159 345 129 342Z"/>
+  </g>
+  <path d="M126 349 C145 318 159 289 176 254" fill="none" stroke="#805895" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Bottle -->
+  <g filter="url(#softShadow)">
+    <rect x="204" y="94" width="116" height="58" rx="14" fill="url(#bottleFill)"/>
+    <g stroke="#805895" stroke-width="4" stroke-linecap="round">
+      <path d="M220 108v30"/><path d="M237 108v30"/><path d="M254 108v30"/>
+      <path d="M271 108v30"/><path d="M288 108v30"/><path d="M305 108v30"/>
+    </g>
+    <path d="M216 150 H308 V176 C308 190 338 202 338 230 V365 C338 388 321 405 298 405 H226 C203 405 186 388 186 365 V230 C186 202 216 190 216 176Z" fill="url(#bottleFill)"/>
+    <path d="M201 235 C201 216 218 204 230 191 V177 H216 C216 190 186 202 186 230 V365 C186 383 198 397 215 402 C206 392 201 380 201 365Z" fill="#FFFFFF" opacity=".22"/>
+    <rect x="197" y="228" width="130" height="116" rx="18" fill="#FFFCFF"/>
+    <!-- Leaf mark -->
+    <path d="M262 293 C246 268 223 263 215 265 C216 288 232 305 255 309 C250 295 242 284 231 277 C247 286 258 300 262 316 C266 300 277 286 293 277 C282 284 274 295 269 309 C292 305 308 288 309 265 C301 263 278 268 262 293Z" fill="#A47DB9"/>
+  </g>
+
+  <!-- Capsule, kept clear of bottle label -->
+  <g transform="rotate(38 351 348)" filter="url(#softShadow)">
+    <rect x="325" y="288" width="52" height="120" rx="26" fill="#8F6AA5"/>
+    <path d="M325 348 H377 V382 C377 396 365 408 351 408 C337 408 325 396 325 382Z" fill="#FFFCFF"/>
+    <path d="M325 348 H377" stroke="#DCCCE5" stroke-width="3"/>
+    <path d="M341 302 V333" stroke="#D9C4E4" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Tablet -->
+  <g filter="url(#softShadow)">
+    <circle cx="211" cy="386" r="29" fill="#FFFCFF" stroke="#DCCCE5" stroke-width="3"/>
+    <path d="M195 397 L227 375" stroke="#C5A9D4" stroke-width="5" stroke-linecap="round"/>
+  </g>
+</svg>
