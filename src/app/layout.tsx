@@ -1,5 +1,12 @@
 import type { Metadata } from "next";
+import { Lexend } from "next/font/google";
 import "./globals.css";
+
+const lexend = Lexend({
+  subsets: ["latin"],
+  variable: "--font-lexend",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "E-Report PBOBA",
@@ -16,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
-      <body className="antialiased min-h-screen flex flex-col">{children}</body>
+    <html lang="id" className={lexend.variable}>
+      <body className={`${lexend.className} antialiased min-h-screen flex flex-col font-sans`}>{children}</body>
     </html>
   );
 }
