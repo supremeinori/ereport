@@ -16,7 +16,7 @@ export default function Home() {
         </h1>
         <p className="mt-4 text-base text-slate-600 leading-relaxed max-w-lg mx-auto">
           Sistem informasi modern pelaporan dan pemantauan distribusi obat tradisional
-          untuk Pedagang Besar Obat Tradisional (PBOT) di bawah pengawasan Dinas Kesehatan &amp; BBPOM Sumatera Barat.
+          untuk Pedagang Besar Obat Tradisional (PBOT) di wilayah Provinsi Sumatera Barat.
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">

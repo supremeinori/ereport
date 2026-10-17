@@ -19,6 +19,13 @@
     "test:m7": "tsx src/scripts/test-m7.ts",
     "test:all": "tsx src/scripts/test-all.ts"
   },
+  "allowScripts": {
+    "@prisma/client": true,
+    "@prisma/engines": true,
+    "esbuild": true,
+    "prisma": true,
+    "unrs-resolver": true
+  },
   "dependencies": {
     "@prisma/client": "^6.4.1",
     "@supabase/supabase-js": "^2.118.0",
