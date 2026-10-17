@@ -59,11 +59,11 @@ export default async function ReporterDashboardPage() {
 
         {/* 4 Modern Stat Cards (Purple & Violet Gradient Palette) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {/* 1. Royal Purple: Total Laporan */}
-          <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 text-white rounded-2xl shadow-md shadow-purple-900/10 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
+          {/* 1. Mauve Purple: Total Laporan */}
+          <div className="bg-gradient-to-br from-purple-700 via-purple-800 to-indigo-900 text-white rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
             <div className="p-5 relative z-10">
               <div className="text-4xl font-black tracking-tight">{myTotalReports}</div>
-              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-purple-100">
+              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-purple-200">
                 Total Laporan Saya
               </p>
             </div>
@@ -81,11 +81,11 @@ export default async function ReporterDashboardPage() {
             </Link>
           </div>
 
-          {/* 2. Violet Purple: Menunggu Review */}
-          <div className="bg-gradient-to-br from-violet-600 to-purple-800 text-white rounded-2xl shadow-md shadow-violet-900/10 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
+          {/* 2. Dusty Violet: Menunggu Review */}
+          <div className="bg-gradient-to-br from-purple-800 via-indigo-800 to-indigo-950 text-white rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
             <div className="p-5 relative z-10">
               <div className="text-4xl font-black tracking-tight">{myPendingReports}</div>
-              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-violet-100">
+              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-purple-200">
                 Menunggu Review
               </p>
             </div>
@@ -103,11 +103,11 @@ export default async function ReporterDashboardPage() {
             </Link>
           </div>
 
-          {/* 3. Indigo Purple: Laporan Disetujui */}
-          <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 text-white rounded-2xl shadow-md shadow-indigo-900/10 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
+          {/* 3. Slate Lilac: Laporan Disetujui */}
+          <div className="bg-gradient-to-br from-indigo-700 via-indigo-800 to-purple-900 text-white rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
             <div className="p-5 relative z-10">
               <div className="text-4xl font-black tracking-tight">{myApprovedReports}</div>
-              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-indigo-100">
+              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-indigo-200">
                 Laporan Disetujui
               </p>
             </div>
@@ -125,11 +125,11 @@ export default async function ReporterDashboardPage() {
             </Link>
           </div>
 
-          {/* 4. Rose Purple: Perlu Perbaikan */}
-          <div className="bg-gradient-to-br from-rose-600 via-pink-700 to-purple-800 text-white rounded-2xl shadow-md shadow-rose-900/10 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
+          {/* 4. Muted Plum / Dusty Wine: Perlu Perbaikan */}
+          <div className="bg-gradient-to-br from-[#754e6b] via-[#5d3b53] to-purple-950 text-white rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
             <div className="p-5 relative z-10">
               <div className="text-4xl font-black tracking-tight">{myRevisionReports}</div>
-              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-rose-100">
+              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-purple-200">
                 Perlu Perbaikan
               </p>
             </div>

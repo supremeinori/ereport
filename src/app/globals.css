@@ -1,8 +1,49 @@
 @import "tailwindcss";
 
+@theme {
+  /* Primary Muted Mauve Scale (#a47db9) */
+  --color-purple-50: #f8f5fa;
+  --color-purple-100: #efe8f3;
+  --color-purple-200: #decfe5;
+  --color-purple-300: #cbb4d6;
+  --color-purple-400: #b898c7;
+  --color-purple-500: #a47db9;
+  --color-purple-600: #9163a8;
+  --color-purple-700: #764b8c;
+  --color-purple-800: #5c386e;
+  --color-purple-900: #422650;
+  --color-purple-950: #2b1635;
+
+  /* Secondary Dusty Lilac / Slate-Purple Scale (#9e8baa) */
+  --color-indigo-50: #f7f6f8;
+  --color-indigo-100: #ece9ef;
+  --color-indigo-200: #dad4e0;
+  --color-indigo-300: #c5bcd0;
+  --color-indigo-400: #b2a4be;
+  --color-indigo-500: #9e8baa;
+  --color-indigo-600: #887295;
+  --color-indigo-700: #705c7c;
+  --color-indigo-800: #574662;
+  --color-indigo-900: #3e3046;
+  --color-indigo-950: #291e30;
+
+  /* Violet harmonized with #a47db9 */
+  --color-violet-50: #f8f5fa;
+  --color-violet-100: #efe8f3;
+  --color-violet-200: #decfe5;
+  --color-violet-300: #cbb4d6;
+  --color-violet-400: #b898c7;
+  --color-violet-500: #a47db9;
+  --color-violet-600: #885c9c;
+  --color-violet-700: #6f4782;
+  --color-violet-800: #573467;
+  --color-violet-900: #40244c;
+  --color-violet-950: #281432;
+}
+
 :root {
-  --background: #f8f9fc;
-  --foreground: #0f172a;
+  --background: #f7f6f9;
+  --foreground: #1e1b24;
 }
 
 body {
@@ -13,7 +54,6 @@ body {
 }
 
 ::selection {
-  background-color: #7c3aed;
+  background-color: #a47db9;
   color: #ffffff;
 }
-
