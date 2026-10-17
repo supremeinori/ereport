@@ -38,13 +38,8 @@ export default async function AdminDashboardPage() {
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
               <span>Dashboard Analitik</span>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200">
-                Live
-              </span>
             </h1>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Ringkasan metrik kepatuhan pelaporan distribusi obat tradisional (PBOT)
-            </p>
+
           </div>
 
           <div className="flex items-center gap-2 text-xs text-slate-500 mt-3 sm:mt-0 font-medium bg-white px-3 py-1.5 rounded-xl border border-slate-200/80 shadow-xs">

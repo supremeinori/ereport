@@ -32,6 +32,7 @@ export async function GET(request: NextRequest) {
         name: true,
         email: true,
         role: true,
+        initial_password: true,
         is_active: true,
         created_at: true,
         updated_at: true,
@@ -42,7 +43,12 @@ export async function GET(request: NextRequest) {
       orderBy: { created_at: "desc" },
     });
 
-    return NextResponse.json({ reporters });
+    const mappedReporters = reporters.map((r) => ({
+      ...r,
+      initial_password: r.initial_password || "12345678",
+    }));
+
+    return NextResponse.json({ reporters: mappedReporters });
   } catch (err: unknown) {
     if (err instanceof AuthError) {
       return NextResponse.json({ message: err.message }, { status: err.statusCode });
@@ -121,6 +127,7 @@ export async function POST(request: NextRequest) {
         name: cleanName,
         email: cleanEmail,
         password_hash,
+        initial_password: password,
         role: Role.reporter,
         is_active: true,
       },
@@ -130,6 +137,7 @@ export async function POST(request: NextRequest) {
         name: true,
         email: true,
         role: true,
+        initial_password: true,
         is_active: true,
         created_at: true,
         updated_at: true,

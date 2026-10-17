@@ -149,11 +149,10 @@ export default function AdminShell({ user, children }: AdminShellProps) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-xl transition-all duration-200 ${
-                    isActive
-                      ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold shadow-sm shadow-purple-500/25"
-                      : "text-slate-600 hover:bg-purple-50/80 hover:text-purple-700"
-                  }`}
+                  className={`flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-xl transition-all duration-200 ${isActive
+                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold shadow-sm shadow-purple-500/25"
+                    : "text-slate-600 hover:bg-purple-50/80 hover:text-purple-700"
+                    }`}
                 >
                   <span className={isActive ? "text-white" : "text-slate-400 group-hover:text-purple-600"}>
                     {item.icon}
@@ -174,11 +173,8 @@ export default function AdminShell({ user, children }: AdminShellProps) {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
-              <span>{isLoggingOut ? "Keluar..." : "Keluar (Logout)"}</span>
+              <span>{isLoggingOut ? "Keluar..." : "Logout"}</span>
             </button>
-            <div className="text-center">
-              <span className="text-3xs text-slate-400 font-mono">E-REPORT PBOBA v1.1</span>
-            </div>
           </div>
         </aside>
 
@@ -187,14 +183,14 @@ export default function AdminShell({ user, children }: AdminShellProps) {
           <div className="p-4 sm:p-6 lg:p-8 flex-1">{children}</div>
 
           {/* Footer Bar */}
-          <footer className="h-12 bg-white border-t border-slate-200/80 px-6 flex items-center justify-between text-xs text-slate-500">
+          {/* <footer className="h-12 bg-white border-t border-slate-200/80 px-6 flex items-center justify-between text-xs text-slate-500">
             <div>
               <strong>Copyright &copy; 2026 <span className="text-purple-600 font-bold">E-Report PBOBA</span>.</strong> All rights reserved.
             </div>
             <div className="hidden sm:block text-2xs text-slate-400">
               Sistem Pelaporan Distribusi Obat Tradisional
             </div>
-          </footer>
+          </footer> */}
         </main>
       </div>
     </div>

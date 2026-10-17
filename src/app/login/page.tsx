@@ -62,19 +62,19 @@ export default function LoginPage() {
             <span className="text-xl font-black tracking-widest text-white">PB</span>
           </div>
           <h1 className="text-lg font-extrabold tracking-tight text-slate-900">
-            E-Report <span className="text-purple-600">PBOBA</span>
+            <span className="text-purple-800">Login</span> E-Report PBOBA
           </h1>
-          <p className="text-xs text-slate-500 font-medium tracking-wide mt-1">
+          {/* <p className="text-xs text-slate-500 font-medium tracking-wide mt-1">
             Provinsi Sumatera Barat
-          </p>
+          </p> */}
         </div>
 
         {/* Section title */}
-        <div className="text-center mb-6">
+        {/* <div className="text-center mb-6">
           <span className="inline-block px-3 py-1 rounded-full text-2xs font-bold uppercase tracking-wider bg-purple-50 text-purple-700 border border-purple-200/80">
             Portal Masuk Resmi
           </span>
-        </div>
+        </div> */}
 
         {errorMessage && (
           <div
@@ -91,8 +91,8 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Input Username */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5" htmlFor="username">
-              Username / Identifier
+            <label className="block text-xs font-bold text-black-700 mb-1.5" htmlFor="username">
+              Username
             </label>
             <div className="relative">
               <input
@@ -120,7 +120,7 @@ export default function LoginPage() {
 
           {/* Input Password */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5" htmlFor="password">
+            <label className="block text-xs font-bold text-black-700 mb-1.5" htmlFor="password">
               Kata Sandi
             </label>
             <div className="relative">
@@ -168,7 +168,7 @@ export default function LoginPage() {
         </form>
 
         <div className="mt-6 pt-4 border-t border-slate-100 text-center">
-          <p className="text-2xs text-slate-400 font-medium">
+          <p className="text-[10px] text-slate-400 font-medium">
             &copy; 2026 E-Report PBOBA. All rights reserved.
           </p>
         </div>
