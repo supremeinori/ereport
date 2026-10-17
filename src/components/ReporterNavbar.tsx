@@ -17,10 +17,10 @@ export default function ReporterNavbar({ user, currentPath }: ReporterNavbarProp
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-6">
             <Link href="/reporter/dashboard" className="flex items-center gap-2.5">
-              <span className="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">
+              <span className="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm shadow-purple-500/20">
                 PBOT
               </span>
-              <span className="font-bold text-slate-800 tracking-tight">
+              <span className="font-bold text-slate-900 tracking-tight">
                 E-Report PBOBA
               </span>
             </Link>
@@ -28,40 +28,40 @@ export default function ReporterNavbar({ user, currentPath }: ReporterNavbarProp
             <nav className="hidden md:flex items-center gap-1 text-sm">
               <Link
                 href="/reporter/dashboard"
-                className={`px-3 py-2 rounded-lg font-medium transition-colors ${
+                className={`px-3 py-2 rounded-xl font-medium transition-colors ${
                   currentPath === "/reporter/dashboard"
-                    ? "bg-slate-100 text-slate-900"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    ? "bg-purple-50 text-purple-700 font-semibold"
+                    : "text-slate-600 hover:text-purple-700 hover:bg-purple-50/50"
                 }`}
               >
                 Dashboard
               </Link>
               <Link
                 href="/reporter/reports"
-                className={`px-3 py-2 rounded-lg font-medium transition-colors ${
+                className={`px-3 py-2 rounded-xl font-medium transition-colors ${
                   currentPath === "/reporter/reports"
-                    ? "bg-slate-100 text-slate-900"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    ? "bg-purple-50 text-purple-700 font-semibold"
+                    : "text-slate-600 hover:text-purple-700 hover:bg-purple-50/50"
                 }`}
               >
                 Pelaporan Semester
               </Link>
               <Link
                 href="/reporter/questions"
-                className={`px-3 py-2 rounded-lg font-medium transition-colors ${
+                className={`px-3 py-2 rounded-xl font-medium transition-colors ${
                   currentPath === "/reporter/questions"
-                    ? "bg-slate-100 text-slate-900"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    ? "bg-purple-50 text-purple-700 font-semibold"
+                    : "text-slate-600 hover:text-purple-700 hover:bg-purple-50/50"
                 }`}
               >
                 Tanya Jawab
               </Link>
               <Link
                 href="/reporter/profile"
-                className={`px-3 py-2 rounded-lg font-medium transition-colors ${
+                className={`px-3 py-2 rounded-xl font-medium transition-colors ${
                   currentPath === "/reporter/profile"
-                    ? "bg-slate-100 text-slate-900"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    ? "bg-purple-50 text-purple-700 font-semibold"
+                    : "text-slate-600 hover:text-purple-700 hover:bg-purple-50/50"
                 }`}
               >
                 Profil Entitas

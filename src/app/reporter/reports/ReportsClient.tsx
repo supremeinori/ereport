@@ -130,23 +130,23 @@ export default function ReportsClient() {
     switch (status) {
       case "reviewed":
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-none text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-            <span className="w-1.5 h-1.5 rounded-none bg-emerald-500"></span>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
             Telah Diperiksa
           </span>
         );
       case "revision_required":
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-none text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
-            <span className="w-1.5 h-1.5 rounded-none bg-red-500"></span>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
             Perlu Revisi
           </span>
         );
       case "pending_review":
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-none text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-            <span className="w-1.5 h-1.5 rounded-none bg-amber-500"></span>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
             Menunggu Pemeriksaan
           </span>
         );
@@ -156,24 +156,32 @@ export default function ReportsClient() {
   return (
     <div className="space-y-8">
       {/* Judul & Deskripsi */}
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-          Pelaporan Distribusi Obat Tradisional
-        </h1>
-        <p className="text-sm text-slate-500 mt-1">
-          Kirimkan berkas laporan semesteran resmi dalam format Excel (.xlsx).
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-xs font-semibold mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-purple-600"></span>
+            Pelaporan Berkala Semesteran
+          </div>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+            Pelaporan Distribusi Obat Tradisional
+          </h1>
+          <p className="text-sm text-slate-500 mt-1">
+            Kirimkan berkas laporan semesteran resmi dalam format Excel (.xlsx) sesuai standar BPOM.
+          </p>
+        </div>
       </div>
 
       {/* Instruksi Pelaporan (FR-REP-03) */}
-      <div className="bg-blue-50/60 border border-blue-200 rounded-none p-5 sm:p-6 text-sm text-blue-900">
-        <div className="flex items-start gap-3">
-          <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <div className="space-y-1.5">
-            <h3 className="font-bold text-blue-950">Petunjuk Pengisian & Ketentuan Pengunggahan:</h3>
-            <ul className="list-disc list-inside space-y-1 text-blue-800 text-xs sm:text-sm">
+      <div className="bg-gradient-to-r from-purple-50/80 via-indigo-50/50 to-purple-50/80 border border-purple-200/70 rounded-2xl p-5 sm:p-6 text-sm text-purple-950 shadow-sm">
+        <div className="flex items-start gap-4">
+          <div className="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-sm shadow-purple-500/20">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div className="space-y-1.5 flex-1">
+            <h3 className="font-bold text-purple-950 text-base">Petunjuk Pengisian &amp; Ketentuan Pengunggahan:</h3>
+            <ul className="list-disc list-inside space-y-1 text-purple-900 text-xs sm:text-sm">
               <li>Pastikan laporan menggunakan template resmi Excel yang telah diisi lengkap.</li>
               <li>Sistem hanya menerima berkas berformat <strong>.xlsx</strong> dengan ukuran maksimum <strong>10 MB</strong>. Berkas dengan makro (.xlsm) akan ditolak.</li>
               <li>Pilih periode tahun dan semester yang sesuai dengan masa pelaporan.</li>
@@ -184,16 +192,16 @@ export default function ReportsClient() {
       </div>
 
       {/* Unduh Template Resmi (FR-REP-04) */}
-      <div className="bg-white rounded-none border border-slate-200 shadow-sm p-5 space-y-4">
+      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-bold text-slate-900">Template Laporan Resmi (.xlsx)</h3>
-              <span className="text-2xs font-semibold px-2 py-0.5 rounded-none bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <h3 className="text-base font-bold text-slate-900">Template Laporan Resmi (.xlsx)</h3>
+              <span className="text-2xs font-semibold px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
                 Format Standar E-Report PBOBA
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-500 mt-1">
               Unduh template Excel resmi. Laporan mencakup 18 kolom terstandarisasi dengan formula perhitungan otomatis.
             </p>
           </div>
@@ -201,7 +209,7 @@ export default function ReportsClient() {
             <button
               type="button"
               onClick={() => setShowColumnGuide(!showColumnGuide)}
-              className="text-xs font-semibold text-slate-600 hover:text-slate-900 px-3 py-2 border border-slate-200 rounded-none hover:bg-slate-50 transition-colors"
+              className="text-xs font-semibold text-slate-600 hover:text-purple-700 px-3.5 py-2 border border-slate-200 rounded-xl hover:bg-purple-50/50 hover:border-purple-200 transition-all shadow-2xs"
             >
               {showColumnGuide ? "Sembunyikan Format" : "Lihat Format Kolom"}
             </button>
@@ -212,54 +220,54 @@ export default function ReportsClient() {
         {/* Tabel Panduan Kolom Resmi */}
         {showColumnGuide && (
           <div className="border-t border-slate-100 pt-4 animate-in fade-in duration-200">
-            <div className="overflow-x-auto rounded-none border border-slate-200 text-xs">
+            <div className="overflow-x-auto rounded-xl border border-purple-200/80 text-xs shadow-sm">
               <table className="w-full text-center border-collapse">
                 <thead>
-                  <tr className="bg-emerald-800 text-white font-semibold">
-                    <th rowSpan={2} className="border border-emerald-700 px-3 py-2">NO</th>
-                    <th rowSpan={2} className="border border-emerald-700 px-3 py-2">NIE</th>
-                    <th rowSpan={2} className="border border-emerald-700 px-4 py-2">NAMA PRODUK</th>
-                    <th rowSpan={2} className="border border-emerald-700 px-3 py-2">KEMASAN</th>
-                    <th rowSpan={2} className="border border-emerald-700 px-3 py-2">STOK AWAL</th>
-                    <th colSpan={2} className="border border-emerald-700 px-3 py-1 bg-emerald-700">JUMLAH PEMASUKAN</th>
-                    <th colSpan={9} className="border border-emerald-700 px-3 py-1 bg-emerald-700">JUMLAH PENGELUARAN</th>
-                    <th rowSpan={2} className="border border-emerald-700 px-3 py-2">Sisa Stok</th>
-                    <th rowSpan={2} className="border border-emerald-700 px-3 py-2">HNA</th>
+                  <tr className="bg-gradient-to-r from-purple-900 via-indigo-900 to-purple-950 text-white font-semibold">
+                    <th rowSpan={2} className="border border-purple-800/60 px-3 py-2">NO</th>
+                    <th rowSpan={2} className="border border-purple-800/60 px-3 py-2">NIE</th>
+                    <th rowSpan={2} className="border border-purple-800/60 px-4 py-2">NAMA PRODUK</th>
+                    <th rowSpan={2} className="border border-purple-800/60 px-3 py-2">KEMASAN</th>
+                    <th rowSpan={2} className="border border-purple-800/60 px-3 py-2">STOK AWAL</th>
+                    <th colSpan={2} className="border border-purple-800/60 px-3 py-1 bg-purple-800/70">JUMLAH PEMASUKAN</th>
+                    <th colSpan={9} className="border border-purple-800/60 px-3 py-1 bg-purple-800/70">JUMLAH PENGELUARAN</th>
+                    <th rowSpan={2} className="border border-purple-800/60 px-3 py-2">Sisa Stok</th>
+                    <th rowSpan={2} className="border border-purple-800/60 px-3 py-2">HNA</th>
                   </tr>
-                  <tr className="bg-emerald-900 text-emerald-100 text-2xs font-medium">
-                    <th className="border border-emerald-700 px-2.5 py-1.5">IOT</th>
-                    <th className="border border-emerald-700 px-2.5 py-1.5">Lainnya</th>
-                    <th className="border border-emerald-700 px-2 py-1.5">Pedagang eceran</th>
-                    <th className="border border-emerald-700 px-2 py-1.5">RS</th>
-                    <th className="border border-emerald-700 px-2 py-1.5">Apotek</th>
-                    <th className="border border-emerald-700 px-2 py-1.5">Sarana Pemerintah</th>
-                    <th className="border border-emerald-700 px-2 py-1.5">Puskesmas</th>
-                    <th className="border border-emerald-700 px-2 py-1.5">Klinik</th>
-                    <th className="border border-emerald-700 px-2 py-1.5">Toko Obat</th>
-                    <th className="border border-emerald-700 px-2 py-1.5">Retur</th>
-                    <th className="border border-emerald-700 px-2 py-1.5">Lainnya</th>
+                  <tr className="bg-purple-950 text-purple-200 text-2xs font-medium">
+                    <th className="border border-purple-800/60 px-2.5 py-1.5">IOT</th>
+                    <th className="border border-purple-800/60 px-2.5 py-1.5">Lainnya</th>
+                    <th className="border border-purple-800/60 px-2 py-1.5">Pedagang eceran</th>
+                    <th className="border border-purple-800/60 px-2 py-1.5">RS</th>
+                    <th className="border border-purple-800/60 px-2 py-1.5">Apotek</th>
+                    <th className="border border-purple-800/60 px-2 py-1.5">Sarana Pemerintah</th>
+                    <th className="border border-purple-800/60 px-2 py-1.5">Puskesmas</th>
+                    <th className="border border-purple-800/60 px-2 py-1.5">Klinik</th>
+                    <th className="border border-purple-800/60 px-2 py-1.5">Toko Obat</th>
+                    <th className="border border-purple-800/60 px-2 py-1.5">Retur</th>
+                    <th className="border border-purple-800/60 px-2 py-1.5">Lainnya</th>
                   </tr>
                 </thead>
-                <tbody className="bg-slate-50 text-slate-500 font-mono text-2xs">
+                <tbody className="bg-slate-50/50 text-slate-600 font-mono text-2xs">
                   <tr>
-                    <td className="border border-slate-200 px-2 py-1.5 text-slate-400">1..n</td>
-                    <td className="border border-slate-200 px-2 py-1.5">TR...</td>
-                    <td className="border border-slate-200 px-3 py-1.5 text-left">Nama Produk</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-left">Kemasan</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">0</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right font-bold text-emerald-700 bg-emerald-50/50">Otomatis</td>
-                    <td className="border border-slate-200 px-2 py-1.5 text-right">Rp...</td>
+                    <td className="border border-slate-200 px-2 py-2 text-slate-400">1..n</td>
+                    <td className="border border-slate-200 px-2 py-2">TR...</td>
+                    <td className="border border-slate-200 px-3 py-2 text-left">Nama Produk</td>
+                    <td className="border border-slate-200 px-2 py-2 text-left">Kemasan</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">0</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right font-bold text-purple-700 bg-purple-50/60">Otomatis</td>
+                    <td className="border border-slate-200 px-2 py-2 text-right">Rp...</td>
                   </tr>
                 </tbody>
               </table>
@@ -273,11 +281,16 @@ export default function ReportsClient() {
 
       {/* Alert Notifikasi Global */}
       {successMessage && (
-        <div className="p-4 rounded-none bg-emerald-50 border border-emerald-200 text-sm text-emerald-800 flex items-center justify-between">
-          <span className="font-medium">{successMessage}</span>
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200/80 text-sm text-emerald-800 flex items-center justify-between shadow-sm animate-in fade-in">
+          <div className="flex items-center gap-2.5">
+            <svg className="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <span className="font-medium">{successMessage}</span>
+          </div>
           <button
             onClick={() => setSuccessMessage(null)}
-            className="text-emerald-600 hover:text-emerald-900 text-xs font-semibold"
+            className="text-emerald-700 hover:text-emerald-900 text-xs font-semibold px-2 py-1 rounded-lg hover:bg-emerald-100/50 transition-colors"
           >
             Tutup
           </button>
@@ -285,11 +298,16 @@ export default function ReportsClient() {
       )}
 
       {errorMessage && (
-        <div className="p-4 rounded-none bg-red-50 border border-red-200 text-sm text-red-800 flex items-center justify-between">
-          <span>{errorMessage}</span>
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200/80 text-sm text-rose-800 flex items-center justify-between shadow-sm animate-in fade-in">
+          <div className="flex items-center gap-2.5">
+            <svg className="w-5 h-5 text-rose-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span className="font-medium">{errorMessage}</span>
+          </div>
           <button
             onClick={() => setErrorMessage(null)}
-            className="text-red-600 hover:text-red-900 text-xs font-semibold"
+            className="text-rose-700 hover:text-rose-900 text-xs font-semibold px-2 py-1 rounded-lg hover:bg-rose-100/50 transition-colors"
           >
             Tutup
           </button>
@@ -297,19 +315,32 @@ export default function ReportsClient() {
       )}
 
       {/* Form Unggah Laporan (FR-REP-05, FR-REP-06) */}
-      <div className="bg-white rounded-none border border-slate-200 shadow-sm p-6">
-        <h2 className="text-lg font-bold text-slate-900 mb-4 pb-3 border-b border-slate-100">
-          Formulir Unggah Laporan Semester
-        </h2>
+      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 sm:p-7">
+        <div className="flex items-center gap-3 mb-5 pb-4 border-b border-slate-100">
+          <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+          </div>
+          <div>
+            <h2 className="text-base font-bold text-slate-900">
+              Formulir Unggah Laporan Semester
+            </h2>
+            <p className="text-xs text-slate-500">Pilih periode pelaporan dan unggah berkas excel yang valid</p>
+          </div>
+        </div>
 
         {uploadError && (
-          <div className="mb-4 p-3.5 rounded-none bg-red-50 border border-red-200 text-xs text-red-700">
-            {uploadError}
+          <div className="mb-5 p-4 rounded-xl bg-rose-50 border border-rose-200/80 text-xs text-rose-700 flex items-start gap-2 shadow-sm">
+            <svg className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{uploadError}</span>
           </div>
         )}
 
-        <form onSubmit={handleUploadSubmit} className="space-y-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <form onSubmit={handleUploadSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {/* Pilihan Tahun */}
             <div>
               <label htmlFor="period_year" className="block text-xs font-semibold text-slate-700 mb-1.5">
@@ -319,7 +350,7 @@ export default function ReportsClient() {
                 id="period_year"
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(parseInt(e.target.value, 10))}
-                className="w-full px-3 py-2 rounded-none border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-sm text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all"
               >
                 {[currentYear + 1, currentYear, currentYear - 1, currentYear - 2, currentYear - 3].map((y) => (
                   <option key={y} value={y}>
@@ -338,7 +369,7 @@ export default function ReportsClient() {
                 id="period_semester"
                 value={selectedSemester}
                 onChange={(e) => setSelectedSemester(parseInt(e.target.value, 10))}
-                className="w-full px-3 py-2 rounded-none border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-sm text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all"
               >
                 <option value={1}>Semester 1 (Januari – Juni)</option>
                 <option value={2}>Semester 2 (Juli – Desember)</option>
@@ -348,32 +379,36 @@ export default function ReportsClient() {
 
           {/* Indikator apakah periode ini sudah ada */}
           {existingReportForPeriod && (
-            <div className="p-3.5 rounded-none bg-amber-50 border border-amber-200 text-xs text-amber-800 flex items-start gap-2">
-              <svg className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-4 rounded-xl bg-amber-50/90 border border-amber-200 text-xs text-amber-900 flex items-start gap-3 shadow-sm">
+              <svg className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
               <div>
-                <strong>Perhatian:</strong> Laporan untuk <strong>Tahun {selectedYear} Semester {selectedSemester}</strong> sudah pernah diunggah sebelumnya (<em>{existingReportForPeriod.original_filename}</em>).
-                <span className="block mt-0.5 text-amber-700">
-                  Mengunggah berkas baru sekarang akan menggantikan laporan sebelumnya dan mereset status pemeriksaan.
-                </span>
+                <p className="font-semibold text-amber-950">
+                  Laporan untuk Tahun {selectedYear} Semester {selectedSemester} sudah pernah diunggah (<em>{existingReportForPeriod.original_filename}</em>).
+                </p>
+                <p className="mt-1 text-amber-800">
+                  Mengunggah berkas baru sekarang akan menggantikan laporan sebelumnya dan mereset status pemeriksaan kembali menjadi <em>Menunggu Pemeriksaan</em>.
+                </p>
               </div>
             </div>
           )}
 
           {/* File Picker */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+            <label className="block text-xs font-semibold text-slate-700 mb-2">
               Pilih Berkas Laporan Excel (.xlsx) *
             </label>
-            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-none hover:border-emerald-400 transition-colors bg-slate-50/50">
-              <div className="space-y-2 text-center">
-                <svg className="mx-auto h-10 w-10 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <div className="flex text-sm text-slate-600 justify-center">
-                  <label htmlFor="report-file-input" className="relative cursor-pointer bg-white rounded-none font-semibold text-emerald-600 hover:text-emerald-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-emerald-500 px-2 py-0.5 border border-slate-200">
-                    <span>Pilih Berkas</span>
+            <div className="mt-1 flex justify-center px-6 pt-7 pb-8 border-2 border-purple-200 border-dashed rounded-2xl hover:border-purple-400 transition-colors bg-purple-50/20 hover:bg-purple-50/40">
+              <div className="space-y-3 text-center">
+                <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center mx-auto">
+                  <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-sm text-slate-600">
+                  <label htmlFor="report-file-input" className="relative cursor-pointer bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold text-xs px-4 py-2 hover:from-purple-500 hover:to-indigo-500 shadow-sm shadow-purple-500/20 transition-all focus-within:ring-2 focus-within:ring-purple-500 focus-within:ring-offset-2">
+                    <span>Pilih Berkas Excel</span>
                     <input
                       id="report-file-input"
                       name="file"
@@ -383,25 +418,30 @@ export default function ReportsClient() {
                       className="sr-only"
                     />
                   </label>
-                  <p className="pl-2 pt-0.5">atau tarik dan lepas ke sini</p>
+                  <span className="text-xs text-slate-500">atau letakkan berkas di sini</span>
                 </div>
                 <p className="text-2xs text-slate-400">
-                  Format resmi .xlsx hingga batas 10 MB
+                  Format resmi .xlsx standar e-report, maksimum 10 MB
                 </p>
                 {selectedFile && (
-                  <p className="text-xs font-semibold text-emerald-700 bg-emerald-50 py-1 px-3 rounded-none inline-block border border-emerald-200">
-                    Berkas terpilih: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
-                  </p>
+                  <div className="pt-2">
+                    <span className="inline-flex items-center gap-2 text-xs font-semibold text-purple-800 bg-purple-100/80 py-1.5 px-3.5 rounded-full border border-purple-200">
+                      <svg className="w-4 h-4 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd" />
+                      </svg>
+                      {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
+                    </span>
+                  </div>
                 )}
               </div>
             </div>
           </div>
 
-          <div className="flex justify-end pt-3">
+          <div className="flex justify-end pt-2">
             <button
               type="submit"
               disabled={isUploading || !selectedFile}
-              className="inline-flex items-center justify-center px-6 py-2.5 rounded-none text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors shadow-sm gap-2"
+              className="inline-flex items-center justify-center px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 disabled:from-slate-300 disabled:to-slate-300 disabled:cursor-not-allowed shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/30 transition-all gap-2"
             >
               {isUploading ? (
                 <>
@@ -422,19 +462,21 @@ export default function ReportsClient() {
       </div>
 
       {/* Riwayat Laporan (FR-REP-07, UI-04, UI-08) */}
-      <div className="bg-white rounded-none border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
-          <h2 className="text-base font-bold text-slate-900">
-            Riwayat Laporan Semester Entitas
-          </h2>
-          <span className="text-xs text-slate-500">
-            Total {reports.length} laporan
-          </span>
+      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <h2 className="text-base font-bold text-slate-900">
+              Riwayat Laporan Semester Entitas
+            </h2>
+            <span className="text-2xs font-bold px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
+              {reports.length} Laporan
+            </span>
+          </div>
         </div>
 
         {isLoading ? (
           <div className="p-12 text-center text-slate-500 text-sm">
-            <svg className="animate-spin h-6 w-6 text-emerald-600 mx-auto mb-2" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin h-6 w-6 text-purple-600 mx-auto mb-2" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
             </svg>
@@ -442,7 +484,7 @@ export default function ReportsClient() {
           </div>
         ) : reports.length === 0 ? (
           <div className="p-12 text-center">
-            <div className="w-12 h-12 rounded-none bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+            <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mx-auto mb-3">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
@@ -455,7 +497,7 @@ export default function ReportsClient() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-600 uppercase tracking-wider">
+              <thead className="bg-gradient-to-r from-purple-900 via-indigo-900 to-purple-950 text-purple-100 text-xs font-semibold uppercase tracking-wider border-b border-purple-800">
                 <tr>
                   <th className="px-6 py-3.5">Periode Pelaporan</th>
                   <th className="px-6 py-3.5">Nama Berkas Asli</th>
@@ -467,7 +509,7 @@ export default function ReportsClient() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {reports.map((item) => (
-                  <tr key={item.id} className="hover:bg-slate-50/60 transition-colors">
+                  <tr key={item.id} className="hover:bg-purple-50/40 transition-colors">
                     <td className="px-6 py-4 font-semibold text-slate-900">
                       Tahun {item.period_year} — Semester {item.period_semester}
                     </td>

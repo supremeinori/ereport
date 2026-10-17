@@ -120,9 +120,9 @@ export default function QuestionsAdminClient() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-none border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+          <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
             Layanan Tanya Jawab PBOT
           </h1>
           <p className="text-sm text-slate-500 mt-1">
@@ -131,12 +131,12 @@ export default function QuestionsAdminClient() {
         </div>
 
         {/* Filter Tab */}
-        <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-none text-xs font-semibold">
+        <div className="flex items-center gap-1.5 bg-slate-100/80 p-1.5 rounded-xl text-xs font-semibold">
           <button
             onClick={() => setFilterStatus("all")}
-            className={`px-3 py-1.5 rounded-none transition-colors ${
+            className={`px-3.5 py-1.5 rounded-lg transition-all ${
               filterStatus === "all"
-                ? "bg-white text-slate-900 shadow-xs"
+                ? "bg-white text-purple-700 shadow-xs font-bold"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
@@ -144,24 +144,24 @@ export default function QuestionsAdminClient() {
           </button>
           <button
             onClick={() => setFilterStatus("open")}
-            className={`px-3 py-1.5 rounded-none transition-colors flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
               filterStatus === "open"
-                ? "bg-white text-amber-700 shadow-xs"
+                ? "bg-white text-amber-700 shadow-xs font-bold"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
             <span>Menunggu Jawaban</span>
             {openCount > 0 && (
-              <span className="px-1.5 py-0.2 rounded-none text-[10px] bg-amber-100 text-amber-800">
+              <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-amber-100 text-amber-800 font-bold">
                 {openCount}
               </span>
             )}
           </button>
           <button
             onClick={() => setFilterStatus("answered")}
-            className={`px-3 py-1.5 rounded-none transition-colors ${
+            className={`px-3.5 py-1.5 rounded-lg transition-all ${
               filterStatus === "answered"
-                ? "bg-white text-emerald-700 shadow-xs"
+                ? "bg-white text-purple-700 shadow-xs font-bold"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
@@ -172,9 +172,9 @@ export default function QuestionsAdminClient() {
 
       {feedback && (
         <div
-          className={`p-4 rounded-none text-sm font-medium flex items-center justify-between ${
+          className={`p-4 rounded-xl text-sm font-semibold flex items-center justify-between shadow-xs ${
             feedback.type === "success"
-              ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+              ? "bg-purple-50 text-purple-900 border border-purple-200"
               : "bg-rose-50 text-rose-800 border border-rose-200"
           }`}
         >
@@ -190,16 +190,17 @@ export default function QuestionsAdminClient() {
 
       {/* Daftar Pertanyaan */}
       {loading ? (
-        <div className="bg-white rounded-none border border-slate-200 p-12 text-center text-slate-400 text-sm">
+        <div className="bg-white rounded-2xl border border-slate-200/80 p-16 text-center text-slate-400 text-sm shadow-sm">
+          <div className="animate-spin w-6 h-6 border-2 border-purple-600 border-t-transparent mx-auto mb-2 rounded-full"></div>
           Memuat pertanyaan masuk...
         </div>
       ) : error ? (
-        <div className="bg-white rounded-none border border-rose-200 p-12 text-center text-rose-500 text-sm">
+        <div className="bg-white rounded-2xl border border-rose-200 p-12 text-center text-rose-500 text-sm shadow-sm">
           {error}
         </div>
       ) : questions.length === 0 ? (
-        <div className="bg-white rounded-none border border-slate-200 p-12 text-center">
-          <p className="text-sm font-semibold text-slate-700">
+        <div className="bg-white rounded-2xl border border-slate-200/80 p-12 text-center shadow-sm">
+          <p className="text-base font-semibold text-slate-700">
             Tidak ada pertanyaan dalam kategori ini.
           </p>
           <p className="text-xs text-slate-400 mt-1">
@@ -211,36 +212,36 @@ export default function QuestionsAdminClient() {
           {questions.map((q) => (
             <div
               key={q.id}
-              className="bg-white rounded-none border border-slate-200 p-6 shadow-sm space-y-4"
+              className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm hover:shadow-md transition-shadow space-y-4"
             >
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-4">
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-slate-900 text-sm">
                       {q.author.name}
                     </span>
-                    <span className="font-mono text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded-none">
+                    <span className="font-mono text-xs text-purple-700 bg-purple-50 border border-purple-200 px-2.5 py-0.5 rounded-full font-bold">
                       {q.author.identifier}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="text-xs text-slate-400 mt-1">
                     {q.author.email} • {formatWib(q.created_at)}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <span
-                    className={`inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-semibold ${
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
                       q.status === "answered"
-                        ? "bg-emerald-100 text-emerald-800"
-                        : "bg-amber-100 text-amber-800"
+                        ? "bg-purple-50 text-purple-700 border border-purple-200"
+                        : "bg-amber-50 text-amber-800 border border-amber-200"
                     }`}
                   >
                     {q.status === "answered" ? "Sudah Dijawab" : "Menunggu Tanggapan"}
                   </span>
                   <button
                     onClick={() => openAnswerModal(q)}
-                    className="px-3 py-1 text-xs font-semibold rounded-none bg-emerald-600 hover:bg-emerald-700 text-white transition-colors"
+                    className="px-4 py-1.5 text-xs font-bold rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white transition-all shadow-sm shadow-purple-500/20"
                   >
                     {q.status === "answered" ? "Edit Tanggapan" : "Beri Tanggapan"}
                   </button>
@@ -249,28 +250,29 @@ export default function QuestionsAdminClient() {
 
               {/* Subjek & Isi Pertanyaan */}
               <div>
-                <h2 className="text-sm font-bold text-slate-900 mb-1">
+                <h2 className="text-sm font-bold text-slate-900 mb-2">
                   {q.subject}
                 </h2>
-                <div className="bg-slate-50 rounded-none p-3.5 text-sm text-slate-700 whitespace-pre-wrap border border-slate-100">
+                <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 whitespace-pre-wrap border border-slate-200/70 leading-relaxed">
                   {q.question}
                 </div>
               </div>
 
               {/* Jawaban Jika Sudah Ada */}
               {q.status === "answered" && q.answer && (
-                <div className="bg-emerald-50/70 border border-emerald-200 rounded-none p-4 space-y-1.5">
-                  <div className="flex items-center justify-between text-xs text-emerald-800 font-semibold">
-                    <span>
+                <div className="bg-purple-50/70 border border-purple-200/80 rounded-xl p-4 space-y-2">
+                  <div className="flex items-center justify-between text-xs text-purple-800 font-semibold">
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-purple-600"></span>
                       Tanggapan oleh {q.answerer?.name || "Administrator"}
                     </span>
                     {q.answered_at && (
-                      <span className="text-[11px] font-normal text-emerald-700">
+                      <span className="text-[11px] font-medium text-purple-600">
                         {formatWib(q.answered_at)}
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-emerald-950 whitespace-pre-wrap">
+                  <p className="text-sm text-purple-950 whitespace-pre-wrap leading-relaxed">
                     {q.answer}
                   </p>
                 </div>
@@ -282,8 +284,8 @@ export default function QuestionsAdminClient() {
 
       {/* Modal Jawab Pertanyaan */}
       {selectedQuestion && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="bg-white rounded-none max-w-xl w-full p-6 shadow-xl border border-slate-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-purple-100">
             <h3 className="text-base font-bold text-slate-900 mb-1">
               Tanggapi Pertanyaan
             </h3>
@@ -291,18 +293,18 @@ export default function QuestionsAdminClient() {
               Dari: <strong className="text-slate-800">{selectedQuestion.author.name}</strong> ({selectedQuestion.author.identifier})
             </p>
 
-            <div className="bg-slate-50 rounded-none p-3 text-xs text-slate-700 border border-slate-200 mb-4 max-h-40 overflow-y-auto">
-              <p className="font-semibold text-slate-900 mb-1">
+            <div className="bg-slate-50 rounded-xl p-3.5 text-xs text-slate-700 border border-slate-200 mb-4 max-h-40 overflow-y-auto">
+              <p className="font-bold text-slate-900 mb-1">
                 {selectedQuestion.subject}
               </p>
-              <p className="whitespace-pre-wrap">{selectedQuestion.question}</p>
+              <p className="whitespace-pre-wrap text-slate-600">{selectedQuestion.question}</p>
             </div>
 
             <form onSubmit={handleSendAnswer} className="space-y-4">
               <div>
                 <label
                   htmlFor={answerId}
-                  className="block text-xs font-semibold text-slate-700 mb-1"
+                  className="block text-xs font-semibold text-slate-700 mb-1.5"
                 >
                   Isi Tanggapan / Jawaban Resmi <span className="text-rose-500">*</span>
                 </label>
@@ -314,7 +316,7 @@ export default function QuestionsAdminClient() {
                   onChange={(e) => setAnswerText(e.target.value)}
                   placeholder="Tuliskan jawaban yang jelas dan solutif..."
                   maxLength={4000}
-                  className="w-full px-3 py-2 text-sm rounded-none border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 resize-none"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 text-slate-900 resize-none bg-slate-50 focus:bg-white transition-all"
                 />
                 <p className="text-[11px] text-slate-400 mt-1 text-right">
                   {answerText.length}/4.000
@@ -326,14 +328,14 @@ export default function QuestionsAdminClient() {
                   type="button"
                   onClick={() => setSelectedQuestion(null)}
                   disabled={savingAnswer}
-                  className="px-4 py-2 text-sm font-semibold rounded-none border border-slate-300 text-slate-700 hover:bg-slate-50"
+                  className="px-4 py-2 text-sm font-semibold rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={savingAnswer || answerText.trim().length < 2}
-                  className="px-4 py-2 text-sm font-semibold rounded-none bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50"
+                  className="px-5 py-2 text-sm font-bold rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-md shadow-purple-500/25 transition-all disabled:opacity-50"
                 >
                   {savingAnswer ? "Mengirim..." : "Kirimkan Tanggapan"}
                 </button>
@@ -344,4 +346,5 @@ export default function QuestionsAdminClient() {
       )}
     </div>
   );
+
 }

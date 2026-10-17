@@ -49,104 +49,131 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-[#062e24]">
-      {/* Box Login Putih Persegi Tegas (Square / rounded-none) dengan aksen Hijau Toska #00BB77 */}
-      <div className="w-full max-w-[360px] bg-white rounded-none shadow-2xl p-8 border-t-4 border-[#00BB77]">
-        {/* Logo Resmi Bersih */}
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950 relative overflow-hidden">
+      {/* Modern ambient purple lights */}
+      <div className="absolute top-1/4 -left-20 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Modern Card with Glass Effect */}
+      <div className="w-full max-w-[400px] bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl shadow-purple-950/50 p-8 border border-white/20 relative z-10">
+        {/* Modern Logo Badge */}
         <div className="text-center mb-6">
-          <div className="w-20 h-20 mx-auto mb-3 bg-[#062e24] text-white flex flex-col items-center justify-center rounded-none shadow-sm border border-[#00BB77]">
-            <span className="text-xl font-black tracking-widest text-[#00BB77]">PBOBA</span>
+          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-600 to-indigo-700 text-white flex flex-col items-center justify-center rounded-2xl shadow-lg shadow-purple-500/30">
+            <span className="text-xl font-black tracking-widest text-white">PB</span>
           </div>
-          <h1 className="text-base font-extrabold tracking-wider text-slate-800 uppercase">
-            E-REPORT PBOBA
+          <h1 className="text-lg font-extrabold tracking-tight text-slate-900">
+            E-Report <span className="text-purple-600">PBOBA</span>
           </h1>
-          <p className="text-2xs text-slate-400 font-semibold uppercase tracking-wider mt-0.5">
-            SUMATERA BARAT
+          <p className="text-xs text-slate-500 font-medium tracking-wide mt-1">
+            Provinsi Sumatera Barat
           </p>
         </div>
 
-        {/* Label LOGIN */}
-        <div className="text-left mb-2">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-            LOGIN
+        {/* Section title */}
+        <div className="text-center mb-6">
+          <span className="inline-block px-3 py-1 rounded-full text-2xs font-bold uppercase tracking-wider bg-purple-50 text-purple-700 border border-purple-200/80">
+            Portal Masuk Resmi
           </span>
         </div>
 
         {errorMessage && (
           <div
             role="alert"
-            className="mb-4 p-3 bg-red-50 border border-red-300 rounded-none text-xs text-red-700"
+            className="mb-4 p-3.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 flex items-center gap-2"
           >
-            {errorMessage}
+            <svg className="w-4 h-4 shrink-0 text-rose-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+            <span>{errorMessage}</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Input Username */}
-          <div className="relative">
-            <input
-              id="username"
-              type="text"
-              required
-              autoComplete="username"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              disabled={isLoading}
-              className="w-full px-3 py-2.5 bg-[#edf2f7] border border-slate-300 rounded-none text-slate-800 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-[#00BB77] pr-10"
-            />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                  clipRule="evenodd"
-                />
-              </svg>
+          <div>
+            <label className="block text-xs font-semibold text-slate-700 mb-1.5" htmlFor="username">
+              Username / Identifier
+            </label>
+            <div className="relative">
+              <input
+                id="username"
+                type="text"
+                required
+                autoComplete="username"
+                placeholder="Masukkan username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                disabled={isLoading}
+                className="w-full px-3.5 py-2.5 bg-slate-50/80 border border-slate-200 rounded-xl text-slate-800 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all pr-10"
+              />
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
 
           {/* Input Password */}
-          <div className="relative">
-            <input
-              id="password"
-              type="password"
-              required
-              autoComplete="current-password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={isLoading}
-              className="w-full px-3 py-2.5 bg-[#edf2f7] border border-slate-300 rounded-none text-slate-800 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-[#00BB77] pr-10"
-            />
+          <div>
+            <label className="block text-xs font-semibold text-slate-700 mb-1.5" htmlFor="password">
+              Kata Sandi
+            </label>
+            <div className="relative">
+              <input
+                id="password"
+                type="password"
+                required
+                autoComplete="current-password"
+                placeholder="Masukkan kata sandi"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={isLoading}
+                className="w-full px-3.5 py-2.5 bg-slate-50/80 border border-slate-200 rounded-xl text-slate-800 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 transition-all pr-10"
+              />
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
 
-          {/* Tombol MASUK (Hijau Toska Tegas #00BB77) */}
+          {/* Tombol MASUK (Modern Purple Gradient) */}
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full flex items-center justify-center py-2.5 px-4 bg-[#00BB77] hover:bg-[#009e65] text-white font-bold text-xs uppercase tracking-wider rounded-none shadow-sm transition-colors disabled:bg-slate-400 disabled:cursor-not-allowed"
+            className="w-full mt-2 flex items-center justify-center py-3 px-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md shadow-purple-500/25 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
             {isLoading ? (
               <span className="inline-flex items-center gap-2">
-                <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                 </svg>
                 Memproses...
               </span>
             ) : (
-              "MASUK"
+              "Masuk ke Portal"
             )}
           </button>
         </form>
 
-        <div className="mt-6 pt-4 border-t border-slate-200 text-center">
-          <p className="text-2xs text-slate-400 font-mono">
+        <div className="mt-6 pt-4 border-t border-slate-100 text-center">
+          <p className="text-2xs text-slate-400 font-medium">
             &copy; 2026 E-Report PBOBA. All rights reserved.
           </p>
         </div>
       </div>
     </div>
   );
+
 }
