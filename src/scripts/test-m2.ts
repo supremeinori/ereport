@@ -132,12 +132,14 @@ async function runTests() {
   const searchByName = await prisma.user.findMany({
     where: {
       role: Role.reporter,
+      email: { in: [reporter1Email, reporter2Email] },
       name: { contains: "Bukittinggi", mode: "insensitive" },
     },
   });
   const searchById = await prisma.user.findMany({
     where: {
       role: Role.reporter,
+      email: { in: [reporter1Email, reporter2Email] },
       identifier: { contains: "PADANG", mode: "insensitive" },
     },
   });

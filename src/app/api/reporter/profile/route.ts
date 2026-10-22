@@ -8,15 +8,30 @@ export async function GET() {
   try {
     const user = await requireRole(Role.reporter);
 
-    return NextResponse.json({
-      reporter: {
-        id: user.id,
-        identifier: user.identifier,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        is_active: user.is_active,
+    const fullUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: {
+        id: true,
+        identifier: true,
+        name: true,
+        email: true,
+        role: true,
+        is_active: true,
+        address: true,
+        license_number: true,
+        license_date: true,
+        pic_name: true,
+        pic_phone: true,
+        description: true,
       },
+    });
+
+    if (!fullUser) {
+      return NextResponse.json({ message: "Pengguna tidak ditemukan." }, { status: 404 });
+    }
+
+    return NextResponse.json({
+      reporter: fullUser,
     });
   } catch (err: unknown) {
     if (err instanceof AuthError) {
@@ -55,7 +70,7 @@ export async function PATCH(request: NextRequest) {
     // Cek apakah email sudah dipakai oleh pengguna lain
     const existing = await prisma.user.findFirst({
       where: {
-        email,
+        email: { equals: email, mode: "insensitive" as const },
         id: { not: user.id },
       },
     });
@@ -77,6 +92,12 @@ export async function PATCH(request: NextRequest) {
         email: true,
         role: true,
         is_active: true,
+        address: true,
+        license_number: true,
+        license_date: true,
+        pic_name: true,
+        pic_phone: true,
+        description: true,
       },
     });
 

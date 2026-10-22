@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mockup E-Report PBOBA — Remotion Demo Canvas</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"IBM Plex Mono"', 'monospace'],
+          },
+          colors: {
+            purple: {
+              50: '#faf7fc',
+              100: '#f1e8f5',
+              200: '#e3d5ea',
+              300: '#cdb6d8',
+              400: '#b99ac9',
+              500: '#a47db9',
+              600: '#9163a8',
+              700: '#764b8c',
+              800: '#5c386e',
+              900: '#422650',
+              950: '#2b1635',
+            },
+            canvas: '#f6f4f8',
+            surface: '#ffffff',
+            line: '#e5dfea',
+            'line-strong': '#d4c9dd',
+            ink: '#1f1a24',
+            'ink-soft': '#5c5468',
+          },
+          boxShadow: {
+            panel: '0 1px 3px rgba(31, 26, 36, 0.05)',
+            modal: '0 20px 50px -12px rgba(31, 26, 36, 0.2)',
+            glow: '0 0 25px rgba(118, 75, 140, 0.15)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0f0d13;
+      color: #1f1a24;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* 1920x1080 Aspect Ratio Container */
+    #viewport-container {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      background: #f6f4f8;
+      transform-origin: top left;
+      overflow: hidden;
+    }
+
+    /* Subtle hairline border utility */
+    .border-hairline {
+      border: 1px solid #e5dfea;
+    }
+
+    /* Scene Transitions */
+    .scene {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: #f6f4f8;
+    }
+    .scene.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Animation effects for video capture */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-scene-entry {
+      animation: fadeIn 0.25s ease-out forwards;
+    }
+
+    /* Monospace tabular nums */
+    .num-tabular {
+      font-family: 'IBM Plex Mono', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Floating Director Control Bar */
+    #director-toolbar {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      background: rgba(43, 22, 53, 0.94);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(185, 154, 201, 0.3);
+      border-radius: 9999px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-start min-h-screen p-4">
+
+  <!-- DIRECTOR TOOLBAR (For manual scene switching, Remotion testing & screen capture) -->
+  <div id="director-toolbar" class="text-white text-xs">
+    <div class="flex items-center gap-2 pr-3 border-r border-purple-800">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="font-semibold text-purple-200 uppercase tracking-wider text-[11px]">Remotion Mockup Studio</span>
+    </div>
+
+    <!-- Scene Selector Buttons -->
+    <div class="flex items-center gap-1.5" id="scene-buttons">
+      <button onclick="goToScene(1)" id="btn-scene-1" class="px-3 py-1.5 rounded-full bg-purple-700 text-white font-medium hover:bg-purple-600 transition">1. Login PBOT</button>
+      <button onclick="goToScene(2)" id="btn-scene-2" class="px-3 py-1.5 rounded-full bg-purple-900/60 text-purple-200 hover:bg-purple-800 transition">2. Dashboard</button>
+      <button onclick="goToScene(3)" id="btn-scene-3" class="px-3 py-1.5 rounded-full bg-purple-900/60 text-purple-200 hover:bg-purple-800 transition">3. Form Unggah Laporan</button>
+      <button onclick="goToScene(4)" id="btn-scene-4" class="px-3 py-1.5 rounded-full bg-purple-900/60 text-purple-200 hover:bg-purple-800 transition">4. Verifikasi Auditor Dinkes</button>
+      <button onclick="goToScene(5)" id="btn-scene-5" class="px-3 py-1.5 rounded-full bg-purple-900/60 text-purple-200 hover:bg-purple-800 transition">5. Bukti Tanda Terima</button>
+    </div>
+
+    <div class="h-4 w-px bg-purple-800 mx-1"></div>
+
+    <!-- Options: Window Frame toggle, Zoom / Scale, Auto-Play -->
+    <div class="flex items-center gap-2">
+      <button onclick="toggleFrame()" id="btn-frame-toggle" class="px-2.5 py-1.5 rounded bg-purple-900/70 hover:bg-purple-800 text-purple-200">
+        Window Frame: <span id="frame-status" class="font-bold text-white">ON</span>
+      </button>
+
+      <button onclick="toggleAutoplay()" id="btn-autoplay" class="px-2.5 py-1.5 rounded bg-purple-900/70 hover:bg-purple-800 text-purple-200 flex items-center gap-1">
+        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <span>Auto-Play (5s)</span>
+      </button>
+
+      <div class="text-[10px] text-purple-300 font-mono px-2 bg-purple-950 rounded py-1">
+        Canvas: 1920×1080 (16:9)
+      </div>
+    </div>
+  </div>
+
+  <!-- SCALE WRAPPER FOR PREVIEWING 1920x1080 ON SCREEN -->
+  <div id="scale-wrapper" class="relative transition-all shadow-2xl rounded-lg overflow-hidden border border-purple-900/50 my-auto">
+    
+    <!-- 1920x1080 NATIVE CANVAS -->
+    <div id="viewport-container">
+
+      <!-- OPTIONAL BROWSER CHROME FRAME -->
+      <div id="browser-chrome" class="w-full bg-[#24132c] text-purple-200 px-5 py-2.5 flex items-center justify-between border-b border-purple-950 text-xs">
+        <div class="flex items-center gap-2">
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-rose-500/80"></div>
+            <div class="w-3 h-3 rounded-full bg-amber-500/80"></div>
+            <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+          </div>
+          <div class="ml-4 flex items-center gap-1.5 text-purple-400">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          </div>
+        </div>
+
+        <!-- URL Pill Bar -->
+        <div class="w-2/5 max-w-xl bg-purple-950/80 border border-purple-800/40 rounded-md py-1 px-4 flex items-center justify-center gap-2 text-purple-300 font-mono text-[12px]">
+          <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span class="text-purple-400">https://</span><span class="text-white font-medium">ereport-pboba.sumbarprov.go.id</span><span class="text-purple-400">/portal</span>
+        </div>
+
+        <div class="flex items-center gap-3 text-purple-300 text-[11px] font-mono">
+          <span class="px-2 py-0.5 rounded bg-purple-900/50 border border-purple-700/30">PROD-ID: SB-PBOT-2026</span>
+          <span>DINKES SUMBAR</span>
+        </div>
+      </div>
+
+      <!-- MAIN APP CANVAS (Scrollable / Fixed 1080p content area) -->
+      <div class="relative flex-1 w-full h-full overflow-hidden">
+
+        <!-- ========================================== -->
+        <!-- SCENE 1: LOGIN & AUTENTIKASI PBOT SUMBAR   -->
+        <!-- ========================================== -->
+        <div id="scene-1" class="scene active animate-scene-entry justify-between">
+          <!-- Top bar -->
+          <div class="bg-purple-950 text-white px-10 py-4 flex items-center justify-between border-b border-purple-900">
+            <div class="flex items-center gap-3">
+              <!-- Official Emblem / Logo SVG -->
+              <svg class="w-9 h-9" viewBox="0 0 512 512" fill="none">
+                <rect x="20" y="20" width="472" height="472" rx="96" fill="#FAF7FC"/>
+                <circle cx="256" cy="256" r="178" fill="#F1E8F5"/>
+                <path d="M216 150 H308 V176 C308 190 338 202 338 230 V365 C338 388 321 405 298 405 H226 C203 405 186 388 186 365 V230 C186 202 216 190 216 176Z" fill="#A47DB9"/>
+                <rect x="197" y="228" width="130" height="116" rx="18" fill="#FFFCFF"/>
+                <path d="M262 293 C246 268 223 263 215 265 C216 288 232 305 255 309 C250 295 242 284 231 277 C247 286 258 300 262 316 C266 300 277 286 293 277 C282 284 274 295 269 309 C292 305 308 288 309 265 C301 263 278 268 262 293Z" fill="#764B8C"/>
+              </svg>
+              <div>
+                <div class="text-sm font-semibold tracking-wide text-purple-100 uppercase">E-Report PBOBA</div>
+                <div class="text-xs text-purple-300">Pemerintah Provinsi Sumatera Barat — Dinas Kesehatan</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 text-xs font-mono text-purple-300">
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Server Terhubung</span>
+              <span class="text-purple-600">|</span>
+              <span>v1.2.0 (Audit Standard)</span>
+            </div>
+          </div>
+
+          <!-- Login Center Container -->
+          <div class="flex-1 flex items-center justify-center p-12 bg-gradient-to-b from-[#f6f4f8] to-[#eeeaf2]">
+            <div class="w-[520px] bg-white border border-line rounded-lg shadow-panel p-10">
+              <div class="border-b border-line pb-6 mb-6">
+                <div class="inline-block px-2.5 py-1 bg-purple-100 text-purple-800 text-[11px] font-mono rounded-sm mb-3 font-semibold">
+                  SISTEM REGISTER RESMI
+                </div>
+                <h1 class="text-2xl font-bold text-ink">Masuk ke Portal Pelaporan</h1>
+                <p class="text-ink-soft text-sm mt-1.5">
+                  Khusus Pedagang Besar Obat Tradisional (PBOT) & Auditor Dinas Kesehatan Prov. Sumatera Barat.
+                </p>
+              </div>
+
+              <!-- Login Form Elements -->
+              <div class="space-y-5">
+                <div>
+                  <label class="block text-xs font-semibold text-ink uppercase tracking-wider mb-2">Username / NIB Pelapor</label>
+                  <div class="relative">
+                    <input type="text" value="pbot.padang.farma@sumbar" class="w-full font-mono text-sm px-4 py-3 bg-[#faf9fb] border border-line rounded-md text-ink focus:outline-none focus:border-purple-700" readonly>
+                    <span class="absolute right-3.5 top-3.5 text-purple-600">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between items-center mb-2">
+                    <label class="block text-xs font-semibold text-ink uppercase tracking-wider">Kata Sandi Akun</label>
+                    <span class="text-xs text-purple-700 cursor-pointer font-medium hover:underline">Bantuan Teknis Dinkes</span>
+                  </div>
+                  <div class="relative">
+                    <input type="password" value="••••••••••••••••" class="w-full font-mono text-sm px-4 py-3 bg-[#faf9fb] border border-line rounded-md text-ink focus:outline-none focus:border-purple-700" readonly>
+                    <span class="absolute right-3.5 top-3.5 text-ink-soft">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="pt-2">
+                  <button onclick="goToScene(2)" class="w-full bg-purple-700 hover:bg-purple-800 text-white py-3.5 px-4 rounded-md font-semibold text-sm transition flex items-center justify-center gap-2 shadow-sm">
+                    <span>Masuk ke Akun PBOT</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Note below -->
+              <div class="mt-8 pt-5 border-t border-line text-center text-xs text-ink-soft">
+                Landasan Hukum: Peraturan Badan POM RI No. 25 Tahun 2021 tentang Tata Cara Pelaporan Distribusi Obat Bahan Alam
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom bar -->
+          <div class="px-10 py-3 bg-white border-t border-line flex justify-between items-center text-xs text-ink-soft font-mono">
+            <div>&copy; 2026 DINAS KESEHATAN PROVINSI SUMATERA BARAT</div>
+            <div>BIDANG SUMBER DAYA KESEHATAN & KEFARMASIAN</div>
+          </div>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- SCENE 2: DASHBOARD PBOT (LEDGER REGISTER)  -->
+        <!-- ========================================== -->
+        <div id="scene-2" class="scene animate-scene-entry justify-between">
+          <!-- Top App Header -->
+          <header class="bg-purple-950 text-white px-8 py-3.5 flex items-center justify-between border-b border-purple-900">
+            <div class="flex items-center gap-4">
+              <!-- Logo Mini -->
+              <div class="w-8 h-8 rounded bg-purple-900 flex items-center justify-center text-purple-200 font-bold border border-purple-700">
+                P
+              </div>
+              <div>
+                <div class="text-sm font-bold tracking-wide">E-REPORT PBOBA SUMATERA BARAT</div>
+                <div class="text-[11px] text-purple-300 font-mono">PT SUMBAR HERBAL MEDIKA — PBOT/13.71/2024/09</div>
+              </div>
+            </div>
+
+            <!-- Header Navigation -->
+            <nav class="flex items-center gap-6 text-xs font-medium">
+              <span class="text-white border-b-2 border-purple-400 pb-1 cursor-pointer">Buku Register & Laporan</span>
+              <span class="text-purple-300 hover:text-white cursor-pointer" onclick="goToScene(3)">Formulir Unggah</span>
+              <span class="text-purple-300 hover:text-white cursor-pointer">Format Template Excel</span>
+              <span class="text-purple-300 hover:text-white cursor-pointer">Bantuan Verifikasi</span>
+            </nav>
+
+            <!-- User Badge -->
+            <div class="flex items-center gap-3">
+              <div class="text-right">
+                <div class="text-xs font-semibold text-purple-100">apt. Rahmat Hidayat, S.Farm</div>
+                <div class="text-[10px] text-purple-300 font-mono">Penanggung Jawab Teknis</div>
+              </div>
+              <div class="w-8 h-8 rounded-full bg-purple-700 text-white flex items-center justify-center text-xs font-bold font-mono">
+                RH
+              </div>
+            </div>
+          </header>
+
+          <!-- Main Dashboard Body -->
+          <main class="flex-1 p-8 overflow-y-auto space-y-6">
+            
+            <!-- Alert / Notice Box -->
+            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded bg-purple-700 text-white flex items-center justify-center shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-purple-950 uppercase tracking-wide">Periode Wajib Lapor: Semester I Tahun Anggaran 2026</div>
+                  <div class="text-xs text-ink-soft mt-0.5">Batas akhir penerimaan berkas digital pada tanggal <span class="font-mono font-semibold text-purple-900">31 Juli 2026 pukul 23:59 WIB</span>. Sisa waktu 14 hari.</div>
+                </div>
+              </div>
+              <button onclick="goToScene(3)" class="px-4 py-2 bg-purple-700 hover:bg-purple-800 text-white text-xs font-semibold rounded-md transition flex items-center gap-2">
+                <span>+ Unggah Laporan Baru</span>
+              </button>
+            </div>
+
+            <!-- Ledger Stats Grid -->
+            <div class="grid grid-cols-4 gap-4">
+              <div class="bg-white border border-line rounded-lg p-5 shadow-panel">
+                <div class="text-2xs font-semibold uppercase tracking-wider text-ink-soft">Total Laporan Terkirim</div>
+                <div class="mt-2 flex items-baseline gap-2">
+                  <span class="text-3xl font-bold text-ink num-tabular">12</span>
+                  <span class="text-xs text-ink-soft">Semester (2020-2026)</span>
+                </div>
+                <div class="mt-3 text-2xs text-emerald-700 font-mono flex items-center gap-1">
+                  <span>● 100% Kepatuhan Tepat Waktu</span>
+                </div>
+              </div>
+
+              <div class="bg-white border border-line rounded-lg p-5 shadow-panel">
+                <div class="text-2xs font-semibold uppercase tracking-wider text-ink-soft">Status Semester Berjalan</div>
+                <div class="mt-2 flex items-baseline gap-2">
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-mono font-semibold bg-amber-100 text-amber-800">
+                    Menunggu Verifikasi
+                  </span>
+                </div>
+                <div class="mt-3 text-2xs text-ink-soft font-mono">
+                  Diajukan: 16 Juli 2026, 14:22 WIB
+                </div>
+              </div>
+
+              <div class="bg-white border border-line rounded-lg p-5 shadow-panel">
+                <div class="text-2xs font-semibold uppercase tracking-wider text-ink-soft">Item Distribusi Tercatat</div>
+                <div class="mt-2 flex items-baseline gap-2">
+                  <span class="text-3xl font-bold text-ink num-tabular">1.842</span>
+                  <span class="text-xs text-ink-soft">Batch Produk Jamu</span>
+                </div>
+                <div class="mt-3 text-2xs text-purple-700 font-mono">
+                  Validasi Format Excel: OK
+                </div>
+              </div>
+
+              <div class="bg-white border border-line rounded-lg p-5 shadow-panel">
+                <div class="text-2xs font-semibold uppercase tracking-wider text-ink-soft">Auditor Penanggung Jawab</div>
+                <div class="mt-2 text-sm font-semibold text-ink">
+                  Dra. Hj. Nuraini, Apt.
+                </div>
+                <div class="mt-3 text-2xs text-ink-soft font-mono">
+                  Seksi Pengawasan Farmasi Dinkes
+                </div>
+              </div>
+            </div>
+
+            <!-- Ledger Table Section -->
+            <div class="bg-white border border-line rounded-lg shadow-panel overflow-hidden">
+              <div class="px-6 py-4 border-b border-line flex items-center justify-between">
+                <div>
+                  <h2 class="text-sm font-bold text-ink uppercase tracking-wide">Buku Register Riwayat Pelaporan</h2>
+                  <p class="text-xs text-ink-soft">Dokumentasi audit trail pelaporan berkas distribusi obat tradisional resmi.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-ink-soft font-mono">Filter Tahun:</span>
+                  <select class="text-xs border border-line rounded px-2.5 py-1 text-ink font-mono bg-canvas">
+                    <option>2026</option>
+                    <option>2025</option>
+                    <option>2024</option>
+                  </select>
+                </div>
+              </div>
+
+              <table class="w-full text-left text-xs">
+                <thead>
+                  <tr class="bg-[#faf9fb] border-b border-line text-ink-soft font-semibold font-mono">
+                    <th class="py-3 px-6">NO. REGISTER</th>
+                    <th class="py-3 px-4">PERIODE LAPORAN</th>
+                    <th class="py-3 px-4">TANGGAL UNGGAH</th>
+                    <th class="py-3 px-4">BERKAS DISTRIBUSI</th>
+                    <th class="py-3 px-4">SURAT PENGANTAR</th>
+                    <th class="py-3 px-4">STATUS AUDIT</th>
+                    <th class="py-3 px-6 text-right">TINDAKAN</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-line text-ink">
+                  <tr class="hover:bg-purple-50/40">
+                    <td class="py-4 px-6 font-mono font-medium text-purple-900">REG-2026-I-0042</td>
+                    <td class="py-4 px-4 font-semibold">Semester I / 2026</td>
+                    <td class="py-4 px-4 font-mono text-ink-soft">16/07/2026 14:22</td>
+                    <td class="py-4 px-4 font-mono text-purple-700 flex items-center gap-1.5">
+                      <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
+                      laporan_dist_2026_1.xlsx
+                    </td>
+                    <td class="py-4 px-4 font-mono text-purple-700">surat_ttd_direktur.pdf</td>
+                    <td class="py-4 px-4">
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-2xs font-mono font-semibold bg-amber-100 text-amber-800 border border-amber-200">
+                        Menunggu Verifikasi
+                      </span>
+                    </td>
+                    <td class="py-4 px-6 text-right font-mono">
+                      <button onclick="goToScene(4)" class="px-2.5 py-1 text-purple-700 border border-purple-200 rounded hover:bg-purple-100 transition">Detail Berkas</button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-purple-50/40">
+                    <td class="py-4 px-6 font-mono font-medium text-ink-soft">REG-2025-II-0089</td>
+                    <td class="py-4 px-4 font-semibold">Semester II / 2025</td>
+                    <td class="py-4 px-4 font-mono text-ink-soft">12/01/2026 09:15</td>
+                    <td class="py-4 px-4 font-mono text-ink-soft flex items-center gap-1.5">
+                      <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
+                      laporan_dist_2025_2.xlsx
+                    </td>
+                    <td class="py-4 px-4 font-mono text-ink-soft">pengantar_sah.pdf</td>
+                    <td class="py-4 px-4">
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-2xs font-mono font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                        Disetujui Sah
+                      </span>
+                    </td>
+                    <td class="py-4 px-6 text-right font-mono">
+                      <button onclick="goToScene(5)" class="px-2.5 py-1 text-emerald-700 border border-emerald-200 rounded hover:bg-emerald-50 transition">Cetak Tanda Terima</button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-purple-50/40">
+                    <td class="py-4 px-6 font-mono font-medium text-ink-soft">REG-2025-I-0031</td>
+                    <td class="py-4 px-4 font-semibold">Semester I / 2025</td>
+                    <td class="py-4 px-4 font-mono text-ink-soft">14/07/2025 11:04</td>
+                    <td class="py-4 px-4 font-mono text-ink-soft flex items-center gap-1.5">
+                      <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
+                      laporan_dist_2025_1.xlsx
+                    </td>
+                    <td class="py-4 px-4 font-mono text-ink-soft">surat_direktur_2025.pdf</td>
+                    <td class="py-4 px-4">
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-2xs font-mono font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                        Disetujui Sah
+                      </span>
+                    </td>
+                    <td class="py-4 px-6 text-right font-mono">
+                      <button onclick="goToScene(5)" class="px-2.5 py-1 text-emerald-700 border border-emerald-200 rounded hover:bg-emerald-50 transition">Cetak Tanda Terima</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </main>
+
+          <!-- Footer Status -->
+          <footer class="px-8 py-3 bg-white border-t border-line flex justify-between items-center text-xs text-ink-soft font-mono">
+            <div>Terdaftar di Sistem Informasi Pengawasan Kefarmasian Sumatera Barat</div>
+            <div>STATUS KONEKSI: AKTIF & TERENKRIPSI TLS 1.3</div>
+          </footer>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- SCENE 3: FORM UNGGAH LAPORAN SEMESTER      -->
+        <!-- ========================================== -->
+        <div id="scene-3" class="scene animate-scene-entry justify-between">
+          <!-- Header -->
+          <header class="bg-purple-950 text-white px-8 py-3.5 flex items-center justify-between border-b border-purple-900">
+            <div class="flex items-center gap-4">
+              <button onclick="goToScene(2)" class="text-purple-300 hover:text-white flex items-center gap-1 text-xs">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                Kembali ke Register
+              </button>
+              <div class="h-4 w-px bg-purple-800"></div>
+              <div class="text-xs font-semibold uppercase tracking-wider text-purple-200">Pengunggahan Laporan Distribusi Semester I / 2026</div>
+            </div>
+            <div class="text-xs text-purple-300 font-mono">Langkah 2 dari 3: Validasi Berkas</div>
+          </header>
+
+          <main class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-4xl mx-auto space-y-6">
+              
+              <!-- Progress Stepper -->
+              <div class="grid grid-cols-3 gap-3 text-xs">
+                <div class="bg-white border-b-2 border-purple-700 p-3 rounded shadow-sm">
+                  <div class="text-purple-700 font-mono font-bold">01. IDENTITAS USAHA</div>
+                  <div class="text-ink text-[11px] font-medium mt-0.5">PT Sumbar Herbal Medika (Tervalidasi)</div>
+                </div>
+                <div class="bg-purple-100/70 border-b-2 border-purple-800 p-3 rounded">
+                  <div class="text-purple-900 font-mono font-bold">02. UNGGAH BERKAS DISTRIBUSI</div>
+                  <div class="text-purple-950 text-[11px] font-medium mt-0.5">XLSX Distribusi & PDF Pengantar</div>
+                </div>
+                <div class="bg-white border-b-2 border-line p-3 rounded text-ink-soft">
+                  <div class="font-mono">03. PERNYATAAN RESMI</div>
+                  <div class="text-[11px] mt-0.5">Penandatanganan Digital & Pengiriman</div>
+                </div>
+              </div>
+
+              <!-- Upload Form Card -->
+              <div class="bg-white border border-line rounded-lg p-6 shadow-panel space-y-6">
+                <div>
+                  <h3 class="text-base font-bold text-ink">1. Unggah Berkas Distribusi (Format Standar PBOBA)</h3>
+                  <p class="text-xs text-ink-soft mt-1">Gunakan template resmi XLSX Dinas Kesehatan. Sistem akan secara otomatis memverifikasi kolom obat tradisional, nomor izin edar NIE, batch, dan jumlah salur.</p>
+                </div>
+
+                <!-- Dropzone Box -->
+                <div class="border-2 border-dashed border-purple-300 rounded-lg p-8 bg-purple-50/40 text-center flex flex-col items-center justify-center hover:bg-purple-50/80 transition cursor-pointer">
+                  <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-700 mb-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                  </div>
+                  <div class="text-sm font-semibold text-ink">Klik untuk memilih berkas atau seret berkas ke sini</div>
+                  <div class="text-xs text-ink-soft font-mono mt-1">Ekstensi yang diizinkan: .XLSX, .XLS (Maks. 25 MB)</div>
+                  
+                  <!-- Selected File Preview Pill -->
+                  <div class="mt-4 bg-white border border-purple-200 rounded-md px-4 py-2.5 flex items-center gap-3 shadow-sm text-left">
+                    <div class="w-7 h-7 bg-emerald-100 text-emerald-700 rounded flex items-center justify-center text-xs font-bold font-mono">XLS</div>
+                    <div>
+                      <div class="text-xs font-bold text-ink font-mono">laporan_distribusi_smtr1_2026_final.xlsx</div>
+                      <div class="text-2xs text-ink-soft font-mono">3.4 MB • 1.842 baris data terdeteksi valid</div>
+                    </div>
+                    <span class="text-xs text-emerald-600 font-bold ml-2">✓ Terverifikasi</span>
+                  </div>
+                </div>
+
+                <!-- Second File: Surat Pengantar -->
+                <div class="pt-4 border-t border-line">
+                  <h3 class="text-sm font-bold text-ink mb-1">2. Berkas Surat Pengantar Resmi (Bertandatangan & Cap Basah / Elektronik)</h3>
+                  <p class="text-xs text-ink-soft mb-3">Surat pengantar bertandatangan Apoteker Penanggung Jawab dan Pimpinan Perusahaan (.PDF)</p>
+                  
+                  <div class="flex items-center gap-4 bg-canvas p-3 rounded border border-line">
+                    <div class="w-8 h-8 rounded bg-rose-100 text-rose-700 flex items-center justify-center font-mono font-bold text-xs">PDF</div>
+                    <div class="flex-1">
+                      <div class="text-xs font-bold text-ink font-mono">surat_pengantar_resmi_pbot_signed.pdf</div>
+                      <div class="text-2xs text-ink-soft font-mono">512 KB • Tanda Tangan BSrE Valid</div>
+                    </div>
+                    <button class="text-xs text-purple-700 font-semibold hover:underline">Ganti File</button>
+                  </div>
+                </div>
+
+                <!-- Checkbox Pernyataan -->
+                <div class="pt-4 border-t border-line flex items-start gap-3">
+                  <input type="checkbox" checked class="mt-1 accent-purple-700 rounded">
+                  <label class="text-xs text-ink leading-relaxed">
+                    Saya menyatakan dengan sesungguhnya bahwa seluruh data peredaran dan distribusi obat tradisional yang diunggah adalah sah, akurat, dan sesuai dengan dokumen faktur penjualan asli yang dapat diaudit oleh Tim Pemeriksa Dinas Kesehatan Provinsi Sumatera Barat.
+                  </label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4 flex justify-end gap-3">
+                  <button onclick="goToScene(2)" class="px-5 py-2.5 border border-line rounded-md text-xs font-semibold text-ink hover:bg-canvas">Batal</button>
+                  <button onclick="goToScene(4)" class="px-6 py-2.5 bg-purple-700 hover:bg-purple-800 text-white rounded-md text-xs font-semibold flex items-center gap-2 shadow-sm transition">
+                    <span>Kirim Berkas Laporan Resmi</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </main>
+
+          <footer class="px-8 py-3 bg-white border-t border-line flex justify-between items-center text-xs text-ink-soft font-mono">
+            <div>Validasi Skema: Permenkes 007/2012 & BPOM PBOBA</div>
+            <div>PROTEKSI INTEGRITAS: SHA-256 CHECKED</div>
+          </footer>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- SCENE 4: VERIFIKASI ADMIN AUDITOR DINKES   -->
+        <!-- ========================================== -->
+        <div id="scene-4" class="scene animate-scene-entry justify-between">
+          <!-- Auditor Header -->
+          <header class="bg-purple-950 text-white px-8 py-3.5 flex items-center justify-between border-b border-purple-900">
+            <div class="flex items-center gap-4">
+              <div class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-mono font-bold">
+                AUDITOR MODE
+              </div>
+              <div>
+                <div class="text-sm font-bold tracking-wide">PANEL VERIFIKASI DINKES PROV. SUMATERA BARAT</div>
+                <div class="text-[11px] text-purple-300 font-mono">Pemeriksaan Berkas: PT SUMBAR HERBAL MEDIKA (REG-2026-I-0042)</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <span class="text-xs text-purple-300 font-mono">Auditor: Dra. Hj. Nuraini, Apt. (NIP. 197804122003122001)</span>
+              <button onclick="goToScene(2)" class="px-3 py-1 bg-purple-900 hover:bg-purple-800 text-purple-200 text-xs rounded border border-purple-700">Tutup Berkas</button>
+            </div>
+          </header>
+
+          <!-- Split Auditor View -->
+          <main class="flex-1 p-8 grid grid-cols-12 gap-6 overflow-hidden">
+            
+            <!-- Left: Document & Data Inspection (8 cols) -->
+            <div class="col-span-8 flex flex-col space-y-4 h-full">
+              <!-- Summary Card -->
+              <div class="bg-white border border-line rounded-lg p-5 shadow-panel">
+                <div class="flex items-start justify-between border-b border-line pb-4 mb-4">
+                  <div>
+                    <span class="text-2xs font-mono font-semibold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-sm">BERKAS MASUK</span>
+                    <h2 class="text-base font-bold text-ink mt-1">Laporan Distribusi Semester I - Tahun 2026</h2>
+                    <p class="text-xs text-ink-soft">Diajukan oleh: PT SUMBAR HERBAL MEDIKA • Izin PBOT No. 503/PBOT/DPMPTSP/2024</p>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-xs font-mono text-ink-soft">Tanggal Kirim:</div>
+                    <div class="text-xs font-mono font-bold text-ink">16 Juli 2026, 14:22:18 WIB</div>
+                  </div>
+                </div>
+
+                <!-- Metrics Check -->
+                <div class="grid grid-cols-3 gap-4 text-xs">
+                  <div class="bg-canvas p-3 rounded border border-line">
+                    <span class="text-2xs text-ink-soft font-mono">JUMLAH FAKTUR DISTRIBUSI</span>
+                    <div class="text-lg font-bold text-ink num-tabular mt-1">348 Transaksi</div>
+                    <div class="text-2xs text-emerald-700">✓ Semua tujuan berizin resmi</div>
+                  </div>
+                  <div class="bg-canvas p-3 rounded border border-line">
+                    <span class="text-2xs text-ink-soft font-mono">TOTAL KUANTITAS PRODUK</span>
+                    <div class="text-lg font-bold text-ink num-tabular mt-1">42.910 Botol/Strip</div>
+                    <div class="text-2xs text-emerald-700">✓ Sesuai kuota distribusi</div>
+                  </div>
+                  <div class="bg-canvas p-3 rounded border border-line">
+                    <span class="text-2xs text-ink-soft font-mono">STATUS KELENGKAPAN SURAT</span>
+                    <div class="text-lg font-bold text-purple-900 mt-1">Lengkap 100%</div>
+                    <div class="text-2xs text-emerald-700">✓ TTD SIPA Terverifikasi</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Data Table Preview -->
+              <div class="flex-1 bg-white border border-line rounded-lg shadow-panel overflow-hidden flex flex-col">
+                <div class="px-5 py-3 border-b border-line bg-[#faf9fb] flex justify-between items-center">
+                  <span class="text-xs font-bold text-ink uppercase tracking-wide font-mono">Sampel Audit Data Distribusi (Sheet 1: Rekap Mutasi)</span>
+                  <span class="text-2xs font-mono text-ink-soft">Menampilkan 4 dari 1.842 baris</span>
+                </div>
+                <div class="flex-1 overflow-auto">
+                  <table class="w-full text-left text-xs font-mono">
+                    <thead class="bg-white border-b border-line text-ink-soft text-2xs sticky top-0">
+                      <tr>
+                        <th class="py-2.5 px-4">TGL TRANSAKSI</th>
+                        <th class="py-2.5 px-3">NAMA PRODUK OBAT TRADISIONAL</th>
+                        <th class="py-2.5 px-3">NO. NIE BPOM</th>
+                        <th class="py-2.5 px-3">NOMOR BATCH</th>
+                        <th class="py-2.5 px-3 text-right">JUMLAH</th>
+                        <th class="py-2.5 px-4">PENERIMA DISTRIBUSI</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-line text-ink text-[11px]">
+                      <tr>
+                        <td class="py-2 px-4 text-ink-soft">03/01/2026</td>
+                        <td class="py-2 px-3 font-semibold font-sans">Minyak Telon Herbal Plus 100ml</td>
+                        <td class="py-2 px-3 text-purple-800">TR. 192634891</td>
+                        <td class="py-2 px-3">BCH-260109</td>
+                        <td class="py-2 px-3 text-right num-tabular font-bold">1.200 btl</td>
+                        <td class="py-2 px-4 font-sans text-ink-soft">Apotek Minang Farma, Padang</td>
+                      </tr>
+                      <tr>
+                        <td class="py-2 px-4 text-ink-soft">08/01/2026</td>
+                        <td class="py-2 px-3 font-semibold font-sans">Kapsul Ekstrak Kulit Manggis</td>
+                        <td class="py-2 px-3 text-purple-800">TR. 203348121</td>
+                        <td class="py-2 px-3">BCH-260122</td>
+                        <td class="py-2 px-3 text-right num-tabular font-bold">850 btl</td>
+                        <td class="py-2 px-4 font-sans text-ink-soft">Toko Obat Sehat Bukittinggi</td>
+                      </tr>
+                      <tr>
+                        <td class="py-2 px-4 text-ink-soft">15/01/2026</td>
+                        <td class="py-2 px-3 font-semibold font-sans">Madu Propolis Murni 250gr</td>
+                        <td class="py-2 px-3 text-purple-800">TR. 182699211</td>
+                        <td class="py-2 px-3">BCH-260144</td>
+                        <td class="py-2 px-3 text-right num-tabular font-bold">2.400 pcs</td>
+                        <td class="py-2 px-4 font-sans text-ink-soft">Apotek Bunda Payakumbuh</td>
+                      </tr>
+                      <tr>
+                        <td class="py-2 px-4 text-ink-soft">22/01/2026</td>
+                        <td class="py-2 px-3 font-semibold font-sans">Jamu Seduh Temulawak Instan</td>
+                        <td class="py-2 px-3 text-purple-800">TR. 213309881</td>
+                        <td class="py-2 px-3">BCH-260189</td>
+                        <td class="py-2 px-3 text-right num-tabular font-bold">600 box</td>
+                        <td class="py-2 px-4 font-sans text-ink-soft">Klinik Herbal Solok</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Auditor Decision & Action Console (4 cols) -->
+            <div class="col-span-4 bg-white border border-line rounded-lg p-6 shadow-panel flex flex-col justify-between">
+              <div class="space-y-5">
+                <div class="border-b border-line pb-4">
+                  <div class="text-xs font-bold text-ink uppercase tracking-wide">Hasil Pemeriksaan Auditor</div>
+                  <div class="text-xs text-ink-soft mt-1">Pilih keputusan audit untuk diterbitkan ke PBOT.</div>
+                </div>
+
+                <!-- Checklist verification -->
+                <div class="space-y-2.5 text-xs">
+                  <label class="flex items-center gap-2 text-ink">
+                    <input type="checkbox" checked class="accent-purple-700">
+                    <span>SIPA Apoteker PJ masih aktif (2028)</span>
+                  </label>
+                  <label class="flex items-center gap-2 text-ink">
+                    <input type="checkbox" checked class="accent-purple-700">
+                    <span>Format data kolom sesuai pedoman PBOBA</span>
+                  </label>
+                  <label class="flex items-center gap-2 text-ink">
+                    <input type="checkbox" checked class="accent-purple-700">
+                    <span>Seluruh produk memiliki NIE BPOM sah</span>
+                  </label>
+                  <label class="flex items-center gap-2 text-ink">
+                    <input type="checkbox" checked class="accent-purple-700">
+                    <span>Surat pengantar bertandatangan & cap</span>
+                  </label>
+                </div>
+
+                <!-- Catatan Auditor Form -->
+                <div>
+                  <label class="block text-2xs font-bold uppercase tracking-wider text-ink-soft mb-1.5 font-mono">CATATAN RESMI PEMERIKSAAN</label>
+                  <textarea rows="4" class="w-full text-xs font-mono p-3 bg-canvas border border-line rounded-md text-ink focus:outline-none focus:border-purple-700" readonly>Berkas laporan distribusi Semester I Tahun 2026 telah diverifikasi lengkap, tertib administrasi, dan sesuai ketentuan perundang-undangan.</textarea>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="space-y-2 pt-4 border-t border-line">
+                <button onclick="goToScene(5)" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 px-4 rounded-md font-semibold text-xs transition flex items-center justify-center gap-2 shadow-sm">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  <span>Setujui & Terbitkan Tanda Terima Sah</span>
+                </button>
+                <button class="w-full bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 py-2.5 px-4 rounded-md font-semibold text-xs transition flex items-center justify-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                  <span>Minta Perbaikan / Revisi Berkas</span>
+                </button>
+              </div>
+            </div>
+          </main>
+
+          <footer class="px-8 py-3 bg-white border-t border-line flex justify-between items-center text-xs text-ink-soft font-mono">
+            <div>PENGAWASAN OBAT TRADISIONAL PROVINSI SUMATERA BARAT</div>
+            <div>STATUS AUDIT: SIAP DIVERIFIKASI</div>
+          </footer>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- SCENE 5: BUKTI TANDA TERIMA ELEKTRONIK     -->
+        <!-- ========================================== -->
+        <div id="scene-5" class="scene animate-scene-entry justify-between">
+          <header class="bg-purple-950 text-white px-8 py-3.5 flex items-center justify-between border-b border-purple-900">
+            <div class="flex items-center gap-4">
+              <button onclick="goToScene(2)" class="text-purple-300 hover:text-white flex items-center gap-1 text-xs">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                Kembali ke Beranda
+              </button>
+              <div class="h-4 w-px bg-purple-800"></div>
+              <div class="text-xs font-semibold text-purple-200">Dokumen Tanda Terima Elektronik (TTE)</div>
+            </div>
+            <div class="flex items-center gap-3">
+              <button class="px-3 py-1.5 bg-purple-700 hover:bg-purple-600 text-white text-xs font-semibold rounded flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Unduh PDF Resmi
+              </button>
+            </div>
+          </header>
+
+          <!-- Formal Certificate Sheet -->
+          <main class="flex-1 p-8 flex items-center justify-center bg-canvas">
+            <div class="w-[740px] bg-white border border-line rounded-lg shadow-modal p-10 relative overflow-hidden">
+              
+              <!-- Official Header Kop Surat -->
+              <div class="border-b-2 border-ink pb-5 mb-6 text-center relative">
+                <div class="text-xs font-bold tracking-widest text-ink uppercase">PEMERINTAH PROVINSI SUMATERA BARAT</div>
+                <div class="text-sm font-extrabold text-ink uppercase mt-0.5">DINAS KESEHATAN</div>
+                <div class="text-2xs text-ink-soft mt-1">Jalan Perintis Kemerdekaan No. 47, Padang, Sumatera Barat • Telp: (0751) 23456</div>
+                <div class="text-xs font-mono font-bold text-purple-900 mt-2">SISTEM E-REPORT PELAPORAN DISTRIBUSI OBAT TRADISIONAL (PBOBA)</div>
+              </div>
+
+              <!-- Title -->
+              <div class="text-center mb-6">
+                <h1 class="text-base font-bold text-ink uppercase tracking-wide">BUKTI TANDA TERIMA ELEKTRONIK (BTE)</h1>
+                <div class="text-xs font-mono text-purple-800 font-bold mt-1">NOMOR: 440/BTE-PBOBA/042/DISKES-SB/VII/2026</div>
+              </div>
+
+              <!-- Information Grid -->
+              <div class="space-y-3 text-xs mb-8">
+                <div class="grid grid-cols-12 py-1.5 border-b border-line">
+                  <div class="col-span-4 text-ink-soft">Nama Pedagang Besar (PBOT)</div>
+                  <div class="col-span-8 font-bold text-ink">PT SUMBAR HERBAL MEDIKA</div>
+                </div>
+                <div class="grid grid-cols-12 py-1.5 border-b border-line">
+                  <div class="col-span-4 text-ink-soft">Nomor Izin Usaha / NIB</div>
+                  <div class="col-span-8 font-mono font-semibold text-ink">9120003491823 / PBOT-13.71-2024</div>
+                </div>
+                <div class="grid grid-cols-12 py-1.5 border-b border-line">
+                  <div class="col-span-4 text-ink-soft">Apoteker Penanggung Jawab</div>
+                  <div class="col-span-8 font-semibold text-ink">apt. Rahmat Hidayat, S.Farm (SIPA: 19920815/SIPA/13.71/2022)</div>
+                </div>
+                <div class="grid grid-cols-12 py-1.5 border-b border-line">
+                  <div class="col-span-4 text-ink-soft">Periode Pelaporan</div>
+                  <div class="col-span-8 font-semibold text-ink">Semester I (Januari s/d Juni) Tahun 2026</div>
+                </div>
+                <div class="grid grid-cols-12 py-1.5 border-b border-line">
+                  <div class="col-span-4 text-ink-soft">Waktu Penerimaan & Audit</div>
+                  <div class="col-span-8 font-mono text-ink">16 Juli 2026 pukul 14:22:18 WIB (Telah Disetujui)</div>
+                </div>
+                <div class="grid grid-cols-12 py-1.5 border-b border-line">
+                  <div class="col-span-4 text-ink-soft">Status Kepatuhan</div>
+                  <div class="col-span-8">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-2xs font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                      ✓ DITERIMA & MEMENUHI KETENTUAN (SAH)
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Signatures & Verification Stamp -->
+              <div class="grid grid-cols-2 gap-8 items-end pt-4">
+                <!-- QR Code & Digital Signature Verification -->
+                <div class="flex items-center gap-4 bg-purple-50 p-3 rounded-lg border border-purple-200">
+                  <!-- QR Code Vector Simulation -->
+                  <div class="w-20 h-20 bg-white p-1.5 border border-purple-300 rounded shrink-0 flex items-center justify-center">
+                    <svg class="w-full h-full" viewBox="0 0 100 100" fill="#2b1635">
+                      <rect x="5" y="5" width="28" height="28" fill="#2b1635"/>
+                      <rect x="9" y="9" width="20" height="20" fill="#ffffff"/>
+                      <rect x="13" y="13" width="12" height="12" fill="#2b1635"/>
+
+                      <rect x="67" y="5" width="28" height="28" fill="#2b1635"/>
+                      <rect x="71" y="9" width="20" height="20" fill="#ffffff"/>
+                      <rect x="75" y="13" width="12" height="12" fill="#2b1635"/>
+
+                      <rect x="5" y="67" width="28" height="28" fill="#2b1635"/>
+                      <rect x="9" y="71" width="20" height="20" fill="#ffffff"/>
+                      <rect x="13" y="75" width="12" height="12" fill="#2b1635"/>
+
+                      <rect x="42" y="12" width="6" height="18"/>
+                      <rect x="52" y="8" width="6" height="8"/>
+                      <rect x="15" y="44" width="8" height="12"/>
+                      <rect x="38" y="40" width="24" height="20"/>
+                      <rect x="70" y="45" width="18" height="8"/>
+                      <rect x="45" y="70" width="12" height="16"/>
+                      <rect x="68" y="72" width="18" height="14"/>
+                    </svg>
+                  </div>
+                  <div class="text-[11px] leading-tight">
+                    <div class="font-bold text-purple-950 font-mono">VERIFIKASI OTENTISITAS</div>
+                    <div class="text-ink-soft text-3xs mt-1">Pindai QR untuk validasi keaslian tanda terima pada portal resmi Dinkes Sumbar.</div>
+                    <div class="font-mono text-3xs text-purple-700 mt-1">HASH: 8f2a...c041e</div>
+                  </div>
+                </div>
+
+                <!-- Official Signature Block -->
+                <div class="text-center">
+                  <div class="text-2xs text-ink-soft">Padang, 16 Juli 2026</div>
+                  <div class="text-xs font-semibold text-ink mt-0.5">a.n. Kepala Dinas Kesehatan Prov. Sumbar</div>
+                  <div class="text-2xs text-ink-soft">Kepala Bidang Sumber Daya Kesehatan</div>
+                  
+                  <!-- Digital Stamp overlay -->
+                  <div class="my-2 relative flex items-center justify-center">
+                    <span class="text-xs font-mono font-bold text-purple-700 border border-purple-400 bg-purple-50 px-3 py-1 rounded rotate-[-3deg]">
+                      TERVERIFIKASI ELEKTRONIK
+                    </span>
+                  </div>
+
+                  <div class="text-xs font-bold text-ink underline">Dra. Hj. Nuraini, Apt.</div>
+                  <div class="text-2xs text-ink-soft font-mono">NIP. 19780412 200312 2 001</div>
+                </div>
+              </div>
+            </div>
+          </main>
+
+          <footer class="px-8 py-3 bg-white border-t border-line flex justify-between items-center text-xs text-ink-soft font-mono">
+            <div>DOKUMEN INI SAH DAN DIAKUI SECARA HUKUM MELALUI SISTEM ELEKTRONIK</div>
+            <div>STATUS BUKTI: PERMANEN</div>
+          </footer>
+        </div>
+
+      </div> <!-- END MAIN APP CANVAS -->
+
+    </div> <!-- END VIEWPORT CONTAINER -->
+  </div> <!-- END SCALE WRAPPER -->
+
+  <script>
+    // Current Scene Index (1 - 5)
+    let currentScene = 1;
+    let autoplayInterval = null;
+    let frameActive = true;
+
+    function goToScene(index) {
+      if (index < 1 || index > 5) return;
+      currentScene = index;
+
+      // Hide all scenes
+      for (let i = 1; i <= 5; i++) {
+        const sc = document.getElementById(`scene-${i}`);
+        const btn = document.getElementById(`btn-scene-${i}`);
+        if (sc) sc.classList.remove('active');
+        if (btn) {
+          btn.className = "px-3 py-1.5 rounded-full bg-purple-900/60 text-purple-200 hover:bg-purple-800 transition";
+        }
+      }
+
+      // Activate chosen scene
+      const activeSc = document.getElementById(`scene-${index}`);
+      const activeBtn = document.getElementById(`btn-scene-${index}`);
+      if (activeSc) activeSc.classList.add('active');
+      if (activeBtn) {
+        activeBtn.className = "px-3 py-1.5 rounded-full bg-purple-700 text-white font-medium hover:bg-purple-600 transition shadow-sm";
+      }
+    }
+
+    function toggleFrame() {
+      frameActive = !frameActive;
+      const frameEl = document.getElementById('browser-chrome');
+      const statusEl = document.getElementById('frame-status');
+      if (frameActive) {
+        frameEl.style.display = 'flex';
+        statusEl.innerText = 'ON';
+      } else {
+        frameEl.style.display = 'none';
+        statusEl.innerText = 'OFF (Full Canvas)';
+      }
+    }
+
+    function toggleAutoplay() {
+      const btn = document.getElementById('btn-autoplay');
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+        btn.classList.remove('bg-emerald-700', 'text-white');
+        btn.classList.add('bg-purple-900/70', 'text-purple-200');
+        btn.innerHTML = `<svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><span>Auto-Play (5s)</span>`;
+      } else {
+        autoplayInterval = setInterval(() => {
+          let next = currentScene + 1;
+          if (next > 5) next = 1;
+          goToScene(next);
+        }, 5000);
+        btn.classList.remove('bg-purple-900/70', 'text-purple-200');
+        btn.classList.add('bg-emerald-700', 'text-white');
+        btn.innerHTML = `<svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg><span>Berjalan (Klik Stop)</span>`;
+      }
+    }
+
+    // Auto-fit 1920x1080 canvas to user's browser window size for crisp preview
+    function autoScaleViewport() {
+      const container = document.getElementById('viewport-container');
+      const wrapper = document.getElementById('scale-wrapper');
+      
+      const targetW = 1920;
+      const targetH = 1080;
+      
+      const availableW = window.innerWidth - 60;
+      const availableH = window.innerHeight - 100;
+      
+      const scale = Math.min(availableW / targetW, availableH / targetH, 1);
+      
+      container.style.transform = `scale(${scale})`;
+      wrapper.style.width = `${targetW * scale}px`;
+      wrapper.style.height = `${targetH * scale}px`;
+    }
+
+    // Keyboard navigation (1-5 or Left/Right arrows)
+    window.addEventListener('keydown', (e) => {
+      if (e.key >= '1' && e.key <= '5') {
+        goToScene(parseInt(e.key));
+      } else if (e.key === 'ArrowRight' || e.key === ' ') {
+        let next = currentScene + 1;
+        if (next > 5) next = 1;
+        goToScene(next);
+      } else if (e.key === 'ArrowLeft') {
+        let prev = currentScene - 1;
+        if (prev < 1) prev = 5;
+        goToScene(prev);
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFrame();
+      }
+    });
+
+    window.addEventListener('resize', autoScaleViewport);
+    window.addEventListener('DOMContentLoaded', autoScaleViewport);
+  </script>
+</body>
+</html>

@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { requireRole, AuthError } from "@/lib/auth";
 import { Role } from "@prisma/client";
+import { parseDateUtc } from "@/lib/date-utils";
 
 // GET /api/admin/reporters?q=
 export async function GET(request: NextRequest) {
@@ -22,6 +23,8 @@ export async function GET(request: NextRequest) {
                 { name: { contains: query, mode: "insensitive" } },
                 { identifier: { contains: query, mode: "insensitive" } },
                 { email: { contains: query, mode: "insensitive" } },
+                { license_number: { contains: query, mode: "insensitive" } },
+                { pic_name: { contains: query, mode: "insensitive" } },
               ],
             }
           : {}),
@@ -33,6 +36,12 @@ export async function GET(request: NextRequest) {
         email: true,
         role: true,
         is_active: true,
+        address: true,
+        license_number: true,
+        license_date: true,
+        pic_name: true,
+        pic_phone: true,
+        description: true,
         created_at: true,
         updated_at: true,
         _count: {
@@ -59,7 +68,18 @@ export async function POST(request: NextRequest) {
     await requireRole(Role.admin);
 
     const body = await request.json();
-    const { identifier, name, email, password } = body;
+    const {
+      identifier,
+      name,
+      email,
+      password,
+      address,
+      license_number,
+      license_date,
+      pic_name,
+      pic_phone,
+      description,
+    } = body;
 
     // NFR-06: Validasi input server-side
     if (!identifier || typeof identifier !== "string" || identifier.trim().length < 2) {
@@ -74,7 +94,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    if (typeof email === "string" && email.trim() && !email.includes("@")) {
+    if (typeof email === "string" && email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
       return NextResponse.json(
         { message: "Alamat email tidak valid." },
         { status: 400 }
@@ -87,24 +107,37 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const cleanIdentifier = identifier.trim().toUpperCase();
+    const cleanIdentifier = identifier.trim();
     // Email opsional (kolom users.email nullable)
     const cleanEmail =
       typeof email === "string" && email.trim() ? email.trim().toLowerCase() : null;
     const cleanName = name.trim();
+    const cleanAddress =
+      typeof address === "string" && address.trim() ? address.trim() : null;
+    const cleanLicenseNumber =
+      typeof license_number === "string" && license_number.trim()
+        ? license_number.trim()
+        : null;
+    const cleanLicenseDate = parseDateUtc(license_date);
+    const cleanPicName =
+      typeof pic_name === "string" && pic_name.trim() ? pic_name.trim() : null;
+    const cleanPicPhone =
+      typeof pic_phone === "string" && pic_phone.trim() ? pic_phone.trim() : null;
+    const cleanDescription =
+      typeof description === "string" && description.trim() ? description.trim() : null;
 
     // Periksa keunikan identifier dan email (email null tidak ikut dicocokkan)
     const existing = await prisma.user.findFirst({
       where: {
         OR: [
-          { identifier: cleanIdentifier },
-          ...(cleanEmail ? [{ email: cleanEmail }] : []),
+          { identifier: { equals: cleanIdentifier, mode: "insensitive" as const } },
+          ...(cleanEmail ? [{ email: { equals: cleanEmail, mode: "insensitive" as const } }] : []),
         ],
       },
     });
 
     if (existing) {
-      if (existing.identifier === cleanIdentifier) {
+      if (existing.identifier.toLowerCase() === cleanIdentifier.toLowerCase()) {
         return NextResponse.json(
           { message: `Kode identifier '${cleanIdentifier}' sudah terdaftar.` },
           { status: 409 }
@@ -128,6 +161,12 @@ export async function POST(request: NextRequest) {
         password_hash,
         role: Role.reporter,
         is_active: true,
+        address: cleanAddress,
+        license_number: cleanLicenseNumber,
+        license_date: cleanLicenseDate,
+        pic_name: cleanPicName,
+        pic_phone: cleanPicPhone,
+        description: cleanDescription,
       },
       select: {
         id: true,
@@ -136,6 +175,12 @@ export async function POST(request: NextRequest) {
         email: true,
         role: true,
         is_active: true,
+        address: true,
+        license_number: true,
+        license_date: true,
+        pic_name: true,
+        pic_phone: true,
+        description: true,
         created_at: true,
         updated_at: true,
       },

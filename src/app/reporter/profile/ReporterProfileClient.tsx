@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { badge, btnPrimary, btnQuiet, input, pageSubtitle, pageTitle, panel } from "@/components/ui";
+import { formatDateUtc } from "@/lib/date-utils";
 
 interface ReporterUser {
   id: string;
@@ -10,6 +11,12 @@ interface ReporterUser {
   email: string;
   role: string;
   is_active: boolean;
+  address?: string | null;
+  license_number?: string | null;
+  license_date?: string | null;
+  pic_name?: string | null;
+  pic_phone?: string | null;
+  description?: string | null;
 }
 
 interface ReporterProfileClientProps {
@@ -129,12 +136,61 @@ export default function ReporterProfileClient({ initialUser }: ReporterProfileCl
             <dd className="mt-1 text-sm font-semibold text-ink sm:mt-0 sm:col-span-2">{user.name}</dd>
           </div>
 
+          {/* Nomor Izin PBOT */}
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center">
+            <dt className="text-sm font-medium text-ink-soft">Nomor izin PBOT</dt>
+            <dd className="mt-1 text-sm font-mono text-ink sm:mt-0 sm:col-span-2">
+              {user.license_number || <span className="text-ink-soft/60">Belum tercatat</span>}
+            </dd>
+          </div>
+
+          {/* Tanggal Terbit Izin */}
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center">
+            <dt className="text-sm font-medium text-ink-soft">Tanggal izin PBOT</dt>
+            <dd className="mt-1 text-sm text-ink sm:mt-0 sm:col-span-2">
+              {user.license_date ? formatDateUtc(user.license_date) : <span className="text-ink-soft/60">Belum tercatat</span>}
+            </dd>
+          </div>
+
+          {/* Alamat Usaha */}
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start">
+            <dt className="text-sm font-medium text-ink-soft">Alamat sarana / gudang</dt>
+            <dd className="mt-1 text-sm text-ink sm:mt-0 sm:col-span-2">
+              {user.address || <span className="text-ink-soft/60">Belum tercatat</span>}
+            </dd>
+          </div>
+
+          {/* Penanggung Jawab (PIC) */}
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center">
+            <dt className="text-sm font-medium text-ink-soft">Penanggung jawab teknis (PIC)</dt>
+            <dd className="mt-1 text-sm text-ink sm:mt-0 sm:col-span-2">
+              {user.pic_name ? (
+                <span>
+                  <strong>{user.pic_name}</strong>
+                  {user.pic_phone && <span className="ml-2 font-mono text-xs text-ink-soft">({user.pic_phone})</span>}
+                </span>
+              ) : (
+                <span className="text-ink-soft/60">Belum tercatat</span>
+              )}
+            </dd>
+          </div>
+
+          {/* Keterangan */}
+          {user.description && (
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start">
+              <dt className="text-sm font-medium text-ink-soft">Keterangan / Catatan</dt>
+              <dd className="mt-1 text-sm text-ink-soft sm:mt-0 sm:col-span-2 whitespace-pre-wrap">
+                {user.description}
+              </dd>
+            </div>
+          )}
+
           {/* Email Korespondensi & Feedback */}
           <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start">
             <div>
               <dt className="text-sm font-medium text-ink-soft">Email feedback &amp; notifikasi</dt>
               <p className="mt-0.5 text-xs text-ink-soft">
-                Dapat diubah untuk menerima umpan balik laporan.
+                Dapat diubah mandiri untuk menerima umpan balik laporan.
               </p>
             </div>
             <dd className="mt-2 sm:mt-0 sm:col-span-2">
@@ -172,7 +228,9 @@ export default function ReporterProfileClient({ initialUser }: ReporterProfileCl
                 </form>
               ) : (
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-medium text-ink">{user.email}</span>
+                  <span className="text-sm font-medium text-ink">
+                    {user.email || <span className="text-ink-soft/60">Belum diisi</span>}
+                  </span>
                   <button
                     type="button"
                     onClick={() => {
@@ -202,9 +260,8 @@ export default function ReporterProfileClient({ initialUser }: ReporterProfileCl
         <div className="flex items-start gap-2.5 border-t border-line bg-canvas px-6 py-4 text-xs text-ink-soft">
           <span>
             <strong className="text-ink">Catatan penggunaan:</strong> Anda selalu menggunakan{" "}
-            <strong className="text-ink">username</strong> di atas untuk login ke aplikasi. Alamat email di atas
-            digunakan oleh Administrator sebagai kontak resmi untuk mengirimkan evaluasi berkas dan tanggapan atas
-            pertanyaan Anda.
+            <strong className="text-ink">username</strong> di atas untuk login ke portal. Profil perizinan dan badan usaha
+            dikelola oleh Administrator Dinas Kesehatan. Jika terdapat perubahan perizinan atau PIC teknis, hubungi admin melalui menu Bantuan Pertanyaan.
           </span>
         </div>
       </div>
