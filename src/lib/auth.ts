@@ -112,7 +112,8 @@ export async function getSessionUser(): Promise<AuthenticatedUser | null> {
   // SEC-09: Akun nonaktif langsung ditolak meski token sesi masih valid
   if (!user.is_active) return null;
 
-  return user;
+  // Email nullable di DB; diseragamkan jadi string kosong untuk konsumen session
+  return { ...user, email: user.email ?? "" };
 }
 
 /**

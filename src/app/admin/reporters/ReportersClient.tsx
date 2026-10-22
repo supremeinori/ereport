@@ -6,8 +6,7 @@ interface Reporter {
   id: string;
   identifier: string;
   name: string;
-  email: string;
-  initial_password?: string;
+  email: string | null;
   is_active: boolean;
   created_at: string;
   _count?: {
@@ -74,13 +73,12 @@ export default function ReportersClient() {
     fetchReporters(searchQuery);
   };
 
-  const getCredentialMessage = (name: string, identifier: string, passwordText: string) => {
+  const getCredentialMessage = (name: string, identifier: string, passwordText?: string) => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     return `Selamat siang Bapak/Ibu pimpinan ${name},
 
 Berikut adalah akun resmi untuk pelaporan E-Report PBOBA Sumatera Barat:
-• Username : ${identifier}
-• Password : ${passwordText}
+• Username : ${identifier}${passwordText ? `\n• Password : ${passwordText}` : ""}
 • Tautan Login : ${origin}/login
 
 Akun ini digunakan untuk menyampaikan laporan berkas semesteran distribusi obat tradisional (PBOT).
@@ -100,8 +98,8 @@ Terima kasih.`;
     e.preventDefault();
     setAddFormError(null);
 
-    if (!newIdentifier || !newName || !newEmail || !newPassword) {
-      setAddFormError("Semua field wajib diisi.");
+    if (!newIdentifier || !newName || !newPassword) {
+      setAddFormError("Identifier, nama entitas, dan kata sandi wajib diisi.");
       return;
     }
 
@@ -311,9 +309,6 @@ Terima kasih.`;
                       <div className="font-mono font-bold text-purple-900 text-xs">
                         {rep.identifier}
                       </div>
-                      <div className="text-2xs text-slate-400 font-mono mt-0.5">
-                        Pass: <span className="text-slate-600 font-semibold">{rep.initial_password || "12345678"}</span>
-                      </div>
                     </td>
                     <td className="px-6 py-4 font-bold text-slate-800">
                       {rep.name}
@@ -350,14 +345,9 @@ Terima kasih.`;
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => {
-                            const passwordVal = rep.initial_password || "12345678";
-                            const msg = getCredentialMessage(
-                              rep.name,
-                              rep.identifier,
-                              passwordVal
-                            );
+                            const msg = getCredentialMessage(rep.name, rep.identifier);
                             handleCopyText(msg);
-                            setSuccessMessage(`Akun lengkap (Username & Password) untuk ${rep.name} berhasil disalin!`);
+                            setSuccessMessage(`Akun lengkap (Username) untuk ${rep.name} berhasil disalin!`);
                           }}
                           title="Salin template akun lengkap dengan password untuk reporter"
                           className="px-3 py-1.5 text-xs font-bold rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200/80 transition-colors flex items-center gap-1 shadow-2xs"
@@ -561,18 +551,17 @@ Terima kasih.`;
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Alamat Email Korespondensi &amp; Feedback *
+                  Alamat Email Korespondensi &amp; Feedback
                 </label>
                 <input
                   type="email"
-                  required
                   placeholder="pelapor@herbalmandiri.co.id"
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 bg-slate-50 focus:bg-white transition-all"
                 />
                 <span className="text-2xs text-slate-400 mt-1 block">
-                  Digunakan untuk feedback evaluasi dan konfirmasi pelaporan (dapat diubah pelapor).
+                  Opsional. Digunakan untuk feedback evaluasi dan konfirmasi pelaporan (dapat diubah pelapor).
                 </span>
               </div>
 

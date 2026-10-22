@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { Lexend } from "next/font/google";
+import { Inter, Roboto } from "next/font/google";
 import "./globals.css";
 
-const lexend = Lexend({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-lexend",
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  variable: "--font-roboto",
   display: "swap",
 });
 
@@ -23,8 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={lexend.variable}>
-      <body className={`${lexend.className} antialiased min-h-screen flex flex-col font-sans`}>{children}</body>
+    <html lang="id" className={`${inter.variable} ${roboto.variable}`}>
+      <body className={`${inter.className} ${roboto.className} antialiased min-h-screen flex flex-col font-sans`}>{children}</body>
     </html>
   );
 }

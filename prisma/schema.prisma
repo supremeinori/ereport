@@ -34,13 +34,18 @@ model User {
   id            String     @id @default(uuid()) @db.Uuid
   identifier    String     @unique
   name          String
-  email         String     @unique
+  email         String?     @unique
   password_hash    String
-  initial_password String?
   role             Role
   is_active        Boolean    @default(true)
   created_at       DateTime   @default(now()) @db.Timestamptz
   updated_at       DateTime   @updatedAt @db.Timestamptz
+  address        String?   @db.Text
+  license_number String?   @db.VarChar(100)
+  license_date   DateTime? @db.Date
+  pic_name       String?   @db.VarChar(255)
+  pic_phone      String?   @db.VarChar(30)
+  description    String?   @db.Text
 
   reports            Report[]
   questions          Question[] @relation("UserQuestions")

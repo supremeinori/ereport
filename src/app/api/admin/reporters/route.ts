@@ -32,7 +32,6 @@ export async function GET(request: NextRequest) {
         name: true,
         email: true,
         role: true,
-        initial_password: true,
         is_active: true,
         created_at: true,
         updated_at: true,
@@ -43,12 +42,7 @@ export async function GET(request: NextRequest) {
       orderBy: { created_at: "desc" },
     });
 
-    const mappedReporters = reporters.map((r) => ({
-      ...r,
-      initial_password: r.initial_password || "12345678",
-    }));
-
-    return NextResponse.json({ reporters: mappedReporters });
+    return NextResponse.json({ reporters });
   } catch (err: unknown) {
     if (err instanceof AuthError) {
       return NextResponse.json({ message: err.message }, { status: err.statusCode });
@@ -80,7 +74,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    if (!email || typeof email !== "string" || !email.includes("@")) {
+    if (typeof email === "string" && email.trim() && !email.includes("@")) {
       return NextResponse.json(
         { message: "Alamat email tidak valid." },
         { status: 400 }
@@ -94,13 +88,18 @@ export async function POST(request: NextRequest) {
     }
 
     const cleanIdentifier = identifier.trim().toUpperCase();
-    const cleanEmail = email.trim().toLowerCase();
+    // Email opsional (kolom users.email nullable)
+    const cleanEmail =
+      typeof email === "string" && email.trim() ? email.trim().toLowerCase() : null;
     const cleanName = name.trim();
 
-    // Periksa keunikan identifier dan email
+    // Periksa keunikan identifier dan email (email null tidak ikut dicocokkan)
     const existing = await prisma.user.findFirst({
       where: {
-        OR: [{ identifier: cleanIdentifier }, { email: cleanEmail }],
+        OR: [
+          { identifier: cleanIdentifier },
+          ...(cleanEmail ? [{ email: cleanEmail }] : []),
+        ],
       },
     });
 
@@ -127,7 +126,6 @@ export async function POST(request: NextRequest) {
         name: cleanName,
         email: cleanEmail,
         password_hash,
-        initial_password: password,
         role: Role.reporter,
         is_active: true,
       },
@@ -137,7 +135,6 @@ export async function POST(request: NextRequest) {
         name: true,
         email: true,
         role: true,
-        initial_password: true,
         is_active: true,
         created_at: true,
         updated_at: true,
