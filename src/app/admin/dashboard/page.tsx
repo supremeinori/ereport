@@ -4,7 +4,7 @@ import { Role, ReportStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import AdminShell from "@/components/AdminShell";
 import Link from "next/link";
-import Image from "next/image";
+import { panel } from "@/components/ui";
 
 export default async function AdminDashboardPage() {
   let user;
@@ -31,180 +31,131 @@ export default async function AdminDashboardPage() {
     prisma.question.count(),
   ]);
 
+  const shortcuts = [
+    {
+      href: "/admin/template",
+      title: "Template Excel Resmi",
+      body: "Unduh atau perbarui berkas .xlsx yang dipakai seluruh entitas pelapor.",
+    },
+    {
+      href: "/admin/backups",
+      title: "Pemantauan Cadangan Drive",
+      body: "Status pencadangan arsip berkas ke penyimpanan sekunder.",
+    },
+  ];
+
   return (
     <AdminShell user={user}>
-      <div className="space-y-6">
-        {/* Header Title & Modern Breadcrumb */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200/80">
-          <div>
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
-              <Image
-                src="/ereport_pboba_logo_v2.svg"
-                alt="Logo E-Report PBOBA"
-                width={32}
-                height={32}
-                className="w-8 h-8 rounded-lg object-contain shrink-0"
-              />
-              <span>Dashboard Analitik</span>
-            </h1>
+      <div className="space-y-8">
+        <header className="border-b border-line pb-5">
+          <h1 className="text-2xl font-bold tracking-tight text-ink">Dashboard pemeriksaan</h1>
+          <p className="mt-1 text-sm text-ink-soft">
+            Ringkasan laporan semester yang masuk dari entitas PBOT terdaftar.
+          </p>
+        </header>
 
+        {/* Angka kunci, satu strip register, bukan kumpulan kartu gradien */}
+        <section className={`${panel} grid sm:grid-cols-3`}>
+          <div className="border-b border-line px-5 py-5 sm:border-b-0 sm:border-r">
+            <p className="text-xs font-medium text-ink-soft">Total laporan</p>
+            <p className="tabular mt-2 text-3xl font-bold text-ink">{totalReports}</p>
+            <p className="mt-1 text-xs text-ink-soft">Seluruh berkas yang masuk</p>
           </div>
-
-          <div className="flex items-center gap-2 text-xs text-slate-500 mt-3 sm:mt-0 font-medium bg-white px-3 py-1.5 rounded-xl border border-slate-200/80 shadow-xs">
-            <svg className="w-4 h-4 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-            </svg>
-            <Link href="/admin/dashboard" className="text-purple-600 hover:text-purple-800 font-bold">
-              Home
-            </Link>
-            <span className="text-slate-300">/</span>
-            <span className="text-slate-600 font-medium">Dashboard</span>
+          <div className="border-b border-line px-5 py-5 sm:border-b-0 sm:border-r">
+            <p className="text-xs font-medium text-ink-soft">Menunggu pemeriksaan</p>
+            <p className="tabular mt-2 text-3xl font-bold text-purple-700">{pendingReports}</p>
+            <p className="mt-1 text-xs text-ink-soft">Antrean kerja pemeriksaan</p>
           </div>
-        </div>
+          <div className="px-5 py-5">
+            <p className="text-xs font-medium text-ink-soft">Sudah diperiksa</p>
+            <p className="tabular mt-2 text-3xl font-bold text-ink">{approvedReports}</p>
+            <p className="mt-1 text-xs text-ink-soft">Diverifikasi dan ditutup</p>
+          </div>
+        </section>
 
-        {/* 6 Modern Stat Cards (Purple & Indigo Gradient Palette) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {/* 1. Mauve Purple: Total Laporan */}
-          <div className="bg-gradient-to-br from-purple-700 via-purple-800 to-indigo-900 text-white rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
-            <div className="p-5 relative z-10">
-              <div className="text-4xl font-black tracking-tight">{totalReports}</div>
-              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-purple-200">
-                Total Laporan PBOT
+        <div className="grid gap-6 lg:grid-cols-[1.35fr_1fr]">
+          {/* Pekerjaan yang menunggu perhatian */}
+          <section className={`${panel} divide-y divide-line`}>
+            <div className="px-5 py-4">
+              <h2 className="text-sm font-bold text-ink">Perlu perhatian</h2>
+              <p className="mt-0.5 text-xs text-ink-soft">
+                Angka berikut berasal dari data yang tercatat di sistem.
               </p>
             </div>
-            {/* Watermark Icon */}
-            <div className="absolute right-4 top-4 text-white/10 group-hover:text-white/20 transition-colors pointer-events-none">
-              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
-              </svg>
-            </div>
-            {/* More Info Strip */}
+
             <Link
               href="/admin/reports"
-              className="bg-black/15 hover:bg-black/25 backdrop-blur-xs text-white/95 text-xs py-2 px-5 text-center font-bold flex items-center justify-between transition-colors border-t border-white/10"
+              className="flex items-center gap-4 px-5 py-4 transition-colors duration-150 hover:bg-purple-50/60"
             >
-              <span>Periksa Laporan</span>
-              <span className="group-hover:translate-x-1 transition-transform">➔</span>
-            </Link>
-          </div>
-
-          {/* 2. Dusty Violet: Menunggu Review */}
-          <div className="bg-gradient-to-br from-purple-800 via-indigo-800 to-indigo-950 text-white rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
-            <div className="p-5 relative z-10">
-              <div className="text-4xl font-black tracking-tight">{pendingReports}</div>
-              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-purple-200">
-                Menunggu Review
-              </p>
-            </div>
-            {/* Watermark Icon */}
-            <div className="absolute right-4 top-4 text-white/10 group-hover:text-white/20 transition-colors pointer-events-none">
-              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+              <span className="tabular w-14 shrink-0 text-2xl font-bold text-rose-600">
+                {revisionReports}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-semibold text-ink">Laporan perlu revisi</span>
+                <span className="block text-xs text-ink-soft">
+                  Berkas yang dikembalikan ke entitas dan menunggu perbaikan.
+                </span>
+              </span>
+              <svg className="h-4 w-4 shrink-0 text-ink-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5l7 7-7 7" />
               </svg>
-            </div>
-            <Link
-              href="/admin/reports"
-              className="bg-black/15 hover:bg-black/25 backdrop-blur-xs text-white/95 text-xs py-2 px-5 text-center font-bold flex items-center justify-between transition-colors border-t border-white/10"
-            >
-              <span>Tinjau Antrean</span>
-              <span className="group-hover:translate-x-1 transition-transform">➔</span>
             </Link>
-          </div>
 
-          {/* 3. Slate Lilac: Laporan Disetujui */}
-          <div className="bg-gradient-to-br from-indigo-700 via-indigo-800 to-purple-900 text-white rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
-            <div className="p-5 relative z-10">
-              <div className="text-4xl font-black tracking-tight">{approvedReports}</div>
-              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-indigo-200">
-                Laporan Disetujui
-              </p>
-            </div>
-            {/* Watermark Icon */}
-            <div className="absolute right-4 top-4 text-white/10 group-hover:text-white/20 transition-colors pointer-events-none">
-              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
-              </svg>
-            </div>
-            <Link
-              href="/admin/reports"
-              className="bg-black/15 hover:bg-black/25 backdrop-blur-xs text-white/95 text-xs py-2 px-5 text-center font-bold flex items-center justify-between transition-colors border-t border-white/10"
-            >
-              <span>Arsip Disetujui</span>
-              <span className="group-hover:translate-x-1 transition-transform">➔</span>
-            </Link>
-          </div>
-
-          {/* 4. Purple Slate: Entitas PBOT Terdaftar */}
-          <div className="bg-gradient-to-br from-purple-800 via-indigo-900 to-slate-900 text-white rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
-            <div className="p-5 relative z-10">
-              <div className="text-4xl font-black tracking-tight">{totalReporters}</div>
-              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-purple-200">
-                Entitas Pelapor Aktif
-              </p>
-            </div>
-            {/* Watermark Icon */}
-            <div className="absolute right-4 top-4 text-white/10 group-hover:text-white/20 transition-colors pointer-events-none">
-              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-              </svg>
-            </div>
             <Link
               href="/admin/reporters"
-              className="bg-black/15 hover:bg-black/25 backdrop-blur-xs text-white/95 text-xs py-2 px-5 text-center font-bold flex items-center justify-between transition-colors border-t border-white/10"
+              className="flex items-center gap-4 px-5 py-4 transition-colors duration-150 hover:bg-purple-50/60"
             >
-              <span>Kelola Akun PBOT</span>
-              <span className="group-hover:translate-x-1 transition-transform">➔</span>
-            </Link>
-          </div>
-
-          {/* 5. Muted Mauve: Layanan Tanya Jawab */}
-          <div className="bg-gradient-to-br from-indigo-700 via-purple-800 to-indigo-950 text-white rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
-            <div className="p-5 relative z-10">
-              <div className="text-4xl font-black tracking-tight">{totalQuestions}</div>
-              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-purple-200">
-                Tanya Jawab / Konsultasi
-              </p>
-            </div>
-            {/* Watermark Icon */}
-            <div className="absolute right-4 top-4 text-white/10 group-hover:text-white/20 transition-colors pointer-events-none">
-              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
+              <span className="tabular w-14 shrink-0 text-2xl font-bold text-ink">
+                {totalReporters}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-semibold text-ink">Entitas pelapor terdaftar</span>
+                <span className="block text-xs text-ink-soft">
+                  Akun PBOT yang dapat mengirim berkas semesteran.
+                </span>
+              </span>
+              <svg className="h-4 w-4 shrink-0 text-ink-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5l7 7-7 7" />
               </svg>
-            </div>
+            </Link>
+
             <Link
               href="/admin/questions"
-              className="bg-black/15 hover:bg-black/25 backdrop-blur-xs text-white/95 text-xs py-2 px-5 text-center font-bold flex items-center justify-between transition-colors border-t border-white/10"
+              className="flex items-center gap-4 px-5 py-4 transition-colors duration-150 hover:bg-purple-50/60"
             >
-              <span>Buka Layanan Konsultasi</span>
-              <span className="group-hover:translate-x-1 transition-transform">➔</span>
-            </Link>
-          </div>
-
-          {/* 6. Muted Plum / Dusty Wine: Perlu Perbaikan */}
-          <div className="bg-gradient-to-br from-[#754e6b] via-[#5d3b53] to-purple-950 text-white rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
-            <div className="p-5 relative z-10">
-              <div className="text-4xl font-black tracking-tight">{revisionReports}</div>
-              <p className="text-xs font-semibold uppercase tracking-wider mt-1 text-purple-200">
-                Perlu Perbaikan / Revisi
-              </p>
-            </div>
-            {/* Watermark Icon */}
-            <div className="absolute right-4 top-4 text-white/10 group-hover:text-white/20 transition-colors pointer-events-none">
-              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              <span className="tabular w-14 shrink-0 text-2xl font-bold text-ink">
+                {totalQuestions}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-semibold text-ink">Pertanyaan dari entitas</span>
+                <span className="block text-xs text-ink-soft">
+                  Total tiket konsultasi yang masuk pada layanan tanya jawab.
+                </span>
+              </span>
+              <svg className="h-4 w-4 shrink-0 text-ink-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5l7 7-7 7" />
               </svg>
-            </div>
-            <Link
-              href="/admin/reports"
-              className="bg-black/15 hover:bg-black/25 backdrop-blur-xs text-white/95 text-xs py-2 px-5 text-center font-bold flex items-center justify-between transition-colors border-t border-white/10"
-            >
-              <span>Pantau Revisi</span>
-              <span className="group-hover:translate-x-1 transition-transform">➔</span>
             </Link>
-          </div>
+          </section>
+
+          {/* Tautan kerja lain */}
+          <section className={`${panel} divide-y divide-line`}>
+            <div className="px-5 py-4">
+              <h2 className="text-sm font-bold text-ink">Tautan kerja</h2>
+            </div>
+            {shortcuts.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block px-5 py-4 transition-colors duration-150 hover:bg-purple-50/60"
+              >
+                <span className="block text-sm font-semibold text-ink">{item.title}</span>
+                <span className="mt-0.5 block text-xs leading-relaxed text-ink-soft">{item.body}</span>
+              </Link>
+            ))}
+          </section>
         </div>
       </div>
     </AdminShell>
   );
-
 }

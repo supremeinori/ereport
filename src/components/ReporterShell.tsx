@@ -17,49 +17,58 @@ interface ReporterShellProps {
   children: React.ReactNode;
 }
 
+const navigation = [
+  {
+    name: "Dashboard",
+    href: "/reporter/dashboard",
+    icon: (
+      <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 12l9-8 9 8M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9" />
+      </svg>
+    ),
+  },
+  {
+    name: "Pelaporan Semester",
+    href: "/reporter/reports",
+    icon: (
+      <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 16V4m0 12l-4-4m4 4l4-4M4 20h16" />
+      </svg>
+    ),
+  },
+  {
+    name: "Layanan Tanya Jawab",
+    href: "/reporter/questions",
+    icon: (
+      <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 10.5h8M8 14h5M21 12a9 9 0 11-3.2-6.9M21 4v5h-5" />
+      </svg>
+    ),
+  },
+  {
+    name: "Profil Entitas PBOT",
+    href: "/reporter/profile",
+    icon: (
+      <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+      </svg>
+    ),
+  },
+];
+
+function initials(name: string) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
 export default function ReporterShell({ user, children }: ReporterShellProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-
-  const navigation = [
-    {
-      name: "Dashboard",
-      href: "/reporter/dashboard",
-      icon: (
-        <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-        </svg>
-      ),
-    },
-    {
-      name: "Pelaporan Semester",
-      href: "/reporter/reports",
-      icon: (
-        <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-        </svg>
-      ),
-    },
-    {
-      name: "Layanan Tanya Jawab",
-      href: "/reporter/questions",
-      icon: (
-        <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-          <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zm-4 0h-2v2h2V9z" clipRule="evenodd" />
-        </svg>
-      ),
-    },
-    {
-      name: "Profil Entitas PBOT",
-      href: "/reporter/profile",
-      icon: (
-        <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
-      ),
-    },
-  ];
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -73,119 +82,115 @@ export default function ReporterShell({ user, children }: ReporterShellProps) {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-[#f8f9fc] flex flex-col font-sans">
-      {/* Top Navbar Modern Purple Gradient */}
-      <header className="h-14 bg-gradient-to-r from-purple-800 via-purple-700 to-indigo-900 text-white flex items-center justify-between sticky top-0 z-40 shadow-sm border-b border-purple-600/30">
-        {/* Left Brand Area */}
-        <div className="flex items-center">
-          <Link
-            href="/reporter/dashboard"
-            className="w-64 h-14 bg-purple-900/40 hover:bg-purple-900/60 text-white font-extrabold text-sm tracking-wider uppercase px-5 flex items-center gap-2.5 transition-colors border-r border-purple-700/40"
-          >
-            <Image
-              src="/ereport_pboba_logo_v2.svg"
-              alt="Logo E-Report PBOBA"
-              width={32}
-              height={32}
-              className="w-8 h-8 rounded-lg object-contain shadow-xs shrink-0"
-              priority
-            />
-            <span>E-Report PBOBA</span>
-          </Link>
-        </div>
+  const navClass = (isActive: boolean) =>
+    [
+      "flex items-center gap-3 rounded-md border-l-2 px-3 py-2 text-sm transition-colors duration-150",
+      isActive
+        ? "border-l-purple-600 bg-purple-50 font-semibold text-purple-900"
+        : "border-l-transparent text-ink-soft hover:bg-purple-50/60 hover:text-purple-900",
+    ].join(" ");
 
-        {/* Clean Right Navbar Area */}
-        <div className="flex items-center pr-6 gap-3">
-          <span className="hidden md:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-purple-100 border border-white/15">
-            <span className="w-1.5 h-1.5 rounded-full bg-purple-300"></span>
-            Portal Resmi Pelaporan Entitas PBOT Sumatera Barat
-          </span>
+  return (
+    <div className="flex-1 flex flex-col bg-canvas">
+      <header className="sticky top-0 z-40 flex h-14 items-stretch justify-between bg-purple-950 text-white">
+        <Link
+          href="/reporter/dashboard"
+          className="flex w-60 shrink-0 items-center gap-2.5 border-r border-white/10 px-5"
+        >
+          <Image
+            src="/ereport_pboba_logo_v2.svg"
+            alt="Logo E-Report PBOBA"
+            width={30}
+            height={30}
+            className="h-7 w-7 object-contain"
+            priority
+          />
+          <span className="text-sm font-bold tracking-tight">E-Report PBOBA</span>
+        </Link>
+
+        <div className="flex items-center gap-3 pr-4 sm:pr-6">
+          <span className="hidden text-xs text-purple-200 md:inline">Portal pelapor PBOT</span>
+          <span className="hidden h-4 w-px bg-white/20 md:inline-block" aria-hidden="true" />
+          <span className="max-w-[10rem] truncate text-sm font-semibold">{user.name}</span>
         </div>
       </header>
 
-      {/* Main Layout Container */}
-      <div className="flex-1 flex">
-        {/* Modern Sidebar */}
-        <aside className="w-64 bg-white border-r border-slate-200/80 flex flex-col shrink-0">
-          {/* User Profile Box di Sidebar */}
-          <div className="p-4 flex items-center gap-3 border-b border-purple-100/60 bg-gradient-to-r from-purple-50/60 to-indigo-50/30">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 text-white flex items-center justify-center font-bold text-sm rounded-xl shrink-0 shadow-sm shadow-purple-500/20">
-              <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-              </svg>
-            </div>
+      <div className="flex-1 flex min-h-0">
+        <aside className="hidden w-60 shrink-0 flex-col border-r border-line bg-surface lg:flex">
+          <div className="flex items-center gap-3 border-b border-line px-4 py-4">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-purple-100 text-sm font-bold text-purple-800">
+              {initials(user.name)}
+            </span>
             <div className="min-w-0">
-              <p className="text-xs font-bold text-slate-800 truncate">{user.name}</p>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span className="text-2xs text-purple-700 font-semibold truncate">@{user.identifier}</span>
-              </div>
+              <p className="truncate text-sm font-semibold text-ink">{user.name}</p>
+              <p className="truncate font-mono text-xs text-ink-soft">@{user.identifier}</p>
             </div>
           </div>
 
-          {/* MAIN NAVIGATION Header */}
-          <div className="px-5 pt-4 pb-2 text-2xs font-bold text-slate-400 uppercase tracking-wider">
-            Menu Utama
-          </div>
+          <nav className="flex-1 overflow-y-auto p-3">
+            <p className="px-3 pb-2 text-2xs font-semibold text-ink-soft">
+              Menu
+            </p>
+            <ul className="space-y-1">
+              {navigation.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <li key={item.href}>
+                    <Link href={item.href} className={navClass(isActive)} aria-current={isActive ? "page" : undefined}>
+                      {item.icon}
+                      <span className="truncate">{item.name}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
 
-          {/* Menu Items */}
-          <nav className="flex-1 px-3 py-1 space-y-1 overflow-y-auto">
+          <div className="border-t border-line p-3">
+            <button
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="flex w-full items-center justify-center gap-2 rounded-md border border-line-strong px-3 py-2 text-sm font-semibold text-ink-soft transition-colors duration-150 hover:border-rose-300 hover:bg-rose-50 hover:text-rose-700 disabled:opacity-50"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span>{isLoggingOut ? "Keluar" : "Keluar dari portal"}</span>
+            </button>
+          </div>
+        </aside>
+
+        <div className="flex min-w-0 flex-1 flex-col">
+          <nav className="sticky top-14 z-30 flex gap-1 overflow-x-auto border-b border-line bg-surface px-3 py-2 lg:hidden">
             {navigation.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-xl transition-all duration-200 ${
+                  className={[
+                    "flex shrink-0 items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-colors duration-150",
                     isActive
-                      ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold shadow-sm shadow-purple-500/25"
-                      : "text-slate-600 hover:bg-purple-50/80 hover:text-purple-700"
-                  }`}
+                      ? "bg-purple-50 font-semibold text-purple-900"
+                      : "text-ink-soft hover:bg-purple-50/60 hover:text-purple-900",
+                  ].join(" ")}
+                  aria-current={isActive ? "page" : undefined}
                 >
-                  <span className={isActive ? "text-white" : "text-slate-400 group-hover:text-purple-600"}>
-                    {item.icon}
-                  </span>
-                  <span className="truncate">{item.name}</span>
+                  {item.icon}
+                  <span className="whitespace-nowrap">{item.name}</span>
                 </Link>
               );
             })}
           </nav>
 
-          {/* Bottom Sidebar: Tombol Logout & Info Versi */}
-          <div className="p-3 border-t border-slate-100 bg-slate-50/70 space-y-2">
-            <button
-              onClick={handleLogout}
-              disabled={isLoggingOut}
-              className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200/80 text-xs font-bold rounded-xl uppercase tracking-wider transition-all disabled:opacity-50 active:scale-[0.98]"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-              <span>{isLoggingOut ? "Keluar..." : "Keluar (Logout)"}</span>
-            </button>
-            <div className="text-center">
-              <span className="text-3xs text-slate-400 font-mono">PORTAL PELAPOR PBOT</span>
-            </div>
-          </div>
-        </aside>
+          <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">{children}</main>
 
-        {/* Content Body Area */}
-        <main className="flex-1 flex flex-col min-w-0 bg-[#f8f9fc]">
-          <div className="p-4 sm:p-6 lg:p-8 flex-1">{children}</div>
-
-          {/* Footer Bar */}
-          <footer className="h-12 bg-white border-t border-slate-200/80 px-6 flex items-center justify-between text-xs text-slate-500">
-            <div>
-              <strong>Copyright &copy; 2026 <span className="text-purple-600 font-bold">E-Report PBOBA</span>.</strong> All rights reserved.
-            </div>
-            <div className="hidden sm:block text-2xs text-slate-400">
-              Sistem Pelaporan PBOT Sumatera Barat
-            </div>
+          <footer className="flex flex-col gap-1 border-t border-line bg-surface px-4 py-3 text-2xs text-ink-soft sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+            <p>© 2026 E-Report PBOBA, Sumatera Barat.</p>
+            <p className="font-mono">Portal pelapor</p>
           </footer>
-        </main>
+        </div>
       </div>
     </div>
   );
-
 }

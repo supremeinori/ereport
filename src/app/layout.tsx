@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { Inter, Roboto } from "next/font/google";
+import { Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-jakarta",
   display: "swap",
 });
 
-const roboto = Roboto({
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  variable: "--font-roboto",
+  weight: ["400", "500", "600"],
+  variable: "--font-plex-mono",
   display: "swap",
 });
 
@@ -29,8 +30,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${inter.variable} ${roboto.variable}`}>
-      <body className={`${inter.className} ${roboto.className} antialiased min-h-screen flex flex-col font-sans`}>{children}</body>
+    <html lang="id" className={`${jakarta.variable} ${plexMono.variable}`}>
+      <body className="font-sans bg-canvas text-ink antialiased min-h-screen flex flex-col">
+        {children}
+      </body>
     </html>
   );
 }

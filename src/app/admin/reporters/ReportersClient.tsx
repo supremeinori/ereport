@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { badge, btnPrimary, btnSecondary, input, label, panel } from "@/components/ui";
 
 interface Reporter {
   id: string;
@@ -12,6 +13,15 @@ interface Reporter {
   _count?: {
     reports: number;
   };
+}
+
+function CopyIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 9h9a2 2 0 012 2v9a2 2 0 01-2 2H9a2 2 0 01-2-2v-9a2 2 0 012-2z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1" />
+    </svg>
+  );
 }
 
 export default function ReportersClient() {
@@ -180,14 +190,11 @@ Terima kasih.`;
 
   return (
     <div className="space-y-6">
-      {/* Header bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <header className="flex flex-col gap-4 border-b border-line pb-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-            Kelola Akun Reporter (PBOT)
-          </h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Daftar seluruh entitas pelapor terdaftar di wilayah Sumatera Barat.
+          <h1 className="text-2xl font-bold tracking-tight text-ink">Kelola akun entitas PBOT</h1>
+          <p className="mt-1 text-sm text-ink-soft">
+            Daftar seluruh entitas pelapor yang terdaftar di wilayah Sumatera Barat.
           </p>
         </div>
         <button
@@ -195,25 +202,25 @@ Terima kasih.`;
             setAddFormError(null);
             setIsAddModalOpen(true);
           }}
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow-md shadow-purple-500/25 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+          className={btnPrimary}
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 5v14m7-7H5" />
           </svg>
-          Tambah Akun Reporter
+          Tambah akun entitas
         </button>
-      </div>
+      </header>
 
       {/* Pesan Sukses / Error Notifikasi */}
       {successMessage && (
-        <div className="p-4 rounded-xl bg-purple-50 border border-purple-200 text-sm text-purple-900 flex items-center justify-between shadow-xs">
-          <div className="flex items-center gap-2">
-            <span className="text-purple-600 font-bold">✓</span>
-            <span className="font-medium">{successMessage}</span>
-          </div>
+        <div
+          role="status"
+          className="flex items-center justify-between gap-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"
+        >
+          <span>{successMessage}</span>
           <button
             onClick={() => setSuccessMessage(null)}
-            className="text-xs text-purple-700 hover:text-purple-900 underline font-semibold"
+            className="shrink-0 text-xs font-semibold underline underline-offset-2 hover:no-underline"
           >
             Tutup
           </button>
@@ -221,11 +228,14 @@ Terima kasih.`;
       )}
 
       {errorMessage && (
-        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-sm text-rose-800 flex items-center justify-between shadow-xs">
-          <span className="font-medium">{errorMessage}</span>
+        <div
+          role="alert"
+          className="flex items-center justify-between gap-4 rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800"
+        >
+          <span>{errorMessage}</span>
           <button
             onClick={() => setErrorMessage(null)}
-            className="text-xs text-rose-600 hover:text-rose-900 underline font-semibold"
+            className="shrink-0 text-xs font-semibold underline underline-offset-2 hover:no-underline"
           >
             Tutup
           </button>
@@ -233,115 +243,130 @@ Terima kasih.`;
       )}
 
       {/* Kontrol Pencarian */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-sm">
-        <form onSubmit={handleSearch} className="flex gap-2">
+      <div className={`${panel} p-4`}>
+        <form onSubmit={handleSearch} className="flex flex-col gap-2 sm:flex-row">
           <div className="relative flex-1">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-ink-soft">
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
               </svg>
             </div>
             <input
               type="text"
-              placeholder="Cari berdasarkan nama PT atau username/identifier..."
+              aria-label="Cari entitas pelapor"
+              placeholder="Cari nama badan usaha atau username"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 bg-slate-50 transition-all"
+              className={`${input} pl-9`}
             />
           </div>
-          <button
-            type="submit"
-            className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-all"
-          >
-            Cari
-          </button>
-          {searchQuery && (
-            <button
-              type="button"
-              onClick={() => {
-                setSearchQuery("");
-                fetchReporters("");
-              }}
-              className="px-4 py-2.5 border border-slate-200 text-slate-600 hover:bg-slate-100 text-sm rounded-xl font-medium"
-            >
-              Reset
+          <div className="flex gap-2">
+            <button type="submit" className={btnPrimary}>
+              Cari
             </button>
-          )}
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery("");
+                  fetchReporters("");
+                }}
+                className={btnSecondary}
+              >
+                Reset
+              </button>
+            )}
+          </div>
         </form>
       </div>
 
       {/* Tabel Reporter */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+      <div className={`${panel} overflow-hidden`}>
         {isLoading ? (
-          <div className="py-16 text-center text-slate-400 text-sm">
-            <div className="animate-spin w-6 h-6 border-2 border-purple-600 border-t-transparent mx-auto mb-2 rounded-full"></div>
-            Memuat data reporter...
+          <div className="px-6 py-16 text-center">
+            <svg className="mx-auto h-6 w-6 animate-spin text-purple-700" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+            </svg>
+            <p className="mt-3 text-sm text-ink-soft">Memuat daftar entitas...</p>
           </div>
         ) : reporters.length === 0 ? (
-          <div className="p-12 text-center">
-            <p className="text-base font-semibold text-slate-700">
-              Belum ada akun reporter terdaftar.
-            </p>
-            <p className="text-sm text-slate-400 mt-1">
+          <div className="px-6 py-14 text-center">
+            <p className="text-sm font-semibold text-ink">
               {searchQuery
-                ? "Tidak ada reporter yang cocok dengan pencarian."
-                : "Klik tombol 'Tambah Akun Reporter' untuk mendaftarkan PBOT pertama."}
+                ? "Tidak ada entitas yang cocok dengan pencarian."
+                : "Belum ada akun entitas terdaftar."}
+            </p>
+            <p className="mx-auto mt-1.5 max-w-md text-xs leading-relaxed text-ink-soft">
+              {searchQuery
+                ? "Ubah kata kunci atau kosongkan pencarian untuk melihat seluruh daftar."
+                : "Tambahkan akun entitas pertama agar mereka dapat mengirim berkas semesteran."}
             </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-gradient-to-r from-purple-800 to-indigo-900 text-white text-xs uppercase font-semibold">
+            <table className="w-full min-w-[52rem] text-left">
+              <thead className="border-b border-line bg-canvas">
                 <tr>
-                  <th className="px-6 py-4">Username Login (ID)</th>
-                  <th className="px-6 py-4">Nama Entitas PBOT</th>
-                  <th className="px-6 py-4">Email Feedback</th>
-                  <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4">Laporan Masuk</th>
-                  <th className="px-6 py-4">Terdaftar</th>
-                  <th className="px-6 py-4 text-right">Aksi</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-ink-soft">
+                    Username login
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-ink-soft">
+                    Nama badan usaha
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-ink-soft">
+                    Email korespondensi
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-ink-soft">
+                    Status
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-ink-soft">
+                    Berkas masuk
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-ink-soft">
+                    Terdaftar
+                  </th>
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-ink-soft">
+                    Aksi
+                  </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-line">
                 {reporters.map((rep) => (
-                  <tr key={rep.id} className="hover:bg-purple-50/40 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="font-mono font-bold text-purple-900 text-xs">
+                  <tr key={rep.id} className="transition-colors duration-150 hover:bg-purple-50/40">
+                    <td className="px-4 py-3">
+                      <span className="font-mono text-xs font-semibold text-purple-900">
                         {rep.identifier}
-                      </div>
+                      </span>
                     </td>
-                    <td className="px-6 py-4 font-bold text-slate-800">
-                      {rep.name}
+                    <td className="px-4 py-3 text-sm font-medium text-ink">{rep.name}</td>
+                    <td className="px-4 py-3 text-xs text-ink-soft">
+                      {rep.email || <span className="text-ink-soft/60">Belum diisi</span>}
                     </td>
-                    <td className="px-6 py-4 text-slate-600 text-xs">
-                      {rep.email}
-                    </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       {rep.is_active ? (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        <span className={`${badge} border-emerald-200 bg-emerald-50 text-emerald-800`}>
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" aria-hidden="true" />
                           Aktif
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
-                          <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                        <span className={`${badge} border-rose-200 bg-rose-50 text-rose-800`}>
+                          <span className="h-1.5 w-1.5 rounded-full bg-rose-600" aria-hidden="true" />
                           Nonaktif
                         </span>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-slate-600 font-mono text-xs">
-                      <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-semibold border border-purple-100">
-                        {rep._count?.reports || 0} berkas
-                      </span>
+                    <td className="tabular px-4 py-3 text-xs text-ink-soft">
+                      {rep._count?.reports || 0} berkas
                     </td>
-                    <td className="px-6 py-4 text-slate-500 text-xs">
+                    <td className="px-4 py-3 text-xs text-ink-soft">
                       {new Date(rep.created_at).toLocaleDateString("id-ID", {
                         day: "numeric",
                         month: "short",
                         year: "numeric",
                       })}
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => {
@@ -349,10 +374,11 @@ Terima kasih.`;
                             handleCopyText(msg);
                             setSuccessMessage(`Akun lengkap (Username) untuk ${rep.name} berhasil disalin!`);
                           }}
-                          title="Salin template akun lengkap dengan password untuk reporter"
-                          className="px-3 py-1.5 text-xs font-bold rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200/80 transition-colors flex items-center gap-1 shadow-2xs"
+                          title="Salin username untuk reporter"
+                          className="inline-flex items-center gap-1.5 rounded-md border border-line-strong px-2.5 py-1.5 text-xs font-semibold text-ink-soft transition-colors duration-150 hover:border-purple-300 hover:bg-purple-50 hover:text-purple-900"
                         >
-                          <span>📋</span> Salin
+                          <CopyIcon className="h-3.5 w-3.5" />
+                          Salin
                         </button>
 
                         {rep.is_active ? (
@@ -363,7 +389,7 @@ Terima kasih.`;
                                 targetStatus: false,
                               })
                             }
-                            className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-rose-200 text-rose-600 hover:bg-rose-50 transition-colors"
+                            className="rounded-md border border-rose-200 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition-colors duration-150 hover:bg-rose-50"
                           >
                             Nonaktifkan
                           </button>
@@ -375,7 +401,7 @@ Terima kasih.`;
                                 targetStatus: true,
                               })
                             }
-                            className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-emerald-200 text-emerald-700 hover:bg-emerald-50 transition-colors"
+                            className="rounded-md border border-emerald-300 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 transition-colors duration-150 hover:bg-emerald-50"
                           >
                             Aktifkan
                           </button>
@@ -392,104 +418,100 @@ Terima kasih.`;
 
       {/* Modal Sukses Pembuatan Akun & Tombol Copy Kredensial */}
       {createdAccountData && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl shadow-2xl border border-purple-100 w-full max-w-lg p-6 space-y-5">
-            <div className="flex items-start justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-purple-950/50 p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="credential-title"
+            className="w-full max-w-lg rounded-lg border border-line bg-surface shadow-modal"
+          >
+            <div className="border-b border-line px-6 py-4">
+              <h3 id="credential-title" className="text-base font-bold text-ink">
+                Informasi akses entitas PBOT
+              </h3>
+              <p className="mt-0.5 text-xs text-ink-soft">
+                Akun berhasil dibuat. Salin informasi di bawah untuk dibagikan kepada pihak
+                pimpinan entitas pelapor.
+              </p>
+            </div>
+
+            <div className="space-y-5 px-6 py-5">
+              {/* Kotak Ringkasan Akun */}
+              <dl className="divide-y divide-line rounded-md border border-line bg-canvas px-4 py-1">
+                <div className="flex items-center justify-between gap-4 py-2.5">
+                  <dt className="text-xs text-ink-soft">Nama badan usaha</dt>
+                  <dd className="text-sm font-semibold text-ink">{createdAccountData.name}</dd>
+                </div>
+                <div className="flex items-center justify-between gap-4 py-2.5">
+                  <dt className="text-xs text-ink-soft">Username login</dt>
+                  <dd className="rounded-sm border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-xs font-semibold text-purple-800">
+                    {createdAccountData.identifier}
+                  </dd>
+                </div>
+                <div className="flex items-center justify-between gap-4 py-2.5">
+                  <dt className="text-xs text-ink-soft">Kata sandi</dt>
+                  <dd className="rounded-sm bg-line px-2 py-0.5 font-mono text-xs font-semibold text-ink">
+                    {createdAccountData.password}
+                  </dd>
+                </div>
+                <div className="flex items-center justify-between gap-4 py-2.5">
+                  <dt className="text-xs text-ink-soft">Email korespondensi</dt>
+                  <dd className="text-sm text-ink-soft">
+                    {createdAccountData.email || "Tidak diisi"}
+                  </dd>
+                </div>
+              </dl>
+
+              {/* Preview Teks Pesan */}
               <div>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200 mb-2">
-                  ✓ Akun Berhasil Dibuat
-                </span>
-                <h3 className="text-lg font-bold text-slate-900">
-                  Informasi Akses Entitas PBOT
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Salin informasi kredensial ini untuk dibagikan kepada pihak pimpinan entitas pelapor.
+                <p className="mb-1 text-xs font-semibold text-ink-soft">
+                  Pratinjau pesan yang akan disalin
                 </p>
+                <pre className="max-h-40 overflow-y-auto whitespace-pre-wrap rounded-md border border-line bg-canvas p-3 font-sans text-xs leading-relaxed text-ink">
+                  {getCredentialMessage(
+                    createdAccountData.name,
+                    createdAccountData.identifier,
+                    createdAccountData.password
+                  )}
+                </pre>
               </div>
-              <button
-                onClick={() => setCreatedAccountData(null)}
-                className="text-slate-400 hover:text-slate-600 text-sm"
-              >
-                ✕
-              </button>
-            </div>
 
-            {/* Kotak Ringkasan Akun */}
-            <div className="bg-slate-50 rounded-xl p-4 border border-slate-200/80 space-y-2 text-sm">
-              <div className="flex justify-between py-1 border-b border-slate-200/50">
-                <span className="text-slate-500 text-xs font-medium">Nama PBOT:</span>
-                <span className="font-bold text-slate-900">{createdAccountData.name}</span>
-              </div>
-              <div className="flex justify-between py-1 border-b border-slate-200/50">
-                <span className="text-slate-500 text-xs font-medium">Username Login:</span>
-                <span className="font-mono font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-lg border border-purple-200/80">
-                  {createdAccountData.identifier}
-                </span>
-              </div>
-              <div className="flex justify-between py-1 border-b border-slate-200/50">
-                <span className="text-slate-500 text-xs font-medium">Kata Sandi:</span>
-                <span className="font-mono font-bold text-slate-900 bg-slate-200 px-2 py-0.5 rounded-lg">
-                  {createdAccountData.password}
-                </span>
-              </div>
-              <div className="flex justify-between py-1">
-                <span className="text-slate-500 text-xs font-medium">Email Feedback:</span>
-                <span className="text-slate-700">{createdAccountData.email}</span>
-              </div>
-            </div>
-
-            {/* Preview Teks Pesan */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1">
-                Pratinjau Pesan yang Akan Disalin:
-              </label>
-              <pre className="p-3 bg-slate-900 text-purple-200 rounded-xl text-xs whitespace-pre-wrap font-sans max-h-40 overflow-y-auto leading-relaxed border border-purple-900/40">
-                {getCredentialMessage(
-                  createdAccountData.name,
-                  createdAccountData.identifier,
-                  createdAccountData.password
-                )}
-              </pre>
-            </div>
-
-            {/* Tombol Copy */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-end gap-3">
-              <button
-                type="button"
-                onClick={() => setCreatedAccountData(null)}
-                className="w-full sm:w-auto px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100"
-              >
-                Selesai / Tutup
-              </button>
-              <button
-                type="button"
-                onClick={() =>
-                  handleCopyText(
-                    getCredentialMessage(
-                      createdAccountData.name,
-                      createdAccountData.identifier,
-                      createdAccountData.password
+              <div className="flex flex-col items-stretch justify-end gap-2 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={() => setCreatedAccountData(null)}
+                  className={btnSecondary}
+                >
+                  Tutup
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    handleCopyText(
+                      getCredentialMessage(
+                        createdAccountData.name,
+                        createdAccountData.identifier,
+                        createdAccountData.password
+                      )
                     )
-                  )
-                }
-                className={`w-full sm:w-auto px-5 py-2.5 rounded-xl text-sm font-bold shadow-md transition-all flex items-center justify-center gap-2 ${
-                  copied
-                    ? "bg-purple-800 text-white"
-                    : "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-purple-500/25"
-                }`}
-              >
-                {copied ? (
-                  <>
-                    <span>✓</span>
-                    <span>Tersalin ke Clipboard!</span>
-                  </>
-                ) : (
-                  <>
-                    <span>📋</span>
-                    <span>Salin Pesan Kredensial (Copy)</span>
-                  </>
-                )}
-              </button>
+                  }
+                  className={btnPrimary}
+                >
+                  {copied ? (
+                    <>
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Tersalin ke clipboard
+                    </>
+                  ) : (
+                    <>
+                      <CopyIcon />
+                      Salin pesan kredensial
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -497,133 +519,150 @@ Terima kasih.`;
 
       {/* Modal Tambah Reporter Baru */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl shadow-2xl border border-purple-100 w-full max-w-lg p-6">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
-              <h3 className="text-lg font-bold text-slate-900">
-                Pendaftaran Akun Reporter Baru
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-purple-950/50 p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="add-reporter-title"
+            className="w-full max-w-lg rounded-lg border border-line bg-surface shadow-modal"
+          >
+            <div className="border-b border-line px-6 py-4">
+              <h3 id="add-reporter-title" className="text-base font-bold text-ink">
+                Pendaftaran akun entitas baru
               </h3>
-              <button
-                onClick={() => setIsAddModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 text-sm"
-              >
-                ✕
-              </button>
+              <p className="mt-0.5 text-xs text-ink-soft">
+                Akun ini hanya dapat mengirim berkas laporan, tidak dapat mengakses modul
+                pemeriksaan.
+              </p>
             </div>
 
-            {addFormError && (
-              <div className="mb-4 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium">
-                {addFormError}
-              </div>
-            )}
+            <div className="px-6 py-5">
+              {addFormError && (
+                <div className="mb-4 rounded-md border border-rose-200 bg-rose-50 px-3.5 py-3 text-xs text-rose-700" role="alert">
+                  {addFormError}
+                </div>
+              )}
 
-            <form onSubmit={handleAddReporter} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Username Akun / Kode Identifier PBOT *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Mis. PBOT-PADANG-01"
-                  value={newIdentifier}
-                  onChange={(e) => setNewIdentifier(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 uppercase bg-slate-50 focus:bg-white transition-all"
-                />
-                <span className="text-2xs text-slate-400 mt-1 block">
-                  Username ini yang akan digunakan entitas PBOT untuk login.
-                </span>
-              </div>
+              <form onSubmit={handleAddReporter} className="space-y-4">
+                <div>
+                  <label className={label} htmlFor="new-identifier">
+                    Kode identifier entitas
+                    <span className="text-rose-600"> *</span>
+                  </label>
+                  <input
+                    id="new-identifier"
+                    type="text"
+                    required
+                    placeholder="PBOT-000-00"
+                    value={newIdentifier}
+                    onChange={(e) => setNewIdentifier(e.target.value)}
+                    className={`${input} font-mono uppercase`}
+                  />
+                  <p className="mt-1 text-2xs text-ink-soft">
+                    Kode ini dipakai entitas untuk masuk ke portal.
+                  </p>
+                </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Nama Badan Usaha / Entitas PBOT *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Mis. PT Herbal Mandiri Sejahtera"
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 bg-slate-50 focus:bg-white transition-all"
-                />
-              </div>
+                <div>
+                  <label className={label} htmlFor="new-name">
+                    Nama badan usaha
+                    <span className="text-rose-600"> *</span>
+                  </label>
+                  <input
+                    id="new-name"
+                    type="text"
+                    required
+                    placeholder="Nama badan usaha"
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    className={input}
+                  />
+                </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Alamat Email Korespondensi &amp; Feedback
-                </label>
-                <input
-                  type="email"
-                  placeholder="pelapor@herbalmandiri.co.id"
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 bg-slate-50 focus:bg-white transition-all"
-                />
-                <span className="text-2xs text-slate-400 mt-1 block">
-                  Opsional. Digunakan untuk feedback evaluasi dan konfirmasi pelaporan (dapat diubah pelapor).
-                </span>
-              </div>
+                <div>
+                  <label className={label} htmlFor="new-email">
+                    Email korespondensi dan feedback
+                  </label>
+                  <input
+                    id="new-email"
+                    type="email"
+                    placeholder="nama@entitas.co.id"
+                    value={newEmail}
+                    onChange={(e) => setNewEmail(e.target.value)}
+                    className={input}
+                  />
+                  <p className="mt-1 text-2xs text-ink-soft">
+                    Opsional. Dipakai administrator untuk mengevaluasi berkas dan dapat diubah oleh pelapor.
+                  </p>
+                </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Kata Sandi Awal *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Minimal 8 karakter (mis. PbotPadang2026!)"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 font-mono bg-slate-50 focus:bg-white transition-all"
-                />
-              </div>
+                <div>
+                  <label className={label} htmlFor="new-password">
+                    Kata sandi awal
+                    <span className="text-rose-600"> *</span>
+                  </label>
+                  <input
+                    id="new-password"
+                    type="text"
+                    required
+                    placeholder="Minimal 8 karakter"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className={`${input} font-mono`}
+                  />
+                </div>
 
-              <div className="pt-4 border-t border-slate-100 flex justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={() => setIsAddModalOpen(false)}
-                  disabled={isSubmittingAdd}
-                  className="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSubmittingAdd}
-                  className="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow-md shadow-purple-500/25 disabled:opacity-50 transition-all"
-                >
-                  {isSubmittingAdd ? "Menyimpan..." : "Buat Akun & Dapatkan Format Pesan"}
-                </button>
-              </div>
-            </form>
+                <div className="flex flex-col-reverse justify-end gap-2 border-t border-line pt-4 sm:flex-row">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddModalOpen(false)}
+                    disabled={isSubmittingAdd}
+                    className={btnSecondary}
+                  >
+                    Batal
+                  </button>
+                  <button type="submit" disabled={isSubmittingAdd} className={btnPrimary}>
+                    {isSubmittingAdd ? "Menyimpan" : "Buat akun"}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
 
       {/* Modal Konfirmasi Aktifkan / Nonaktifkan */}
       {confirmModalData && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md p-6">
-            <h3 className="text-lg font-bold text-slate-900 mb-2">
-              Konfirmasi {confirmModalData.targetStatus ? "Aktivasi" : "Penonaktifan"} Akun
-            </h3>
-            <p className="text-sm text-slate-600 leading-relaxed mb-6">
-              Apakah Anda yakin ingin {confirmModalData.targetStatus ? "mengaktifkan" : "menonaktifkan"} akun reporter{" "}
-              <strong className="text-slate-800">{confirmModalData.reporter.name}</strong> ({confirmModalData.reporter.identifier})?
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-purple-950/50 p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="toggle-status-title"
+            className="w-full max-w-md rounded-lg border border-line bg-surface shadow-modal"
+          >
+            <div className="px-6 py-5">
+              <h3 id="toggle-status-title" className="text-base font-bold text-ink">
+                Konfirmasi {confirmModalData.targetStatus ? "aktivasi" : "penonaktifan"} akun
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                {confirmModalData.targetStatus ? "Aktifkan" : "Nonaktifkan"} akun{" "}
+                <span className="font-semibold text-ink">{confirmModalData.reporter.name}</span> (
+                {confirmModalData.reporter.identifier})?
+              </p>
               {!confirmModalData.targetStatus && (
-                <span className="block mt-2 text-xs text-rose-600 font-medium">
-                  Perhatian: Akun nonaktif tidak akan dapat login dan sesi aktif yang sedang berjalan akan langsung dicabut aksesnya.
-                </span>
+                <p className="mt-3 rounded-md border border-rose-200 bg-rose-50 px-3.5 py-2.5 text-xs leading-relaxed text-rose-700">
+                  Akun nonaktif tidak dapat masuk ke portal, dan sesi yang sedang berjalan akan
+                  langsung dicabut aksesnya.
+                </p>
               )}
-            </p>
+            </div>
 
-            <div className="flex justify-end gap-3">
+            <div className="flex flex-col-reverse justify-end gap-2 border-t border-line px-6 py-4 sm:flex-row">
               <button
                 type="button"
                 onClick={() => setConfirmModalData(null)}
                 disabled={isTogglingStatus}
-                className="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100"
+                className={btnSecondary}
               >
                 Batal
               </button>
@@ -631,23 +670,22 @@ Terima kasih.`;
                 type="button"
                 onClick={handleConfirmToggleActive}
                 disabled={isTogglingStatus}
-                className={`px-5 py-2.5 rounded-xl text-sm font-bold text-white shadow-md transition-all ${
+                className={
                   confirmModalData.targetStatus
-                    ? "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-emerald-500/20"
-                    : "bg-gradient-to-r from-rose-600 to-red-700 hover:from-rose-700 hover:to-red-800 shadow-rose-500/20"
-                } disabled:opacity-50`}
+                    ? btnPrimary
+                    : "inline-flex h-10 items-center justify-center gap-2 rounded-md border border-rose-300 bg-surface px-4 text-sm font-semibold text-rose-700 transition-colors duration-150 hover:bg-rose-50 disabled:opacity-50"
+                }
               >
                 {isTogglingStatus
-                  ? "Memproses..."
+                  ? "Memproses"
                   : confirmModalData.targetStatus
-                  ? "Ya, Aktifkan"
-                  : "Ya, Nonaktifkan"}
+                  ? "Ya, aktifkan"
+                  : "Ya, nonaktifkan"}
               </button>
             </div>
           </div>
         </div>
       )}
     </div>
-
   );
 }

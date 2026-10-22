@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useId } from "react";
+import { badge, btnPrimary, btnSecondary, label, panel, textarea } from "@/components/ui";
 
 interface QuestionItem {
   id: string;
@@ -22,6 +23,12 @@ interface QuestionItem {
     email: string;
   } | null;
 }
+
+const filters = [
+  { key: "all", label: "Semua" },
+  { key: "open", label: "Menunggu jawaban" },
+  { key: "answered", label: "Sudah dijawab" },
+] as const;
 
 export default function QuestionsAdminClient() {
   const answerId = useId();
@@ -119,232 +126,214 @@ export default function QuestionsAdminClient() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <header className="flex flex-col gap-4 border-b border-line pb-5 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
-            Layanan Tanya Jawab PBOT
-          </h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Beri asistensi dan tanggapan atas pertanyaan kendala teknis atau regulasi pelaporan distribusi dari entitas PBOT.
+          <h1 className="text-2xl font-bold tracking-tight text-ink">Layanan tanya jawab PBOT</h1>
+          <p className="mt-1 text-sm text-ink-soft">
+            Beri tanggapan atas pertanyaan kendala teknis atau regulasi pelaporan distribusi
+            dari entitas PBOT.
           </p>
         </div>
 
-        {/* Filter Tab */}
-        <div className="flex items-center gap-1.5 bg-slate-100/80 p-1.5 rounded-xl text-xs font-semibold">
-          <button
-            onClick={() => setFilterStatus("all")}
-            className={`px-3.5 py-1.5 rounded-lg transition-all ${
-              filterStatus === "all"
-                ? "bg-white text-purple-700 shadow-xs font-bold"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            Semua
-          </button>
-          <button
-            onClick={() => setFilterStatus("open")}
-            className={`px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
-              filterStatus === "open"
-                ? "bg-white text-amber-700 shadow-xs font-bold"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            <span>Menunggu Jawaban</span>
-            {openCount > 0 && (
-              <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-amber-100 text-amber-800 font-bold">
-                {openCount}
-              </span>
-            )}
-          </button>
-          <button
-            onClick={() => setFilterStatus("answered")}
-            className={`px-3.5 py-1.5 rounded-lg transition-all ${
-              filterStatus === "answered"
-                ? "bg-white text-purple-700 shadow-xs font-bold"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            Sudah Dijawab
-          </button>
+        <div className="flex items-center gap-1 rounded-md border border-line bg-canvas p-1">
+          {filters.map((filter) => {
+            const isActive = filterStatus === filter.key;
+            const count = filter.key === "open" ? openCount : null;
+            return (
+              <button
+                key={filter.key}
+                onClick={() => setFilterStatus(filter.key)}
+                aria-pressed={isActive}
+                className={[
+                  "inline-flex items-center gap-2 rounded-sm px-3 py-1.5 text-sm transition-colors duration-150",
+                  isActive
+                    ? "bg-surface font-semibold text-ink shadow-panel"
+                    : "text-ink-soft hover:text-ink",
+                ].join(" ")}
+              >
+                {filter.label}
+                {count !== null && count > 0 && (
+                  <span className="tabular rounded-sm bg-amber-100 px-1.5 py-0.5 text-2xs font-semibold text-amber-800">
+                    {count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
-      </div>
+      </header>
 
       {feedback && (
         <div
-          className={`p-4 rounded-xl text-sm font-semibold flex items-center justify-between shadow-xs ${
+          role="status"
+          className={`flex items-center justify-between gap-4 rounded-md border px-4 py-3 text-sm ${
             feedback.type === "success"
-              ? "bg-purple-50 text-purple-900 border border-purple-200"
-              : "bg-rose-50 text-rose-800 border border-rose-200"
+              ? "border-emerald-200 bg-emerald-50 text-emerald-900"
+              : "border-rose-200 bg-rose-50 text-rose-800"
           }`}
         >
           <span>{feedback.text}</span>
           <button
             onClick={() => setFeedback(null)}
-            className="text-xs underline hover:no-underline ml-4"
+            className="shrink-0 text-xs font-semibold underline underline-offset-2 hover:no-underline"
           >
             Tutup
           </button>
         </div>
       )}
 
-      {/* Daftar Pertanyaan */}
       {loading ? (
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-16 text-center text-slate-400 text-sm shadow-sm">
-          <div className="animate-spin w-6 h-6 border-2 border-purple-600 border-t-transparent mx-auto mb-2 rounded-full"></div>
-          Memuat pertanyaan masuk...
+        <div className={`${panel} px-6 py-16 text-center`}>
+          <svg className="mx-auto h-6 w-6 animate-spin text-purple-700" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+          </svg>
+          <p className="mt-3 text-sm text-ink-soft">Memuat pertanyaan masuk...</p>
         </div>
       ) : error ? (
-        <div className="bg-white rounded-2xl border border-rose-200 p-12 text-center text-rose-500 text-sm shadow-sm">
-          {error}
+        <div className={`${panel} px-6 py-12 text-center`} role="alert">
+          <p className="text-sm font-semibold text-rose-700">{error}</p>
+          <p className="mt-1 text-xs text-ink-soft">
+            Data tidak dapat dimuat. Periksa koneksi, lalu muat ulang halaman ini.
+          </p>
         </div>
       ) : questions.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-12 text-center shadow-sm">
-          <p className="text-base font-semibold text-slate-700">
-            Tidak ada pertanyaan dalam kategori ini.
-          </p>
-          <p className="text-xs text-slate-400 mt-1">
-            Pertanyaan dari entitas pelapor akan tampil di sini saat diajukan.
+        <div className={`${panel} px-6 py-14 text-center`}>
+          <p className="text-sm font-semibold text-ink">Tidak ada pertanyaan pada kategori ini.</p>
+          <p className="mx-auto mt-1.5 max-w-md text-xs leading-relaxed text-ink-soft">
+            {filterStatus === "all"
+              ? "Belum ada entitas pelapor yang mengajukan pertanyaan. Tiket baru akan tampil di sini setelah dikirim."
+              : "Ganti filter untuk melihat pertanyaan pada kategori lain."}
           </p>
         </div>
       ) : (
         <div className="space-y-4">
           {questions.map((q) => (
-            <div
-              key={q.id}
-              className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm hover:shadow-md transition-shadow space-y-4"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-slate-900 text-sm">
-                      {q.author.name}
-                    </span>
-                    <span className="font-mono text-xs text-purple-700 bg-purple-50 border border-purple-200 px-2.5 py-0.5 rounded-full font-bold">
+            <article key={q.id} className={`${panel} p-6`}>
+              <div className="flex flex-col gap-3 border-b border-line pb-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-semibold text-ink">{q.author.name}</span>
+                    <span className="rounded-sm border border-line bg-canvas px-1.5 py-0.5 font-mono text-2xs text-ink-soft">
                       {q.author.identifier}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-400 mt-1">
-                    {q.author.email} • {formatWib(q.created_at)}
+                  <p className="mt-1 text-xs text-ink-soft">
+                    {q.author.email} · {formatWib(q.created_at)}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
-                      q.status === "answered"
-                        ? "bg-purple-50 text-purple-700 border border-purple-200"
-                        : "bg-amber-50 text-amber-800 border border-amber-200"
-                    }`}
-                  >
-                    {q.status === "answered" ? "Sudah Dijawab" : "Menunggu Tanggapan"}
-                  </span>
+                  {q.status === "answered" ? (
+                    <span className={`${badge} border-emerald-200 bg-emerald-50 text-emerald-800`}>
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" aria-hidden="true" />
+                      Sudah dijawab
+                    </span>
+                  ) : (
+                    <span className={`${badge} border-amber-200 bg-amber-50 text-amber-800`}>
+                      <span className="h-1.5 w-1.5 rounded-full bg-amber-600" aria-hidden="true" />
+                      Menunggu tanggapan
+                    </span>
+                  )}
                   <button
                     onClick={() => openAnswerModal(q)}
-                    className="px-4 py-1.5 text-xs font-bold rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white transition-all shadow-sm shadow-purple-500/20"
+                    className={btnSecondary}
                   >
-                    {q.status === "answered" ? "Edit Tanggapan" : "Beri Tanggapan"}
+                    {q.status === "answered" ? "Edit tanggapan" : "Beri tanggapan"}
                   </button>
                 </div>
               </div>
 
-              {/* Subjek & Isi Pertanyaan */}
-              <div>
-                <h2 className="text-sm font-bold text-slate-900 mb-2">
-                  {q.subject}
-                </h2>
-                <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 whitespace-pre-wrap border border-slate-200/70 leading-relaxed">
-                  {q.question}
-                </div>
-              </div>
+              <h2 className="mt-4 text-sm font-semibold text-ink">{q.subject}</h2>
+              <p className="mt-2 whitespace-pre-wrap rounded-md border border-line bg-canvas px-4 py-3 text-sm leading-relaxed text-ink">
+                {q.question}
+              </p>
 
-              {/* Jawaban Jika Sudah Ada */}
               {q.status === "answered" && q.answer && (
-                <div className="bg-purple-50/70 border border-purple-200/80 rounded-xl p-4 space-y-2">
-                  <div className="flex items-center justify-between text-xs text-purple-800 font-semibold">
-                    <span className="flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-purple-600"></span>
+                <div className="mt-4 rounded-md border border-purple-200 bg-purple-50/70 px-4 py-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-xs font-semibold text-purple-900">
                       Tanggapan oleh {q.answerer?.name || "Administrator"}
-                    </span>
+                    </p>
                     {q.answered_at && (
-                      <span className="text-[11px] font-medium text-purple-600">
-                        {formatWib(q.answered_at)}
-                      </span>
+                      <p className="text-2xs text-purple-700">{formatWib(q.answered_at)}</p>
                     )}
                   </div>
-                  <p className="text-sm text-purple-950 whitespace-pre-wrap leading-relaxed">
+                  <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-purple-950">
                     {q.answer}
                   </p>
                 </div>
               )}
-            </div>
+            </article>
           ))}
         </div>
       )}
 
       {/* Modal Jawab Pertanyaan */}
       {selectedQuestion && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-purple-100">
-            <h3 className="text-base font-bold text-slate-900 mb-1">
-              Tanggapi Pertanyaan
-            </h3>
-            <p className="text-xs text-slate-500 mb-4">
-              Dari: <strong className="text-slate-800">{selectedQuestion.author.name}</strong> ({selectedQuestion.author.identifier})
-            </p>
-
-            <div className="bg-slate-50 rounded-xl p-3.5 text-xs text-slate-700 border border-slate-200 mb-4 max-h-40 overflow-y-auto">
-              <p className="font-bold text-slate-900 mb-1">
-                {selectedQuestion.subject}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-purple-950/50 p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="answer-dialog-title"
+            className="w-full max-w-xl rounded-lg border border-line bg-surface shadow-modal"
+          >
+            <div className="border-b border-line px-6 py-4">
+              <h3 id="answer-dialog-title" className="text-base font-bold text-ink">
+                Tanggapi pertanyaan
+              </h3>
+              <p className="mt-0.5 text-xs text-ink-soft">
+                Dari {selectedQuestion.author.name} ({selectedQuestion.author.identifier})
               </p>
-              <p className="whitespace-pre-wrap text-slate-600">{selectedQuestion.question}</p>
             </div>
 
-            <form onSubmit={handleSendAnswer} className="space-y-4">
-              <div>
-                <label
-                  htmlFor={answerId}
-                  className="block text-xs font-semibold text-slate-700 mb-1.5"
-                >
-                  Isi Tanggapan / Jawaban Resmi <span className="text-rose-500">*</span>
-                </label>
-                <textarea
-                  id={answerId}
-                  required
-                  rows={6}
-                  value={answerText}
-                  onChange={(e) => setAnswerText(e.target.value)}
-                  placeholder="Tuliskan jawaban yang jelas dan solutif..."
-                  maxLength={4000}
-                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 text-slate-900 resize-none bg-slate-50 focus:bg-white transition-all"
-                />
-                <p className="text-[11px] text-slate-400 mt-1 text-right">
-                  {answerText.length}/4.000
+            <div className="px-6 py-5">
+              <div className="max-h-40 overflow-y-auto rounded-md border border-line bg-canvas px-4 py-3">
+                <p className="text-sm font-semibold text-ink">{selectedQuestion.subject}</p>
+                <p className="mt-1.5 whitespace-pre-wrap text-xs leading-relaxed text-ink-soft">
+                  {selectedQuestion.question}
                 </p>
               </div>
 
-              <div className="flex justify-end gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setSelectedQuestion(null)}
-                  disabled={savingAnswer}
-                  className="px-4 py-2 text-sm font-semibold rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  disabled={savingAnswer || answerText.trim().length < 2}
-                  className="px-5 py-2 text-sm font-bold rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-md shadow-purple-500/25 transition-all disabled:opacity-50"
-                >
-                  {savingAnswer ? "Mengirim..." : "Kirimkan Tanggapan"}
-                </button>
-              </div>
-            </form>
+              <form onSubmit={handleSendAnswer} className="mt-5 space-y-4">
+                <div>
+                  <label className={label} htmlFor={answerId}>
+                    Isi tanggapan
+                    <span className="text-rose-600"> *</span>
+                  </label>
+                  <textarea
+                    id={answerId}
+                    required
+                    rows={6}
+                    value={answerText}
+                    onChange={(e) => setAnswerText(e.target.value)}
+                    placeholder="Tuliskan jawaban yang jelas dan solusif."
+                    maxLength={4000}
+                    className={textarea}
+                  />
+                  <p className="tabular mt-1 text-right text-2xs text-ink-soft">
+                    {answerText.length}/4.000
+                  </p>
+                </div>
+
+                <div className="flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedQuestion(null)}
+                    disabled={savingAnswer}
+                    className={btnSecondary}
+                  >
+                    Batal
+                  </button>
+                  <button type="submit" disabled={savingAnswer || answerText.trim().length < 2} className={btnPrimary}>
+                    {savingAnswer ? "Mengirim" : "Kirim tanggapan"}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
     </div>
   );
-
 }
