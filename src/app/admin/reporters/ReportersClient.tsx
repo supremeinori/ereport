@@ -95,6 +95,7 @@ export default function ReportersClient() {
     password: string;
   } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Modal Konfirmasi Toggle Status Aktif
   const [confirmModalData, setConfirmModalData] = useState<{
@@ -131,12 +132,21 @@ export default function ReportersClient() {
   };
 
   const getCredentialMessage = (name: string, identifier: string, passwordText?: string) => {
-    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const loginUrl =
+      typeof window !== "undefined" &&
+      !window.location.hostname.includes("localhost") &&
+      !window.location.hostname.includes("127.0.0.1")
+        ? `${window.location.origin}/login`
+        : "https://ereport-rho.vercel.app/login";
+
+    const pwd = passwordText && passwordText.trim() ? passwordText.trim() : "12345678";
+
     return `Selamat siang Bapak/Ibu pimpinan ${name},
 
 Berikut adalah akun resmi untuk pelaporan E-Report PBOBA Sumatera Barat:
-• Username : ${identifier}${passwordText ? `\n• Password : ${passwordText}` : ""}
-• Tautan Login : ${origin}/login
+• Username : ${identifier}
+• Password : ${pwd}
+• Tautan Login : ${loginUrl}
 
 Akun ini digunakan untuk menyampaikan laporan berkas semesteran distribusi obat tradisional (PBOT).
 
@@ -525,13 +535,30 @@ Terima kasih.`;
                           onClick={() => {
                             const msg = getCredentialMessage(rep.name, rep.identifier);
                             handleCopyText(msg);
+                            setCopiedId(rep.id);
+                            setTimeout(() => setCopiedId(null), 2500);
                             setSuccessMessage(`Format pesan kredensial untuk ${rep.name} berhasil disalin!`);
                           }}
                           title="Salin kredensial untuk reporter"
-                          className="inline-flex items-center gap-1 rounded-md border border-line-strong px-2 py-1.5 text-xs font-semibold text-ink-soft transition-colors duration-150 hover:border-purple-300 hover:bg-purple-50 hover:text-purple-900"
+                          className={`inline-flex items-center gap-1 rounded-md border px-2 py-1.5 text-xs font-semibold transition-colors duration-150 ${
+                            copiedId === rep.id
+                              ? "border-emerald-500 bg-emerald-50 text-emerald-800"
+                              : "border-line-strong text-ink-soft hover:border-purple-300 hover:bg-purple-50 hover:text-purple-900"
+                          }`}
                         >
-                          <CopyIcon className="h-3.5 w-3.5" />
-                          Salin
+                          {copiedId === rep.id ? (
+                            <>
+                              <svg className="h-3.5 w-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                              Tersalin
+                            </>
+                          ) : (
+                            <>
+                              <CopyIcon className="h-3.5 w-3.5" />
+                              Salin
+                            </>
+                          )}
                         </button>
 
                         {rep.is_active ? (
