@@ -14,8 +14,8 @@ async function main() {
   console.log(" MEMULAI SEEDING PENGGUNA E-REPORT PBOBA  ");
   console.log("==========================================");
 
-  // Kata sandi awal yang aman (BCrypt salt rounds = 12)
-  const initialPassword = process.env.SEED_DEFAULT_PASSWORD || "PbobaReporter2024!";
+  // Kata sandi awal default (BCrypt salt rounds = 12)
+  const initialPassword = process.env.SEED_DEFAULT_PASSWORD || "12345678";
   const passwordHash = await bcrypt.hash(initialPassword, 12);
 
   // 1. Akun Administrator Utama
